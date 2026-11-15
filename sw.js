@@ -2,7 +2,7 @@
    The app page is fetched from the network whenever possible (so updates arrive), and the last good copy is used when
    there is no signal or the connection is very slow. Your certificates are NOT kept here: they live in the browser's own
    database on this device, which this file never touches. */
-const VERSION = '2026-11-04a';
+const VERSION = '2026-11-15a';
 const CACHE = 'certificate-registry-' + VERSION;
 const FILES = ['index.html', 'manifest.webmanifest', 'icon-180.png', 'icon-192.png', 'icon-512.png'];
 
@@ -45,6 +45,7 @@ self.addEventListener('fetch', event => {
   if(req.method !== 'GET') return;
   const url = new URL(req.url);
   if(url.origin !== self.location.origin) return;            // fonts and anything else: left to the browser
+  if(url.pathname.includes('/test/')) return;                // the separate test copy is never cached or served from here
   const isPage = req.mode === 'navigate' || url.pathname.endsWith('/') || url.pathname.endsWith('/index.html');
   event.respondWith(isPage ? pageStrategy(req) : assetStrategy(req));
 });
