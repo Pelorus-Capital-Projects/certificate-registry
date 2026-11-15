@@ -317,6 +317,22 @@
   }
   .hint{font-size:12.5px;color:var(--text-muted);line-height:1.5;}
   @media (pointer:coarse){ .input, select.input, textarea.input{font-size:16px;} .search-row select.input{max-width:270px !important;} }
+  .auth-shell{display:flex;justify-content:center;align-items:flex-start;padding:48px 16px 64px;}
+  .auth-card{width:100%;max-width:440px;background:var(--paper-2);border:1px solid var(--line);border-top:3px solid var(--brass);border-radius:var(--radius);padding:28px 26px;box-sizing:border-box;}
+  .auth-card.auth-inline{max-width:none;border:0;padding:0;background:transparent;}
+  .auth-brand{display:flex;align-items:center;gap:10px;font-family:var(--font-serif);font-size:17px;color:var(--ink);margin-bottom:20px;}
+  .auth-brand svg{color:var(--brass);}
+  .auth-title{font-family:var(--font-serif);font-size:25px;font-weight:600;margin:0 0 6px;color:var(--ink);}
+  .auth-sub{color:var(--text-muted);font-size:14px;line-height:1.5;margin:0 0 18px;}
+  .auth-submit{width:100%;justify-content:center;margin-top:4px;padding:12px 16px;}
+  .auth-forgot{display:block;margin:16px auto 0;}
+  .auth-show{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-muted);margin:-4px 0 16px;cursor:pointer;}
+  .auth-divider{display:flex;align-items:center;gap:10px;margin:24px 0 14px;color:var(--text-muted);font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;}
+  .auth-divider::before,.auth-divider::after{content:'';flex:1;border-top:1px solid var(--line);}
+  .auth-warn{background:var(--amber-bg);color:#5c3d13;border-left:3px solid var(--amber);padding:10px 12px;font-size:13px;line-height:1.5;margin:2px 0 16px;}
+  .auth-question{font-weight:600;font-size:15px;line-height:1.4;color:var(--ink);background:var(--paper);border:1px solid var(--line);padding:12px 14px;margin:0 0 16px;border-radius:var(--radius);}
+  .auth-ok{color:var(--forest);font-size:13px;margin:2px 0 14px;}
+  .test-bar{background:#4B2A7A;color:#fff;font-size:12.5px;font-weight:600;text-align:center;padding:7px 12px;line-height:1.4;}
 </style>
 </head>
 <body>
@@ -326,6 +342,7 @@
    ICONS
 ========================================================= */
 const ICONS = {
+  lock: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="1.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>`,
   seal: `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="9" r="6"/><path d="M8.5 14.5L7 22l5-2.5L17 22l-1.5-7.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
   lock: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="11" rx="1.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke-linecap="round"/></svg>`,
   plus: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>`,
@@ -526,7 +543,7 @@ function openDB(){
 }
 
 let lastStorageError = null;   // the browser's own error from the most recent failed save
-async function getKey(key){
+async function rawGetKey(key){
   try{
     const db = await openDB();
     return await new Promise((resolve, reject) => {
@@ -541,7 +558,7 @@ async function getKey(key){
     return null;
   }
 }
-async function setKey(key, value){
+async function rawSetKey(key, value){
   try{
     const db = await openDB();
     return await new Promise((resolve, reject) => {
@@ -573,11 +590,59 @@ async function deleteKeySafe(key){
     return false; /* deleting a key that never existed is not a failure worth reporting */
   }
 }
+// Every normal read and write goes through these two: values are encrypted on the way in and
+// decrypted on the way out. While the app is locked nothing can be read or written.
+async function getKey(key){
+  const v = await rawGetKey(key);
+  if(isEncrypted(v)) return decryptValue(v);
+  if(key === VAULT_KEY) return v;
+  return dataKey ? v : null;
+}
+async function setKey(key, value){
+  if(key === VAULT_KEY) return rawSetKey(key, value);
+  if(!dataKey){ lastStorageError = {name: 'Locked', message: 'The app is locked.', key}; return false; }
+  let sealed;
+  try{ sealed = await encryptValue(value); }
+  catch(e){ lastStorageError = {name: (e && e.name) || 'EncryptError', message: (e && e.message) || '', key}; return false; }
+  return rawSetKey(key, sealed);
+}
+async function rawGetAll(){
+  const db = await openDB();
+  return await new Promise((resolve, reject) => {
+    const req = db.transaction(STORE_NAME, 'readonly').objectStore(STORE_NAME).getAll();
+    req.onsuccess = () => resolve(req.result || []);
+    req.onerror = () => reject(req.error);
+  });
+}
+async function rawPutMany(entries){
+  const db = await openDB();
+  return await new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, 'readwrite'), store = tx.objectStore(STORE_NAME);
+    for(const e of entries) store.put({key: e.key, value: e.value});
+    tx.oncomplete = () => resolve(true);
+    tx.onerror = () => reject(tx.error || new Error('Save failed.'));
+    tx.onabort = () => reject(tx.error || new Error('Save was aborted; nothing was changed.'));
+  });
+}
+async function rawDeleteAll(){
+  const db = await openDB();
+  return await new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, 'readwrite'); tx.objectStore(STORE_NAME).clear();
+    tx.oncomplete = () => resolve(true); tx.onerror = () => reject(tx.error); tx.onabort = () => reject(tx.error);
+  });
+}
 // Replace ALL certificate data in one atomic transaction: either every old record is
 // swapped for the new ones, or (if anything fails part-way) nothing changes at all.
 // Keys starting with "__" are internal settings (e.g. the Dropbox connection) and are
 // deliberately left alone.
 async function replaceAllData(entries){
+  if(!dataKey) throw new Error('The app is locked.');
+  const sealed = [];
+  for(const e of entries){
+    if(e.key === VAULT_KEY || e.key === LOGIN_USER_KEY) continue;     // a backup file can never replace the login
+    sealed.push({key: e.key, value: await encryptValue(e.value)});
+  }
+  entries = sealed;
   const db = await openDB();
   return await new Promise((resolve, reject) => {
     const tx = db.transaction(STORE_NAME, 'readwrite');
@@ -631,6 +696,7 @@ function render(){
   let html = '';
   if(state.screen !== 'loading') html += renderEnvironmentNotice();
   if(state.screen === 'loading') html += renderLoading();
+  else if(String(state.screen).startsWith('auth')) html += renderAuthScreen();
   else if(state.screen === 'dashboard') html += renderHeader() + renderDashboard();
   else if(state.screen === 'detail') html += renderHeader() + renderDetail();
   else if(state.screen === 'profile') html += renderHeader() + renderProfile();
@@ -648,6 +714,7 @@ function renderHeader(){
   <div class="app-header">
     <div class="brandmark">${ICONS.seal}<span>Certificate Registry</span></div>
     <div class="header-actions">
+      <button class="icon-btn" title="Lock" onclick="requestLock()">${ICONS.lock}</button>
       <button class="icon-btn" title="Profile" onclick="openProfile()">${ICONS.user}</button>
     </div>
   </div>`;
@@ -956,6 +1023,8 @@ function renderProfile(){
       <button class="btn btn-primary" onclick="submitProfile()">Save changes</button>
     </div>
 
+    ${renderSecurityPanel()}
+
     <div class="panel">
       <div class="panel-head"><div><h2>Backup & restore</h2><div class="panel-sub">Keep a safe copy of everything outside this browser</div></div></div>
       <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 4px;">Everything in this app is stored locally in this browser, so it won't appear on another computer or browser, and it's lost if this browser's site data is cleared. A backup is a single file with your profile, every certificate's details, training centers and all uploaded PDFs, so you can bring it all back.</p>
@@ -1005,6 +1074,7 @@ function renderModal(){
   if(m.type === 'confirm') return renderConfirmModal();
   if(m.type === 'pdfPreview') return renderPdfPreviewModal();
   if(m.type === 'shareFile') return renderShareFileModal();
+  if(m.type === 'changeLogin' || m.type === 'changeRecovery') return renderSecurityModal();
   if(m.type === 'dropboxSetup') return renderDropboxSetupModal();
   if(m.type === 'dropboxList') return renderDropboxListModal();
   return '';
@@ -1220,6 +1290,7 @@ function handleGlobalKeydown(e){
     if(tag === 'textarea' || tag === 'button' || tag === 'a') return; // let newlines / native activation happen
     if(!e.target.closest || !e.target.closest('.modal')) return;
     const t = state.modal.type;
+    if(t === 'changeLogin' || t === 'changeRecovery'){ e.preventDefault(); if(t === 'changeLogin') submitChangeLogin(); else submitChangeRecovery(); return; }
     if(t === 'certForm' || t === 'trainingCenterForm' || t === 'fileUpload' || t === 'dropboxSetup'){
       e.preventDefault();
       if(t === 'certForm') submitCertForm();
@@ -2512,7 +2583,7 @@ function renderDropboxListModal(){
    saving. So photos are shrunk to avatar size, and every save failure now
    says why instead of "something went wrong".
 ========================================================= */
-const APP_VERSION = '2026-10-19e · iPhone 2026-11-04a';
+const APP_VERSION = '2026-11-15b (login)';
 const PHOTO_MAX_SIDE = 512;
 const PHOTO_TARGET_MAX = 250 * 1024;          // a stored photo longer than this many characters gets shrunk
 const PHOTO_UPLOAD_LIMIT = 25 * 1024 * 1024;  // the ORIGINAL may be large; only the shrunk copy is stored
@@ -2903,11 +2974,492 @@ function renderBackupPanelBodyIOS(){
 if(IS_HOSTED && 'serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')){
   window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
 }
-if(IS_HOSTED && IS_STANDALONE && navigator.storage && navigator.storage.persist){
+if(IS_HOSTED && navigator.storage && navigator.storage.persist){
   navigator.storage.persist().catch(() => {});
 }
 
-(async function init(){
+/* =========================================================
+   LOGIN + ENCRYPTION
+   Everything this app stores is encrypted with a random 256-bit key (AES-GCM).
+   That key is itself stored only in encrypted form, twice:
+     - locked with your username + password
+     - locked with the answer to your recovery question
+   Without one of those, the stored data cannot be read. The key lives in memory
+   only while the app is unlocked, and is dropped when it locks.
+========================================================= */
+const VAULT_KEY = '__vault';
+const LOGIN_USER_KEY = '__login_user';
+const KDF_ITERATIONS = 600000;                 // PBKDF2-SHA256, the current OWASP figure
+const AUTO_LOCK_MS = 10 * 60 * 1000;           // lock after 10 minutes without use
+const RECOVERY_QUESTIONS = [
+  'Brand of first go kart championship chassis',
+  'Name of your first boat',
+  'Name of the first yacht you worked on',
+  'Name of your first pet',
+  'Make and model of your first car',
+  'Name of the street you grew up on',
+  "Your childhood best friend's first name",
+];
+let dataKey = null;                            // the unlocked key (non-extractable), or null when locked
+let authBusy = false;
+let authFailures = 0, authBlockedUntil = 0;
+let lastActivity = Date.now();
+let pendingResetSecret = null;                 // raw key bytes, held only between "answer accepted" and "new password saved"
+
+const te = new TextEncoder(), td = new TextDecoder();
+function toB64(buf){ const b = new Uint8Array(buf); let s = ''; for(let i = 0; i < b.length; i += 0x8000) s += String.fromCharCode.apply(null, b.subarray(i, i + 0x8000)); return btoa(s); }
+function fromB64(s){ const bin = atob(s); const b = new Uint8Array(bin.length); for(let i = 0; i < bin.length; i++) b[i] = bin.charCodeAt(i); return b; }
+function randomBytes(n){ return crypto.getRandomValues(new Uint8Array(n)); }
+
+function normUsername(u){ return String(u || '').normalize('NFKC').trim().toLowerCase(); }
+// Answers are forgiving: not case-sensitive, and spaces / punctuation are ignored.
+function normAnswer(a){ return String(a || '').normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{N}]/gu, ''); }
+function passwordSecret(username, password){ return 'user:' + normUsername(username) + '\npass:' + String(password); }
+function answerSecret(answer){ return 'answer:' + normAnswer(answer); }
+
+async function deriveKek(secret, saltB64, iterations){
+  const base = await crypto.subtle.importKey('raw', te.encode(secret), 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey({name: 'PBKDF2', salt: fromB64(saltB64), iterations, hash: 'SHA-256'}, base, {name: 'AES-GCM', length: 256}, false, ['encrypt', 'decrypt']);
+}
+async function sealSecret(rawKey, secret){
+  const salt = toB64(randomBytes(16)), iv = randomBytes(12);
+  const kek = await deriveKek(secret, salt, KDF_ITERATIONS);
+  const ct = await crypto.subtle.encrypt({name: 'AES-GCM', iv}, kek, rawKey);
+  return {salt, iv: toB64(iv), ct: toB64(ct), iter: KDF_ITERATIONS};
+}
+async function openSealed(sealed, secret){   // returns the raw key bytes, or null if the secret is wrong
+  try{
+    const kek = await deriveKek(secret, sealed.salt, sealed.iter || KDF_ITERATIONS);
+    return new Uint8Array(await crypto.subtle.decrypt({name: 'AES-GCM', iv: fromB64(sealed.iv)}, kek, fromB64(sealed.ct)));
+  }catch(e){ return null; }
+}
+async function importDataKey(raw){ return crypto.subtle.importKey('raw', raw, {name: 'AES-GCM'}, false, ['encrypt', 'decrypt']); }
+
+async function encryptValue(plain){
+  const iv = randomBytes(12);
+  const ct = await crypto.subtle.encrypt({name: 'AES-GCM', iv}, dataKey, te.encode(String(plain)));
+  return {enc: 1, iv, ct};
+}
+async function decryptValue(v){
+  if(!dataKey) return null;
+  try{ return td.decode(await crypto.subtle.decrypt({name: 'AES-GCM', iv: v.iv}, dataKey, v.ct)); }
+  catch(e){ console.error('A stored record could not be decrypted.'); return null; }
+}
+const isEncrypted = v => !!(v && typeof v === 'object' && v.enc === 1 && v.iv && v.ct);
+
+/* ---------- raw access to the vault record (never encrypted) ---------- */
+async function readVault(){
+  const raw = await rawGetKey(VAULT_KEY);
+  if(!raw) return null;
+  try{ const v = JSON.parse(raw); return (v && v.v === 1 && v.pw && v.rq) ? v : {corrupt: true}; }catch(e){ return {corrupt: true}; }
+}
+
+/* ---------- the gate: runs before anything else is loaded ---------- */
+async function authGate(){
+  const vault = await readVault();
+  if(!vault){
+    state.authExisting = 0;
+    const legacy = await rawGetKey('certificates');   // data saved by a version of the app without a login
+    if(typeof legacy === 'string'){ try{ state.authExisting = (JSON.parse(legacy) || []).length || 0; }catch(e){} }
+    state.screen = 'authSetup';
+  } else if(vault.corrupt){
+    state.screen = 'authBroken';
+  } else {
+    state.authQuestion = vault.rq.question;
+    state.screen = 'authLogin';
+  }
+  render();
+  focusFirstAuthField();
+}
+function focusFirstAuthField(){ const el = document.querySelector('.auth-card input'); if(el) el.focus(); }
+
+function authMessage(msg, kind){
+  const el = document.getElementById('authError');
+  if(el){ el.textContent = msg || ''; el.className = kind === 'ok' ? 'auth-ok' : 'error-text'; el.style.display = msg ? '' : 'none'; }
+}
+function authSetBusy(on, label){
+  authBusy = on;
+  const b = document.getElementById('authSubmit');
+  if(b){ b.disabled = on; if(label) b.textContent = label; }
+}
+const fieldVal = id => { const el = document.getElementById(id); return el ? el.value : ''; };
+function rateLimited(){
+  const wait = Math.ceil((authBlockedUntil - Date.now()) / 1000);
+  if(wait > 0){ authMessage(`Too many attempts. Try again in ${wait} seconds.`); return true; }
+  return false;
+}
+function noteFailure(){ authFailures++; if(authFailures >= 5) authBlockedUntil = Date.now() + 30000 * Math.pow(2, Math.min(authFailures - 5, 4)); }
+
+function chosenQuestion(prefix){
+  const sel = fieldVal(prefix + 'q');
+  return sel === '__custom' ? fieldVal(prefix + 'qcustom').trim() : sel;
+}
+function onQuestionChange(prefix){
+  const box = document.getElementById(prefix + 'qcustomWrap');
+  if(box) box.style.display = fieldVal(prefix + 'q') === '__custom' ? '' : 'none';
+}
+function validateRecovery(prefix){
+  const q = chosenQuestion(prefix), a = fieldVal(prefix + 'a'), a2 = fieldVal(prefix + 'a2');
+  if(!q || q.length < 5) return 'Choose a recovery question (or write your own, at least 5 characters).';
+  if(normAnswer(a).length < 2) return 'Type an answer to your recovery question.';
+  if(normAnswer(a) !== normAnswer(a2)) return "The two answers don't match.";
+  return null;
+}
+function validateLogin(prefix){
+  const u = normUsername(fieldVal(prefix + 'user')), p = fieldVal(prefix + 'pass'), p2 = fieldVal(prefix + 'pass2');
+  if(u.length < 3) return 'Choose a username of at least 3 characters.';
+  if(p.length < 8) return 'Choose a password of at least 8 characters.';
+  if(p !== p2) return "The two passwords don't match.";
+  return null;
+}
+
+/* ---------- first-time setup (also locks data saved by an older version) ---------- */
+async function submitSetup(){
+  if(authBusy) return;
+  const problem = validateLogin('su_') || validateRecovery('su_');
+  if(problem){ authMessage(problem); return; }
+  authMessage(''); authSetBusy(true, 'Setting up…');
+  try{
+    const raw = randomBytes(32);
+    const username = normUsername(fieldVal('su_user'));
+    const vault = {v: 1, kdf: 'PBKDF2-SHA256/AES-GCM-256', created: new Date().toISOString(),
+      pw: await sealSecret(raw, passwordSecret(username, fieldVal('su_pass'))),
+      rq: {question: chosenQuestion('su_'), ...(await sealSecret(raw, answerSecret(fieldVal('su_a'))))}};
+    dataKey = await importDataKey(raw);
+    raw.fill(0);
+    // Encrypt everything already stored, and write it together with the vault in ONE all-or-nothing step.
+    const existing = await rawGetAll();
+    const entries = [];
+    for(const {key, value} of existing){
+      if(key === VAULT_KEY || isEncrypted(value) || value === null || value === undefined) continue;
+      entries.push({key, value: await encryptValue(value)});
+    }
+    entries.push({key: LOGIN_USER_KEY, value: await encryptValue(username)});
+    entries.push({key: VAULT_KEY, value: JSON.stringify(vault)});
+    await rawPutMany(entries);
+    const check = await readVault();
+    if(!check || check.corrupt) throw new Error('The login could not be saved.');
+    state.authUser = username;
+    await enterApp();
+  }catch(err){
+    console.error('Setup failed', err);
+    dataKey = null;
+    authSetBusy(false, 'Create login');
+    authMessage("The login couldn't be saved, so nothing was changed. " + (await saveFailureReason()));
+  }
+}
+
+/* ---------- unlock ---------- */
+async function submitLogin(){
+  if(authBusy || rateLimited()) return;
+  const u = fieldVal('li_user'), p = fieldVal('li_pass');
+  if(!u.trim() || !p){ authMessage('Enter your username and password.'); return; }
+  authMessage(''); authSetBusy(true, 'Unlocking…');
+  const vault = await readVault();
+  const raw = vault && !vault.corrupt ? await openSealed(vault.pw, passwordSecret(u, p)) : null;
+  if(!raw){
+    noteFailure();
+    authSetBusy(false, 'Unlock');
+    const el = document.getElementById('li_pass'); if(el){ el.value = ''; el.focus(); }
+    if(!rateLimited()) authMessage('Username or password is incorrect.');
+    return;
+  }
+  dataKey = await importDataKey(raw); raw.fill(0);
+  authFailures = 0;
+  state.authUser = normUsername(u);
+  await enterApp();
+}
+
+/* ---------- forgot username or password ---------- */
+function openForgot(){ state.screen = 'authForgot'; render(); focusFirstAuthField(); }
+function backToLogin(){ pendingResetSecret = null; state.screen = 'authLogin'; render(); focusFirstAuthField(); }
+async function submitRecoveryAnswer(){
+  if(authBusy || rateLimited()) return;
+  if(normAnswer(fieldVal('fg_a')).length < 1){ authMessage('Type your answer.'); return; }
+  authMessage(''); authSetBusy(true, 'Checking…');
+  const vault = await readVault();
+  const raw = vault && !vault.corrupt ? await openSealed(vault.rq, answerSecret(fieldVal('fg_a'))) : null;
+  if(!raw){
+    noteFailure(); authSetBusy(false, 'Continue');
+    if(!rateLimited()) authMessage("That answer doesn't match.");
+    return;
+  }
+  authFailures = 0; authBusy = false;
+  pendingResetSecret = raw;
+  state.screen = 'authReset'; render(); focusFirstAuthField();
+}
+async function submitNewLogin(){
+  if(authBusy || !pendingResetSecret) return;
+  const problem = validateLogin('rs_');
+  if(problem){ authMessage(problem); return; }
+  authMessage(''); authSetBusy(true, 'Saving…');
+  try{
+    const vault = await readVault();
+    const username = normUsername(fieldVal('rs_user'));
+    vault.pw = await sealSecret(pendingResetSecret, passwordSecret(username, fieldVal('rs_pass')));
+    vault.updated = new Date().toISOString();
+    dataKey = await importDataKey(pendingResetSecret);
+    await rawPutMany([{key: VAULT_KEY, value: JSON.stringify(vault)}, {key: LOGIN_USER_KEY, value: await encryptValue(username)}]);
+    pendingResetSecret.fill(0); pendingResetSecret = null;
+    state.authUser = username;
+    await enterApp();
+  }catch(err){
+    console.error('Reset failed', err);
+    dataKey = null; authSetBusy(false, 'Save and unlock');
+    authMessage("The new login couldn't be saved. Your old password still works. " + (await saveFailureReason()));
+  }
+}
+
+/* ---------- after unlocking ---------- */
+async function enterApp(){
+  authBusy = false;
+  lastActivity = Date.now();
+  if(!state.authUser){ const u = await getKey(LOGIN_USER_KEY); if(u) state.authUser = u; }
+  state.screen = 'loading'; render();
+  await startApp();
+}
+
+/* ---------- locking ---------- */
+function lockApp(){
+  dataKey = null;
+  state.certificates = []; state.profile = {}; state.modal = null;
+  try{ sessionStorage.setItem('cr-locked-reason', 'manual'); }catch(e){}
+  location.reload();   // the cleanest way to drop every decrypted value, open file and form from memory
+}
+function hasUnsavedProfileEdits(){
+  if(!document.getElementById('pf_name')) return false;
+  const saved = state.profile || {};
+  return ['name', 'surname', 'contact', 'email', 'gender'].some(k => fieldVal('pf_' + k) !== (saved[k] || ''));
+}
+function requestLock(){
+  if(modalDirty || hasUnsavedProfileEdits()){
+    state.modal = {type: 'confirm', title: 'Lock with unsaved changes?', danger: true, confirmLabel: 'Lock anyway',
+      message: "Something you've typed hasn't been saved yet. If you lock now, it will be lost.",
+      onConfirm: () => lockApp()};
+    render(); return;
+  }
+  lockApp();
+}
+function autoLockCheck(){
+  if(!dataKey || state.backupBusy) return;
+  if(Date.now() - lastActivity >= AUTO_LOCK_MS){
+    try{ sessionStorage.setItem('cr-locked-reason', 'idle'); }catch(e){}
+    dataKey = null; state.certificates = []; state.profile = {}; state.modal = null;
+    location.reload();
+  }
+}
+['pointerdown', 'keydown', 'touchstart', 'wheel'].forEach(ev => document.addEventListener(ev, () => { lastActivity = Date.now(); }, {passive: true, capture: true}));
+setInterval(autoLockCheck, 15000);
+document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible') autoLockCheck(); });
+function lockedReasonText(){
+  let r = null; try{ r = sessionStorage.getItem('cr-locked-reason'); sessionStorage.removeItem('cr-locked-reason'); }catch(e){}
+  return r === 'idle' ? 'Locked after 10 minutes without use.' : (r === 'manual' ? 'Locked.' : '');
+}
+
+/* ---------- screens ---------- */
+function questionPicker(prefix, current){
+  const isCustom = current && !RECOVERY_QUESTIONS.includes(current);
+  return `
+    <div class="field">
+      <label for="${prefix}q">Recovery question</label>
+      <select class="input" id="${prefix}q" onchange="onQuestionChange('${prefix}')">
+        ${RECOVERY_QUESTIONS.map(q => `<option value="${esc(q)}" ${q === current ? 'selected' : ''}>${esc(q)}</option>`).join('')}
+        <option value="__custom" ${isCustom ? 'selected' : ''}>Write my own question…</option>
+      </select>
+    </div>
+    <div class="field" id="${prefix}qcustomWrap" style="${isCustom ? '' : 'display:none;'}">
+      <label for="${prefix}qcustom">Your question</label>
+      <input class="input" id="${prefix}qcustom" maxlength="120" autocomplete="off" value="${isCustom ? esc(current) : ''}">
+    </div>
+    <div class="field">
+      <label for="${prefix}a">Answer</label>
+      <input class="input" id="${prefix}a" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="200">
+    </div>
+    <div class="field">
+      <label for="${prefix}a2">Answer again</label>
+      <input class="input" id="${prefix}a2" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="200">
+      <div class="hint">Not case-sensitive, and spaces and punctuation are ignored, so “Blue Bird” and “bluebird” count as the same answer.</div>
+    </div>`;
+}
+function loginFields(prefix, submitLabel){
+  return `
+    <div class="field">
+      <label for="${prefix}user">Username</label>
+      <input class="input" id="${prefix}user" autocomplete="username" autocapitalize="off" spellcheck="false" maxlength="60">
+    </div>
+    <div class="field">
+      <label for="${prefix}pass">Password</label>
+      <input class="input" id="${prefix}pass" type="password" autocomplete="new-password" maxlength="200">
+      <div class="hint">At least 8 characters.</div>
+    </div>
+    <div class="field">
+      <label for="${prefix}pass2">Password again</label>
+      <input class="input" id="${prefix}pass2" type="password" autocomplete="new-password" maxlength="200">
+    </div>
+    <label class="auth-show"><input type="checkbox" onchange="togglePasswords(this.checked)"> Show password</label>`;
+}
+function togglePasswords(show){ document.querySelectorAll('.auth-card input[type=password], .auth-card input[data-pw]').forEach(el => { el.setAttribute('data-pw', '1'); el.type = show ? 'text' : 'password'; }); }
+function authShell(inner){
+  return `<div class="auth-shell"><div class="auth-card">
+    <div class="auth-brand">${ICONS.seal}<span>Certificate Registry</span></div>
+    ${inner}
+  </div></div>`;
+}
+function renderAuthScreen(){
+  const s = state.screen;
+  if(s === 'authSetup'){
+    const n = state.authExisting || 0;
+    return authShell(`
+      <h1 class="auth-title">Set up your login</h1>
+      <p class="auth-sub">${n ? `Your ${plural(n, 'certificate')} on this device will be locked with this login and encrypted.` : 'Your certificates will be locked with this login and encrypted on this device.'}</p>
+      <form onsubmit="event.preventDefault(); submitSetup();" autocomplete="on">
+        ${loginFields('su_')}
+        <div class="auth-divider"><span>If you forget your password</span></div>
+        ${questionPicker('su_', RECOVERY_QUESTIONS[0])}
+        <div class="auth-warn">This answer is the only other way back in. If you forget both your password and this answer, your data can only be brought back from a backup file.</div>
+        <div id="authError" class="error-text" style="display:none;"></div>
+        <button class="btn btn-primary auth-submit" id="authSubmit" type="submit">Create login</button>
+      </form>`);
+  }
+  if(s === 'authLogin'){
+    const reason = state.authReason || '';
+    return authShell(`
+      <h1 class="auth-title">Sign in</h1>
+      ${reason ? `<p class="auth-sub">${esc(reason)}</p>` : '<p class="auth-sub">Enter your username and password to open your certificates.</p>'}
+      <form onsubmit="event.preventDefault(); submitLogin();" autocomplete="on">
+        <div class="field"><label for="li_user">Username</label><input class="input" id="li_user" autocomplete="username" autocapitalize="off" spellcheck="false" maxlength="60"></div>
+        <div class="field"><label for="li_pass">Password</label><input class="input" id="li_pass" type="password" autocomplete="current-password" maxlength="200"></div>
+        <label class="auth-show"><input type="checkbox" onchange="togglePasswords(this.checked)"> Show password</label>
+        <div id="authError" class="error-text" style="display:none;"></div>
+        <button class="btn btn-primary auth-submit" id="authSubmit" type="submit">Unlock</button>
+      </form>
+      <button class="btn-link auth-forgot" onclick="openForgot()">Forgot username or password?</button>`);
+  }
+  if(s === 'authForgot'){
+    return authShell(`
+      <h1 class="auth-title">Forgot username or password</h1>
+      <p class="auth-sub">Answer your recovery question, then choose a new username and password.</p>
+      <form onsubmit="event.preventDefault(); submitRecoveryAnswer();">
+        <div class="auth-question">${esc(state.authQuestion || '')}</div>
+        <div class="field"><label for="fg_a">Your answer</label><input class="input" id="fg_a" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="200"></div>
+        <div id="authError" class="error-text" style="display:none;"></div>
+        <button class="btn btn-primary auth-submit" id="authSubmit" type="submit">Continue</button>
+      </form>
+      <button class="btn-link auth-forgot" onclick="backToLogin()">Back to sign in</button>`);
+  }
+  if(s === 'authReset'){
+    return authShell(`
+      <h1 class="auth-title">Choose a new login</h1>
+      <p class="auth-sub">Answer accepted. Choose a new username and password. Your recovery question stays the same.</p>
+      <form onsubmit="event.preventDefault(); submitNewLogin();" autocomplete="on">
+        ${loginFields('rs_')}
+        <div id="authError" class="error-text" style="display:none;"></div>
+        <button class="btn btn-primary auth-submit" id="authSubmit" type="submit">Save and unlock</button>
+      </form>`);
+  }
+  // authBroken
+  return authShell(`
+    <h1 class="auth-title">Login data is damaged</h1>
+    <p class="auth-sub">The record that holds your login on this device can't be read, so the encrypted data can't be opened. Nothing has been changed or deleted.</p>
+    <p class="auth-sub">If you have a backup file, you can start again: erase this device's copy and set up a new login, then load the backup.</p>
+    <button class="btn btn-danger auth-submit" onclick="startOverAfterDamage()">Erase this device's copy and start again</button>`);
+}
+async function startOverAfterDamage(){
+  if(!confirmTyped()) return;
+  try{ await rawDeleteAll(); }catch(e){}
+  location.reload();
+}
+function confirmTyped(){ return window.confirm('This erases everything this app has stored on this device. Only continue if you have a backup file. Continue?'); }
+
+/* ---------- Profile: Login & security panel ---------- */
+function renderSecurityPanel(){
+  return `
+    <div class="panel">
+      <div class="panel-head"><div><h2>Login & security</h2><div class="panel-sub">Signed in as <strong>${esc(state.authUser || '')}</strong></div></div></div>
+      <p class="hint" style="margin-top:0;">Everything stored on this device is encrypted and unlocks only with your password or your recovery answer. The app locks itself after 10 minutes without use.</p>
+      <div class="btn-row" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">
+        <button class="btn btn-ghost btn-sm" onclick="openChangeLogin()">Change username or password</button>
+        <button class="btn btn-ghost btn-sm" onclick="openChangeRecovery()">Change recovery question</button>
+        <button class="btn btn-ghost btn-sm" onclick="requestLock()">${ICONS.lock} Lock now</button>
+      </div>
+      <p class="hint">Backup files are not encrypted. Keep them somewhere private, such as your own iCloud Drive or Dropbox.</p>
+    </div>`;
+}
+function openChangeLogin(){ authBusy = false; state.modal = {type: 'changeLogin', error: ''}; render(); }
+function openChangeRecovery(){ authBusy = false; state.modal = {type: 'changeRecovery', error: ''}; render(); }
+function renderSecurityModal(){
+  const m = state.modal;
+  if(m.type === 'changeLogin'){
+    return modalShell(`
+      <h2 class="modal-title">Change username or password</h2>
+      <p class="modal-sub">Enter your current password, then the new login.</p>
+      <div class="auth-card auth-inline">
+        <div class="field"><label for="cl_cur">Current password</label><input class="input" id="cl_cur" type="password" autocomplete="current-password"></div>
+        ${loginFields('cl_')}
+      </div>
+      <div id="authError" class="error-text" style="${m.error ? '' : 'display:none;'}">${esc(m.error || '')}</div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-primary" id="authSubmit" onclick="submitChangeLogin()">Save new login</button>
+      </div>`);
+  }
+  const vq = state.authQuestion || RECOVERY_QUESTIONS[0];
+  return modalShell(`
+    <h2 class="modal-title">Change recovery question</h2>
+    <p class="modal-sub">Enter your current password, then the new question and answer.</p>
+    <div class="auth-card auth-inline">
+      <div class="field"><label for="cr_cur">Current password</label><input class="input" id="cr_cur" type="password" autocomplete="current-password"></div>
+      ${questionPicker('cr_', vq)}
+    </div>
+    <div id="authError" class="error-text" style="${m.error ? '' : 'display:none;'}">${esc(m.error || '')}</div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" id="authSubmit" onclick="submitChangeRecovery()">Save recovery question</button>
+    </div>`);
+}
+async function rawKeyFromCurrentPassword(curId){
+  const vault = await readVault();
+  if(!vault || vault.corrupt) return null;
+  return openSealed(vault.pw, passwordSecret(state.authUser, fieldVal(curId)));
+}
+async function submitChangeLogin(){
+  if(authBusy) return;
+  const problem = validateLogin('cl_'); if(problem){ authMessage(problem); return; }
+  authSetBusy(true, 'Saving…'); authMessage('');
+  const raw = await rawKeyFromCurrentPassword('cl_cur');
+  if(!raw){ authSetBusy(false, 'Save new login'); authMessage('Your current password is incorrect.'); return; }
+  try{
+    const vault = await readVault();
+    const username = normUsername(fieldVal('cl_user'));
+    vault.pw = await sealSecret(raw, passwordSecret(username, fieldVal('cl_pass'))); vault.updated = new Date().toISOString(); raw.fill(0);
+    await rawPutMany([{key: VAULT_KEY, value: JSON.stringify(vault)}, {key: LOGIN_USER_KEY, value: await encryptValue(username)}]);
+    authBusy = false; state.authUser = username; state.modal = null; modalDirty = false;
+    state.backupMessage = null; render();
+    showToastInSecurity('Your new username and password are saved. Use them next time you sign in.');
+  }catch(err){ authSetBusy(false, 'Save new login'); authMessage("It couldn't be saved, so your old login still works. " + (await saveFailureReason())); }
+}
+async function submitChangeRecovery(){
+  if(authBusy) return;
+  const problem = validateRecovery('cr_'); if(problem){ authMessage(problem); return; }
+  authSetBusy(true, 'Saving…'); authMessage('');
+  const raw = await rawKeyFromCurrentPassword('cr_cur');
+  if(!raw){ authSetBusy(false, 'Save recovery question'); authMessage('Your current password is incorrect.'); return; }
+  try{
+    const vault = await readVault();
+    vault.rq = {question: chosenQuestion('cr_'), ...(await sealSecret(raw, answerSecret(fieldVal('cr_a'))))}; vault.updated = new Date().toISOString(); raw.fill(0);
+    await rawPutMany([{key: VAULT_KEY, value: JSON.stringify(vault)}]);
+    authBusy = false; state.authQuestion = vault.rq.question; state.modal = null; render();
+    showToastInSecurity('Your new recovery question and answer are saved.');
+  }catch(err){ authSetBusy(false, 'Save recovery question'); authMessage("It couldn't be saved, so your old answer still works. " + (await saveFailureReason())); }
+}
+function showToastInSecurity(text){
+  const panel = [...document.querySelectorAll('.panel h2')].find(h => h.textContent === 'Login & security');
+  if(!panel) return;
+  const box = document.createElement('div'); box.className = 'backup-msg ok'; box.textContent = text; box.style.marginTop = '12px';
+  panel.closest('.panel').appendChild(box);
+}
+
+async function startApp(){
   state.certificates = await loadCertificates();
   state.profile = await loadProfile();
   state.screen = 'dashboard';
@@ -2921,6 +3473,10 @@ if(IS_HOSTED && IS_STANDALONE && navigator.storage && navigator.storage.persist)
       : {type: 'error', text: dropboxReturn.message};
   }
   render();
+}
+(async function init(){
+  state.authReason = lockedReasonText();
+  await authGate();
 })();
 </script>
 </body>

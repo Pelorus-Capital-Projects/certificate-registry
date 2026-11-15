@@ -2582,7 +2582,7 @@ function renderDropboxListModal(){
    saving. So photos are shrunk to avatar size, and every save failure now
    says why instead of "something went wrong".
 ========================================================= */
-const APP_VERSION = '2026-11-15a (login) · TEST';
+const APP_VERSION = '2026-11-15b (login) · TEST';
 const PHOTO_MAX_SIDE = 512;
 const PHOTO_TARGET_MAX = 250 * 1024;          // a stored photo longer than this many characters gets shrunk
 const PHOTO_UPLOAD_LIMIT = 25 * 1024 * 1024;  // the ORIGINAL may be large; only the shrunk copy is stored
@@ -2973,7 +2973,7 @@ function renderBackupPanelBodyIOS(){
 if(false && IS_HOSTED && 'serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')){
   window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
 }
-if(IS_HOSTED && IS_STANDALONE && navigator.storage && navigator.storage.persist){
+if(IS_HOSTED && navigator.storage && navigator.storage.persist){
   navigator.storage.persist().catch(() => {});
 }
 
