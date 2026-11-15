@@ -3011,7 +3011,7 @@ function fromB64(s){ const bin = atob(s); const b = new Uint8Array(bin.length); 
 function randomBytes(n){ return crypto.getRandomValues(new Uint8Array(n)); }
 
 function normUsername(u){ return String(u || '').normalize('NFKC').trim().toLowerCase(); }
-// Answers are forgiving: not case-sensitive, and spaces / punctuation are ignored ("Tony-Kart" = "tony kart").
+// Answers are forgiving: not case-sensitive, and spaces / punctuation are ignored.
 function normAnswer(a){ return String(a || '').normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{N}]/gu, ''); }
 function passwordSecret(username, password){ return 'user:' + normUsername(username) + '\npass:' + String(password); }
 function answerSecret(answer){ return 'answer:' + normAnswer(answer); }
@@ -3277,7 +3277,7 @@ function questionPicker(prefix, current){
     <div class="field">
       <label for="${prefix}a2">Answer again</label>
       <input class="input" id="${prefix}a2" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="200">
-      <div class="hint">Not case-sensitive, and spaces and punctuation are ignored, so “Tony Kart” and “tonykart” count as the same answer.</div>
+      <div class="hint">Not case-sensitive, and spaces and punctuation are ignored, so “Blue Bird” and “bluebird” count as the same answer.</div>
     </div>`;
 }
 function loginFields(prefix, submitLabel){
