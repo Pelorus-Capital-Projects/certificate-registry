@@ -1,0 +1,2927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certificate Registry</title>
+<meta name="hosted-app" content="on">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Certificates">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#16202E">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMTYgMjE2Ij4KPHJlY3Qgd2lkdGg9IjIxNiIgaGVpZ2h0PSIyMTYiIGZpbGw9IiNDOUEyMjciLz4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSI3LjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgc3Ryb2tlPSIjMTUzODVBIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIGQ9Ik0gMjguODAwNzgxIDE4Ny4xOTkyMTkgTCAxMDggMTA4ICIgdHJhbnNmb3JtPSJtYXRyaXgoMSwgMCwgMCwgLTEsIDAsIDIxNikiLz4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSI3LjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgc3Ryb2tlPSIjMTUzODVBIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIGQ9Ik0gMTg3LjE5OTIxOSAyOC44MDA3ODEgTCAxMDggMTA4ICIgdHJhbnNmb3JtPSJtYXRyaXgoMSwgMCwgMCwgLTEsIDAsIDIxNikiLz4KPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSI3LjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgc3Ryb2tlPSIjMTUzODVBIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIGQ9Ik0gMTg3LjE5OTIxOSAxODcuMTk5MjE5IEwgMTA4IDEwOCAiIHRyYW5zZm9ybT0ibWF0cml4KDEsIDAsIDAsIC0xLCAwLCAyMTYpIi8+CjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZS13aWR0aD0iNy4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0ibWl0ZXIiIHN0cm9rZT0iIzE1Mzg1QSIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBkPSJNIDI4LjgwMDc4MSAyOC44MDA3ODEgTCAxMDggMTA4ICIgdHJhbnNmb3JtPSJtYXRyaXgoMSwgMCwgMCwgLTEsIDAsIDIxNikiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBmaWxsPSIjQzlBMjI3IiBzdHJva2Utd2lkdGg9IjcuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBzdHJva2U9IiMxNTM4NUEiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgZD0iTSAxMjEuMTk5MjE5IDEwOCBDIDEyMS4xOTkyMTkgMTE1LjI4OTA2MiAxMTUuMjg5MDYyIDEyMS4xOTkyMTkgMTA4IDEyMS4xOTkyMTkgQyAxMDAuNzEwOTM4IDEyMS4xOTkyMTkgOTQuODAwNzgxIDExNS4yODkwNjIgOTQuODAwNzgxIDEwOCBDIDk0LjgwMDc4MSAxMDAuNzEwOTM4IDEwMC43MTA5MzggOTQuODAwNzgxIDEwOCA5NC44MDA3ODEgQyAxMTUuMjg5MDYyIDk0LjgwMDc4MSAxMjEuMTk5MjE5IDEwMC43MTA5MzggMTIxLjE5OTIxOSAxMDggIiB0cmFuc2Zvcm09Im1hdHJpeCgxLCAwLCAwLCAtMSwgMCwgMjE2KSIvPgo8L3N2Zz4K">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16202E;
+    --ink-2:#223047;
+    --paper:#E9EDF2;
+    --paper-2:#FFFFFF;
+    --brass:#93733C;
+    --brass-light:#C9A868;
+    --forest:#3E6650;
+    --forest-bg:#E1EBE4;
+    --amber:#A96A22;
+    --amber-bg:#F3E6D2;
+    --rust:#9C3E2E;
+    --rust-bg:#F2DFDA;
+    --line:#CCD2DB;
+    --text:#1C2333;
+    --text-muted:#5B6472;
+    --font-serif:'Source Serif 4', Georgia, serif;
+    --font-sans:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --radius:3px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:var(--font-sans);
+    background:var(--paper);
+    color:var(--text);
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  #app{min-height:100vh;display:flex;flex-direction:column;}
+  a{color:inherit;}
+  button{font-family:inherit;cursor:pointer;}
+  input,textarea{font-family:inherit;}
+  ::selection{background:var(--brass-light);color:var(--ink);}
+
+  /* ---------- Layout shells ---------- */
+  .centered-shell{
+    flex:1;display:flex;align-items:center;justify-content:center;
+    padding:32px 20px;
+  }
+  .auth-card{
+    width:100%;max-width:400px;background:var(--paper-2);
+    border:1px solid var(--line);border-radius:var(--radius);
+    padding:36px 32px;position:relative;
+  }
+  .auth-card::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:3px;
+    background:linear-gradient(90deg,var(--brass),var(--brass-light));
+  }
+  .brandmark{display:flex;align-items:center;gap:10px;margin-bottom:22px;}
+  .brandmark svg{flex-shrink:0;color:var(--brass);}
+  .brandmark span{font-family:var(--font-serif);font-size:19px;font-weight:600;color:var(--ink);letter-spacing:.2px;}
+  .auth-card h1{font-family:var(--font-serif);font-size:22px;margin:0 0 6px;color:var(--ink);font-weight:600;}
+  .auth-card p.sub{margin:0 0 24px;color:var(--text-muted);font-size:14px;line-height:1.5;}
+
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:12.5px;font-weight:600;color:var(--text-muted);margin-bottom:6px;}
+  .field .hint{font-size:12px;color:var(--text-muted);margin-top:5px;line-height:1.4;}
+  .input{
+    width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:var(--radius);
+    font-size:14.5px;color:var(--text);background:#fff;transition:border-color .15s;
+  }
+  .input:focus{outline:none;border-color:var(--brass);}
+  .input.error{border-color:var(--rust);}
+  textarea.input{resize:vertical;min-height:64px;}
+
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:7px;
+    padding:10px 18px;border-radius:var(--radius);border:1px solid transparent;
+    font-size:14px;font-weight:600;transition:opacity .15s,background .15s;
+  }
+  .btn-block{width:100%;}
+  .btn-primary{background:var(--ink);color:#fff;}
+  .btn-primary:hover{opacity:.88;}
+  .btn-brass{background:var(--brass);color:#fff;}
+  .btn-brass:hover{opacity:.88;}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line);}
+  .btn-ghost:hover{background:#00000006;}
+  .btn-danger{background:transparent;color:var(--rust);border-color:var(--rust);}
+  .btn-danger:hover{background:var(--rust-bg);}
+  .btn-sm{padding:6px 12px;font-size:13px;}
+  .btn:disabled{opacity:.5;cursor:not-allowed;}
+  .btn-link{background:none;border:none;color:var(--brass);font-weight:600;font-size:13px;padding:4px 0;text-decoration:underline;}
+
+  .error-text{color:var(--rust);font-size:13px;margin:2px 0 14px;line-height:1.4;}
+  .divider{height:1px;background:var(--line);margin:22px 0;}
+
+  /* ---------- Header ---------- */
+  .app-header{
+    background:var(--ink);color:#fff;padding:16px 28px;
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    position:sticky;top:0;z-index:20;border-bottom:3px solid var(--brass);
+  }
+  .app-header .brandmark span{color:#fff;}
+  .app-header .brandmark svg{color:var(--brass-light);}
+  .header-actions{display:flex;gap:8px;align-items:center;}
+  .icon-btn{
+    background:transparent;border:1px solid #ffffff30;color:#fff;
+    width:36px;height:36px;border-radius:var(--radius);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .icon-btn:hover{background:#ffffff14;}
+
+  .container{max-width:1080px;margin:0 auto;padding:28px 24px 64px;width:100%;flex:1;}
+
+  /* ---------- Banner ---------- */
+  .banner{
+    border:1px solid var(--amber);background:var(--amber-bg);color:#5c3d13;
+    border-radius:var(--radius);padding:14px 16px;margin-bottom:24px;
+    display:flex;gap:12px;align-items:flex-start;
+  }
+  .banner.rust{border-color:var(--rust);background:var(--rust-bg);color:#5c1f14;}
+  .banner svg{flex-shrink:0;margin-top:2px;}
+  .banner .banner-title{font-weight:700;font-size:14px;margin-bottom:4px;}
+  .banner ul{margin:0;padding-left:18px;font-size:13.5px;line-height:1.7;}
+
+  /* ---------- Dashboard toolbar ---------- */
+  .toolbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:22px;flex-wrap:wrap;}
+  .toolbar h1{font-family:var(--font-serif);font-size:26px;margin:0;color:var(--ink);font-weight:600;}
+  .toolbar .sub{color:var(--text-muted);font-size:13.5px;margin-top:4px;}
+  .search-row{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
+  .search-row .input{max-width:320px;}
+  .category-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+  .cat-pill{
+    background:var(--paper-2);border:1px solid var(--line);color:var(--text-muted);
+    padding:6px 12px;border-radius:20px;font-size:12.5px;font-weight:600;
+  }
+  .cat-pill .count{color:inherit;opacity:.65;margin-left:3px;}
+  .cat-pill:hover{border-color:var(--brass);}
+  .cat-pill.active{background:var(--ink);border-color:var(--ink);color:#fff;}
+  .cat-pill.active .count{opacity:.75;}
+  .category-tag{
+    display:inline-block;background:var(--paper);color:var(--brass);
+    font-size:11px;font-weight:600;padding:2px 8px;border-radius:3px;margin-bottom:6px;
+  }
+
+  /* ---------- Cards grid ---------- */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+  .cert-card{
+    background:var(--paper-2);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px 18px 16px;position:relative;border-left:4px solid var(--line);
+    cursor:pointer;transition:box-shadow .15s,transform .15s;
+  }
+  .cert-card:hover{box-shadow:0 4px 14px #16202e14;transform:translateY(-1px);}
+  .cert-card.status-valid{border-left-color:var(--forest);}
+  .cert-card.status-soon{border-left-color:var(--amber);}
+  .cert-card.status-expired{border-left-color:var(--rust);}
+  .cert-card.status-none{border-left-color:var(--brass-light);}
+  .cert-card-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;}
+  .cert-card h3{font-family:var(--font-serif);font-size:17px;margin:0 0 4px;color:var(--ink);font-weight:600;line-height:1.3;}
+  .cert-card .cert-num{font-size:12.5px;color:var(--text-muted);margin-bottom:12px;}
+  .cert-card .meta-row{font-size:12.5px;color:var(--text-muted);display:flex;justify-content:space-between;margin-top:2px;}
+  .stamp{
+    width:52px;height:52px;border-radius:50%;border:2px dashed;
+    display:flex;align-items:center;justify-content:center;flex-direction:column;
+    flex-shrink:0;text-align:center;line-height:1.05;
+  }
+  .stamp .num{font-size:15px;font-weight:700;font-family:var(--font-serif);}
+  .stamp .lbl{font-size:8px;text-transform:uppercase;letter-spacing:.4px;}
+  .stamp.status-valid{border-color:var(--forest);color:var(--forest);}
+  .stamp.status-soon{border-color:var(--amber);color:var(--amber);}
+  .stamp.status-expired{border-color:var(--rust);color:var(--rust);}
+  .stamp.status-none{border-color:var(--brass);color:var(--brass);}
+
+  .empty-state{
+    text-align:center;padding:64px 20px;color:var(--text-muted);
+    border:1px dashed var(--line);border-radius:var(--radius);background:#ffffff80;
+  }
+  .empty-state svg{color:var(--brass-light);margin-bottom:12px;}
+  .empty-state h3{font-family:var(--font-serif);color:var(--ink);font-size:18px;margin:0 0 6px;}
+  .empty-state p{margin:0 0 18px;font-size:14px;}
+
+  /* ---------- Detail screen ---------- */
+  .back-link{display:inline-flex;align-items:center;gap:6px;color:var(--text-muted);font-size:13.5px;font-weight:600;margin-bottom:16px;background:none;border:none;padding:0;}
+  .back-link:hover{color:var(--ink);}
+  .detail-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:6px;flex-wrap:wrap;}
+  .detail-head h1{font-family:var(--font-serif);font-size:26px;margin:0;color:var(--ink);}
+  .detail-head .cert-num{color:var(--text-muted);font-size:14px;margin-top:4px;}
+  .status-pill{
+    display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;
+    font-size:12.5px;font-weight:700;white-space:nowrap;
+  }
+  .status-pill.status-valid{background:var(--forest-bg);color:var(--forest);}
+  .status-pill.status-soon{background:var(--amber-bg);color:var(--amber);}
+  .status-pill.status-expired{background:var(--rust-bg);color:var(--rust);}
+  .status-pill.status-none{background:var(--paper);color:var(--brass);}
+
+  .panel{background:var(--paper-2);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;margin-top:20px;}
+  .panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;gap:12px;flex-wrap:wrap;}
+  .panel-head h2{font-family:var(--font-serif);font-size:17px;margin:0;color:var(--ink);font-weight:600;}
+  .panel-head .panel-sub{font-size:12.5px;color:var(--text-muted);margin-top:2px;}
+
+  .info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:18px;}
+  .avatar-preview{
+    width:76px;height:76px;border-radius:50%;background:var(--paper);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;color:var(--brass);
+  }
+  .avatar-preview img{width:100%;height:100%;object-fit:cover;}
+  .info-item .label{font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--text-muted);font-weight:600;margin-bottom:4px;}
+  .info-item .value{font-size:15px;color:var(--text);font-family:var(--font-serif);}
+
+  .file-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;background:var(--paper);border-radius:var(--radius);border:1px solid var(--line);flex-wrap:wrap;}
+  .file-row .file-info{display:flex;align-items:center;gap:10px;font-size:13.5px;}
+  .file-row .file-info svg{color:var(--brass);flex-shrink:0;}
+  .file-actions{display:flex;gap:8px;flex-wrap:wrap;}
+
+  .archive-item{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border:1px solid var(--line);border-radius:var(--radius);margin-bottom:8px;flex-wrap:wrap;gap:10px;background:#fbfbfa;}
+  .archive-item .meta{font-size:13px;color:var(--text-muted);}
+  .archive-item .meta strong{color:var(--text);font-weight:600;}
+
+  .center-item{border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;background:#fbfbfa;}
+  .center-item-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+  .center-item h4{font-family:var(--font-serif);font-size:15px;margin:0 0 6px;color:var(--ink);}
+  .center-detail-row{font-size:13px;color:var(--text-muted);display:flex;gap:6px;margin-top:3px;}
+  .center-detail-row svg{flex-shrink:0;margin-top:1px;color:var(--brass);}
+  .center-detail-row .empty-val{font-style:italic;opacity:.6;}
+  .center-notes{margin-top:8px;font-size:13px;color:var(--text);background:#fff;border-radius:var(--radius);padding:8px 10px;border:1px solid var(--line);}
+
+  .row-actions{display:flex;gap:6px;flex-shrink:0;}
+  .icon-only{background:transparent;border:1px solid var(--line);width:30px;height:30px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;color:var(--text-muted);}
+  .icon-only:hover{background:var(--paper);color:var(--ink);}
+  .icon-only.danger:hover{background:var(--rust-bg);color:var(--rust);border-color:var(--rust);}
+
+  /* ---------- Modal ---------- */
+  .modal-overlay{
+    position:fixed;inset:0;background:#16202ecc;display:flex;align-items:center;justify-content:center;
+    padding:20px;z-index:100;
+  }
+  .modal{
+    background:#fff;border-radius:var(--radius);max-width:480px;width:100%;
+    max-height:88vh;overflow-y:auto;padding:26px 26px 24px;position:relative;
+  }
+  .modal.modal-wide{max-width:620px;}
+  .modal-title{font-family:var(--font-serif);font-size:19px;margin:0 0 4px;color:var(--ink);font-weight:600;}
+  .modal-sub{font-size:13px;color:var(--text-muted);margin:0 0 20px;line-height:1.5;}
+  .modal-close{position:absolute;top:18px;right:18px;background:none;border:none;color:var(--text-muted);}
+  .modal-close:hover{color:var(--ink);}
+  .modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:22px;}
+  .pin-dots{display:flex;gap:10px;justify-content:center;margin:18px 0 6px;}
+  .pin-dots .dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--line);}
+  .pin-dots .dot.filled{background:var(--ink);border-color:var(--ink);}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .yn-toggle{display:inline-flex;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+  .yn-btn{background:#fff;border:none;padding:8px 24px;font-size:14px;font-weight:600;color:var(--text-muted);}
+  .yn-btn:first-child{border-right:1px solid var(--line);}
+  .yn-btn.active{background:var(--ink);color:#fff;}
+  .yn-btn:not(.active):hover{background:var(--paper);}
+
+  .btn-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+  .usage-bar{height:8px;background:var(--paper);border-radius:4px;overflow:hidden;margin:6px 0 4px;}
+  .usage-bar span{display:block;height:100%;background:var(--brass);}
+  .usage-bar.high span{background:var(--rust);}
+  .check-list{margin-top:10px;}
+  .check-row{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;padding:7px 0;border-bottom:1px solid var(--line);}
+  .check-row .pass{color:var(--forest);font-weight:600;}
+  .check-row .fail{color:var(--rust);font-weight:600;}
+  .app-version{font-size:12px;color:var(--text-muted);text-align:center;margin:4px 0 0;}
+  .env-notice{background:var(--amber-bg);color:#5c3d13;border-bottom:1px solid var(--amber);padding:10px 20px;font-size:13px;line-height:1.5;display:flex;gap:16px;align-items:flex-start;justify-content:space-between;}
+  .env-notice .btn-link{color:#5c3d13;flex-shrink:0;}
+  .date-field{display:flex;align-items:center;gap:6px;}
+  .date-part{flex:1;min-width:0;text-align:center;padding:10px 4px;}
+  .date-part.year{flex:1.8;}
+  .date-sep{color:var(--text-muted);font-weight:600;}
+  .date-field.error .date-part{border-color:var(--rust);}
+  .backup-group{margin-top:20px;}
+  .backup-group h3{font-family:var(--font-serif);font-size:15px;font-weight:600;margin:0 0 10px;color:var(--ink);}
+  .backup-group .hint{font-size:12.5px;color:var(--text-muted);margin:10px 0 0;line-height:1.5;}
+  .backup-last{font-size:13.5px;margin:14px 0 4px;color:var(--text);}
+  .backup-msg{font-size:13.5px;line-height:1.5;padding:10px 12px;border-radius:var(--radius);margin:12px 0 0;}
+  .backup-msg.ok{background:var(--forest-bg);color:var(--forest);}
+  .backup-msg.error{background:var(--rust-bg);color:var(--rust);}
+  .backup-busy{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--text-muted);margin:12px 0 0;}
+  .spinner{width:14px;height:14px;border:2px solid var(--line);border-top-color:var(--brass);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .dbx-status{display:flex;align-items:center;gap:8px;font-size:13.5px;margin-bottom:6px;}
+  .dbx-status .dot{width:9px;height:9px;border-radius:50%;border:2px solid var(--text-muted);display:inline-block;}
+  .dbx-status .dot.on{background:var(--forest);border-color:var(--forest);}
+  .setup-steps{margin:0 0 6px;padding-left:20px;font-size:13.5px;line-height:1.55;}
+  .setup-steps li{margin-bottom:12px;}
+  .setup-steps code{background:var(--paper);padding:1px 5px;border-radius:3px;font-size:12.5px;}
+  .setup-steps a{color:var(--brass);font-weight:600;}
+  .setup-steps li > .input{margin-top:6px;}
+  .copy-row{display:flex;gap:8px;margin-top:6px;}
+  .copy-row .input{flex:1;font-size:13px;}
+  .dbx-list{display:flex;flex-direction:column;gap:8px;margin-top:4px;}
+  .dbx-item{display:flex;justify-content:space-between;align-items:center;gap:12px;text-align:left;width:100%;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:11px 14px;font-size:13.5px;color:var(--text);}
+  .dbx-item:hover:not(:disabled){border-color:var(--brass);background:var(--paper);}
+  .dbx-item:disabled{opacity:.55;cursor:not-allowed;}
+  .dbx-name{font-weight:600;word-break:break-all;}
+  .dbx-meta{display:flex;gap:14px;color:var(--text-muted);font-size:12.5px;flex-shrink:0;}
+  .latest-tag{background:var(--paper);color:var(--brass);font-size:11px;font-weight:600;padding:1px 7px;border-radius:3px;margin-left:6px;}
+
+  @media(max-width:560px){
+    .dbx-item{flex-direction:column;align-items:flex-start;}
+    .app-header{padding:14px 16px;}
+    .container{padding:20px 14px 48px;}
+    .two-col{grid-template-columns:1fr;}
+    .info-grid{grid-template-columns:1fr 1fr;}
+  }
+  .hint{font-size:12.5px;color:var(--text-muted);line-height:1.5;}
+  @media (pointer:coarse){ .input, select.input, textarea.input{font-size:16px;} .search-row select.input{max-width:270px !important;} }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* =========================================================
+   ICONS
+========================================================= */
+const ICONS = {
+  seal: `<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="9" r="6"/><path d="M8.5 14.5L7 22l5-2.5L17 22l-1.5-7.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  lock: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="10" width="16" height="11" rx="1.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke-linecap="round"/></svg>`,
+  plus: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg>`,
+  download: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 19h14" stroke-linecap="round"/></svg>`,
+  upload: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21V9m0 0l-4 4m4-4l4 4" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 5h14" stroke-linecap="round"/></svg>`,
+  trash: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m-8 0l1 13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1l1-13" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  pencil: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9" stroke-linecap="round"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  building: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M9 8h1M14 8h1M9 12h1M14 12h1M9 16h1M14 16h1" stroke-linecap="round"/></svg>`,
+  chevronLeft: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  x: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg>`,
+  alert: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4m0 4h.01" stroke-linecap="round"/><path d="M10.3 3.8L1.9 18.3A1.5 1.5 0 0 0 3.2 20.5h17.6a1.5 1.5 0 0 0 1.3-2.2L13.7 3.8a1.5 1.5 0 0 0-2.6 0z"/></svg>`,
+  settings: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.14.32.5.55 1 .55H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`,
+  phone: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92z" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  mail: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  pin: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.5 7-11.5A7 7 0 0 0 5 9.5C5 14.5 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.2"/></svg>`,
+  file: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  archiveBox: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 13h4" stroke-linecap="round"/></svg>`,
+  user: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.2 3.6-7 8-7s8 2.8 8 7" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  cloud: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 18a4 4 0 0 1-.6-7.95A5.5 5.5 0 0 1 17.2 8.6 4.7 4.7 0 0 1 17.5 18H7z" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+};
+
+/* =========================================================
+   STATE
+========================================================= */
+let state = {
+  screen: 'loading',       // loading | dashboard | detail | profile
+  certificates: [],
+  profile: {},
+  activeCertId: null,
+  modal: null,              // {type, ...}
+  search: '',
+  categoryFilter: 'all',
+  sortBy: 'expiry',         // expiry | name | category | recent
+  profileSaved: false,
+  profileError: '',
+  profileDraft: null,       // unsaved text typed into the profile form, kept across re-renders
+  backupBusy: '',           // e.g. "Uploading to Dropbox…" while a backup/restore is running
+  backupMessage: null,      // {type:'ok'|'error', text} result of the last backup action
+  lastBackup: null,         // {at, where, filename, certificates, pdfFiles}
+  dropbox: {connected:false, appKey:''},
+  photoError: '',           // problems with the profile PHOTO (shown by the photo)
+  storageInfo: null,        // {usage, quota} from the browser
+  storageBusy: false,
+  storageCheck: null,       // results of the last 'Run storage check'
+  dbInfo: null,             // {name, version} of the open database
+  noticeDismissed: false,   // the 'not running from the launcher' bar
+};
+let previousScreen = 'dashboard';
+let modalDirty = false;
+let lastModalRef = null;
+let suppressDraftCapture = false;
+
+const CATEGORIES = ['Travel Documents','STCW','Safety and Security','Medical','Other Yacht Documents'];
+function categoryFor(cert){ return cert.category || 'Other Yacht Documents'; }
+function certHasExpiration(cert){ return cert.hasExpiration !== false; } // undefined/true = has one (covers certs saved before this feature existed)
+
+/* =========================================================
+   UTIL
+========================================================= */
+function esc(str){
+  if(str===undefined||str===null) return '';
+  return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function uid(){ return 'id-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2,9); }
+
+function formatDate(iso){
+  if(!iso) return '—';
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
+  if(!m || +m[2] < 1 || +m[2] > 12) return iso;
+  return `${+m[3]} ${MONTHS_SHORT[+m[2] - 1]} ${m[1]}`;   // e.g. 5 Oct 2026
+}
+function daysUntil(iso){
+  const today = new Date(); today.setHours(0,0,0,0);
+  const target = new Date(iso + 'T00:00:00');
+  return Math.round((target - today) / 86400000);
+}
+// For sort ordering only: certificates with no expiration sort as "infinitely far
+// away" so they naturally fall to the end of an "expiring soonest" list.
+function sortableDays(cert){
+  return certHasExpiration(cert) ? daysUntil(cert.expirationDate) : Infinity;
+}
+function statusFor(cert){
+  if(!certHasExpiration(cert)) return 'none';
+  const d = daysUntil(cert.expirationDate);
+  if(d < 0) return 'expired';
+  if(d <= (cert.notifyDays ?? 30)) return 'soon';
+  return 'valid';
+}
+function statusLabel(s){
+  if(s==='expired') return 'Expired';
+  if(s==='soon') return 'Expiring soon';
+  if(s==='none') return 'No expiration';
+  return 'Valid';
+}
+function needsAttention(cert){
+  const s = statusFor(cert);
+  return s==='soon' || s==='expired';
+}
+
+function fileToDataURL(file){
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+}
+function dataURLToBlob(dataUrl, forceMime){
+  const [header, b64] = dataUrl.split(',');
+  const mimeMatch = header.match(/:(.*?);/);
+  const mime = forceMime || (mimeMatch ? mimeMatch[1] : 'application/pdf');
+  const bin = atob(b64);
+  const arr = new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) arr[i] = bin.charCodeAt(i);
+  return new Blob([arr], {type: mime});
+}
+function downloadDataUrl(dataUrl, filename){
+  const blob = dataURLToBlob(dataUrl, 'application/pdf');
+  if(USE_SHARE_SHEET){
+    offerFileToShare(blob, filename || 'certificate.pdf', {title: 'Open or save this certificate', note: `${filename || 'certificate.pdf'} is ready. Tap the button, then choose Save to Files, or open it in another app.`, button: 'Open / Save…'});
+    return;
+  }
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename || 'certificate.pdf';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url), 4000);
+}
+function downloadTextFile(text, filename, mime){
+  const blob = new Blob([text], {type: mime || 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url), 4000);
+}
+
+
+/* =========================================================
+   STORAGE HELPERS — backed by IndexedDB (works fully offline,
+   no Claude.ai account or connection required). Runs entirely in
+   this browser, scoped to wherever this page is served from.
+   IMPORTANT: IndexedDB requires the page be loaded over http://
+   or https:// — Chrome blocks it for files opened directly from
+   a folder (file://). Use the included start-mac.command or
+   start-windows.bat launcher instead of double-clicking the HTML
+   file directly.
+========================================================= */
+const DB_NAME = 'CertificateRegistryDB';
+const STORE_NAME = 'kv';
+let dbOpenPromise = null;
+let dbConn = null;
+let dbInfo = null;   // {name, version} of the database currently open, shown in the Storage panel
+
+// Open the database at WHATEVER version it already has (version 1 is only created if it doesn't exist).
+// Asking for a fixed version breaks as soon as the browser already holds a newer one:
+// "VersionError: The requested version (1) is less than the existing version (2)."
+function openDbAt(version){
+  return new Promise((resolve, reject) => {
+    let finished = false, blockedTimer = null;
+    const req = (version === undefined) ? indexedDB.open(DB_NAME) : indexedDB.open(DB_NAME, version);
+    req.onupgradeneeded = (e) => {
+      const db = e.target.result;
+      if(!db.objectStoreNames.contains(STORE_NAME)) db.createObjectStore(STORE_NAME, {keyPath: 'key'});
+    };
+    req.onsuccess = () => {
+      clearTimeout(blockedTimer);
+      if(finished){ try{ req.result.close(); }catch(_){} return; }   // we had already given up on this attempt
+      finished = true; resolve(req.result);
+    };
+    req.onerror = () => { clearTimeout(blockedTimer); if(!finished){ finished = true; reject(req.error || new Error('Failed to open the local database.')); } };
+    req.onblocked = () => {
+      // Another tab or window still has the database open. Give it a few seconds to let go.
+      blockedTimer = setTimeout(() => { if(!finished){ finished = true; reject(new Error('The local database is in use by another open tab or window of this app. Close the other one and try again.')); } }, 4000);
+    };
+  });
+}
+function openDB(){
+  if(dbOpenPromise) return dbOpenPromise;
+  dbOpenPromise = (async () => {
+    if(!window.indexedDB) throw new Error('IndexedDB is not available in this browser.');
+    let db = await openDbAt();
+    if(!db.objectStoreNames.contains(STORE_NAME)){
+      // The database exists but has no store of ours yet: add it with a version bump. Anything else in there is left untouched.
+      const next = db.version + 1;
+      db.close();
+      db = await openDbAt(next);
+    }
+    // If another tab upgrades the database, step aside and reopen on next use.
+    db.onversionchange = () => { try{ db.close(); }catch(_){} if(dbConn === db){ dbConn = null; dbOpenPromise = null; } };
+    db.onclose = () => { if(dbConn === db){ dbConn = null; dbOpenPromise = null; } };
+    dbConn = db;
+    dbInfo = {name: DB_NAME, version: db.version};
+    return db;
+  })();
+  dbOpenPromise.catch(() => { dbOpenPromise = null; });   // one failed attempt must never poison later ones
+  return dbOpenPromise;
+}
+
+let lastStorageError = null;   // the browser's own error from the most recent failed save
+async function getKey(key){
+  try{
+    const db = await openDB();
+    return await new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE_NAME, 'readonly');
+      const store = tx.objectStore(STORE_NAME);
+      const req = store.get(key);
+      req.onsuccess = () => resolve(req.result ? req.result.value : null);
+      req.onerror = () => reject(req.error);
+    });
+  }catch(e){
+    console.error('getKey failed', key, e);
+    return null;
+  }
+}
+async function setKey(key, value){
+  try{
+    const db = await openDB();
+    return await new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE_NAME, 'readwrite');
+      const store = tx.objectStore(STORE_NAME);
+      store.put({key, value});
+      tx.oncomplete = () => { lastStorageError = null; resolve(true); };
+      tx.onerror = () => reject(tx.error);
+      tx.onabort = () => reject(tx.error || new Error('Save was aborted.'));
+    });
+  }catch(e){
+    lastStorageError = {name: (e && e.name) || '', message: (e && e.message) || '', key};
+    console.error('setKey failed', key, e);
+    return false;
+  }
+}
+async function deleteKeySafe(key){
+  try{
+    const db = await openDB();
+    return await new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE_NAME, 'readwrite');
+      const store = tx.objectStore(STORE_NAME);
+      store.delete(key);
+      tx.oncomplete = () => resolve(true);
+      tx.onerror = () => reject(tx.error);
+      tx.onabort = () => resolve(false);
+    });
+  }catch(e){
+    return false; /* deleting a key that never existed is not a failure worth reporting */
+  }
+}
+// Replace ALL certificate data in one atomic transaction: either every old record is
+// swapped for the new ones, or (if anything fails part-way) nothing changes at all.
+// Keys starting with "__" are internal settings (e.g. the Dropbox connection) and are
+// deliberately left alone.
+async function replaceAllData(entries){
+  const db = await openDB();
+  return await new Promise((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, 'readwrite');
+    const store = tx.objectStore(STORE_NAME);
+    const keysReq = store.getAllKeys();
+    keysReq.onsuccess = () => {
+      for(const k of keysReq.result){
+        if(typeof k === 'string' && !k.startsWith('__')) store.delete(k);
+      }
+      for(const e of entries) store.put({key: e.key, value: e.value});
+    };
+    keysReq.onerror = () => { try{ tx.abort(); }catch(_){} };
+    tx.oncomplete = () => resolve(true);
+    tx.onerror = () => reject(tx.error || new Error('Restore failed.'));
+    tx.onabort = () => reject(tx.error || new Error('Restore was aborted; nothing was changed.'));
+  });
+}
+async function getJSON(key, fallback){
+  const raw = await getKey(key);
+  if(raw === null || raw === undefined) return fallback;
+  try{ return JSON.parse(raw); }catch(e){ return fallback; }
+}
+async function setJSON(key, obj){
+  return setKey(key, JSON.stringify(obj));
+}
+
+async function loadCertificates(){ return getJSON('certificates', []); }
+async function saveCertificates(list){ return setJSON('certificates', list); }
+async function loadProfile(){ return getJSON('profile', {}); }
+async function saveProfile(profile){ return setJSON('profile', profile); }
+async function getCurrentPdf(certId){ return getJSON(`pdf:${certId}:current`, null); }
+async function setCurrentPdf(certId, obj){ return setJSON(`pdf:${certId}:current`, obj); }
+async function getArchivePdf(certId, archiveId){ return getJSON(`pdf:${certId}:archive:${archiveId}`, null); }
+async function setArchivePdf(certId, archiveId, obj){ return setJSON(`pdf:${certId}:archive:${archiveId}`, obj); }
+async function deleteAllPdfKeysForCert(cert){
+  await deleteKeySafe(`pdf:${cert.id}:current`);
+  for(const a of (cert.archive||[])){
+    await deleteKeySafe(`pdf:${cert.id}:archive:${a.id}`);
+  }
+}
+
+/* =========================================================
+   RENDER ROOT
+========================================================= */
+function render(){
+  if(state.screen === 'profile' && !suppressDraftCapture) captureProfileDraft();
+  captureModalDraft();
+  let modalScroll = null;
+  if(state.modal && state.modal === lastModalRef){ const mEl = document.querySelector('.modal'); if(mEl) modalScroll = mEl.scrollTop; }
+  const app = document.getElementById('app');
+  let html = '';
+  if(state.screen !== 'loading') html += renderEnvironmentNotice();
+  if(state.screen === 'loading') html += renderLoading();
+  else if(state.screen === 'dashboard') html += renderHeader() + renderDashboard();
+  else if(state.screen === 'detail') html += renderHeader() + renderDetail();
+  else if(state.screen === 'profile') html += renderHeader() + renderProfile();
+
+  if(state.modal){
+    html += renderModal();
+  }
+  app.innerHTML = html;
+  if(modalScroll !== null){ const mEl = document.querySelector('.modal'); if(mEl) mEl.scrollTop = modalScroll; }
+  afterRender();
+}
+
+function renderHeader(){
+  return `
+  <div class="app-header">
+    <div class="brandmark">${ICONS.seal}<span>Certificate Registry</span></div>
+    <div class="header-actions">
+      <button class="icon-btn" title="Profile" onclick="openProfile()">${ICONS.user}</button>
+    </div>
+  </div>`;
+}
+
+/* =========================================================
+   SCREENS: loading
+========================================================= */
+function renderLoading(){
+  return `<div class="centered-shell"><div style="color:#5B6472;font-size:14px;">Loading…</div></div>`;
+}
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+function matchesFilters(c){
+  const term = state.search.trim().toLowerCase();
+  const matchesSearch = !term || c.name.toLowerCase().includes(term) || (c.certNumber||'').toLowerCase().includes(term);
+  const matchesCategory = state.categoryFilter === 'all' || categoryFor(c) === state.categoryFilter;
+  return matchesSearch && matchesCategory;
+}
+function sortCerts(list){
+  const sorted = list.slice();
+  if(state.sortBy === 'name'){
+    sorted.sort((a,b)=> a.name.localeCompare(b.name));
+  } else if(state.sortBy === 'category'){
+    sorted.sort((a,b)=> categoryFor(a).localeCompare(categoryFor(b)) || a.name.localeCompare(b.name));
+  } else if(state.sortBy === 'recent'){
+    sorted.sort((a,b)=> new Date(b.createdAt||0) - new Date(a.createdAt||0));
+  } else {
+    sorted.sort((a,b)=> sortableDays(a) - sortableDays(b));
+  }
+  return sorted;
+}
+function filteredSortedCerts(){
+  return sortCerts(state.certificates.filter(matchesFilters));
+}
+
+function renderDashboard(){
+  const list = filteredSortedCerts();
+
+  const attention = state.certificates
+    .filter(needsAttention)
+    .sort((a,b)=> sortableDays(a) - sortableDays(b));
+
+  let banner = '';
+  if(attention.length){
+    const anyExpired = attention.some(c=>statusFor(c)==='expired');
+    banner = `
+    <div class="banner ${anyExpired ? 'rust' : ''}">
+      ${ICONS.alert}
+      <div>
+        <div class="banner-title">${attention.length} certificate${attention.length>1?'s':''} need${attention.length>1?'':'s'} attention</div>
+        <ul>
+          ${attention.map(c=>{
+            const d = daysUntil(c.expirationDate);
+            const s = statusFor(c);
+            const txt = s==='expired' ? `expired ${Math.abs(d)} day${Math.abs(d)===1?'':'s'} ago` : `expires in ${d} day${d===1?'':'s'}`;
+            return `<li><strong>${esc(c.name)}</strong> — ${txt}. Booking details for its training centers are in the certificate record.</li>`;
+          }).join('')}
+        </ul>
+      </div>
+    </div>`;
+  }
+
+  let body;
+  if(!state.certificates.length){
+    body = `
+    <div class="empty-state">
+      ${ICONS.seal}
+      <h3>No certificates yet</h3>
+      <p>Add your first certificate to start tracking its expiration and renewal.</p>
+      <button class="btn btn-brass" onclick="openAddCertModal()">${ICONS.plus} Add certificate</button>
+    </div>`;
+  } else {
+    body = `<div class="grid">${list.map(renderCertCard).join('')}</div>`;
+    if(!list.length){
+      body = `<div class="empty-state"><h3>No matches</h3><p>Try a different search or category.</p></div>`;
+    }
+  }
+
+  return `
+  <div class="container">
+    ${banner}
+    <div class="toolbar">
+      <div>
+        <h1>Your certificates</h1>
+        <div class="sub">${state.certificates.length} on record</div>
+      </div>
+      <button class="btn btn-brass" onclick="openAddCertModal()">${ICONS.plus} Add certificate</button>
+    </div>
+    <div class="search-row">
+      <input class="input" placeholder="Search by name or certificate number" value="${esc(state.search)}" oninput="state.search=this.value; renderDashboardListOnly();">
+      <select class="input" style="max-width:200px;" onchange="state.sortBy=this.value; renderDashboardListOnly();">
+        <option value="expiry" ${state.sortBy==='expiry'?'selected':''}>Sort: Expiring soonest</option>
+        <option value="name" ${state.sortBy==='name'?'selected':''}>Sort: Name (A–Z)</option>
+        <option value="category" ${state.sortBy==='category'?'selected':''}>Sort: Category</option>
+        <option value="recent" ${state.sortBy==='recent'?'selected':''}>Sort: Recently added</option>
+      </select>
+    </div>
+    <div class="category-filters">${renderCategoryPills()}</div>
+    <div id="dashList">${body}</div>
+  </div>`;
+}
+
+function renderCategoryPills(){
+  const all = state.certificates;
+  const pill = (value, label, count) => `<button class="cat-pill ${state.categoryFilter===value?'active':''}" onclick="setCategoryFilter('${esc(value)}')">${esc(label)} <span class="count">${count}</span></button>`;
+  let html = pill('all', 'All', all.length);
+  html += CATEGORIES.map(cat => pill(cat, cat, all.filter(c=>categoryFor(c)===cat).length)).join('');
+  return html;
+}
+function setCategoryFilter(value){
+  state.categoryFilter = value;
+  renderDashboardListOnly();
+  const pillsEl = document.querySelector('.category-filters');
+  if(pillsEl) pillsEl.innerHTML = renderCategoryPills();
+}
+
+function renderDashboardListOnly(){
+  // Lightweight re-render of just the list on search/filter change, to preserve input focus.
+  const el = document.getElementById('dashList');
+  if(!el) return;
+  const list = filteredSortedCerts();
+  if(!state.certificates.length){
+    return; // full render() already handles the true empty state
+  }
+  if(!list.length){
+    el.innerHTML = `<div class="empty-state"><h3>No matches</h3><p>Try a different search or category.</p></div>`;
+  } else {
+    el.innerHTML = `<div class="grid">${list.map(renderCertCard).join('')}</div>`;
+  }
+}
+
+function renderCertCard(c){
+  const s = statusFor(c);
+  let stampInner;
+  if(s === 'none'){
+    stampInner = `<span class="num" style="font-size:11px;line-height:1.15;">No<br>expiry</span>`;
+  } else {
+    const d = daysUntil(c.expirationDate);
+    const numLabel = s==='expired' ? Math.abs(d) : d;
+    const sub = s==='expired' ? 'days over' : 'days left';
+    stampInner = `<span class="num">${numLabel}</span><span class="lbl">${sub}</span>`;
+  }
+  return `
+  <div class="cert-card status-${s}" onclick="openDetail('${c.id}')">
+    <div class="cert-card-top">
+      <div>
+        <div class="category-tag">${esc(categoryFor(c))}</div>
+        <h3>${esc(c.name)}</h3>
+        <div class="cert-num">${c.certNumber ? '#'+esc(c.certNumber) : 'No number on file'}</div>
+      </div>
+      <div class="stamp status-${s}">${stampInner}</div>
+    </div>
+    <div class="meta-row"><span>Expires</span><span>${certHasExpiration(c) ? formatDate(c.expirationDate) : 'No expiration'}</span></div>
+    <div class="meta-row"><span>Status</span><span>${statusLabel(s)}</span></div>
+  </div>`;
+}
+
+/* =========================================================
+   DETAIL SCREEN
+========================================================= */
+function getActiveCert(){
+  return state.certificates.find(c => c.id === state.activeCertId) || null;
+}
+
+function renderDetail(){
+  const c = getActiveCert();
+  if(!c){
+    return `<div class="container"><p>Certificate not found.</p><button class="btn btn-ghost" onclick="goDashboard()">Back</button></div>`;
+  }
+  const s = statusFor(c);
+  let daysTxt;
+  if(s === 'none'){
+    daysTxt = 'Never expires';
+  } else {
+    const d = daysUntil(c.expirationDate);
+    daysTxt = s==='expired' ? `Expired ${Math.abs(d)} day${Math.abs(d)===1?'':'s'} ago` : `${d} day${d===1?'':'s'} remaining`;
+  }
+
+  return `
+  <div class="container">
+    <button class="back-link" onclick="goDashboard()">${ICONS.chevronLeft} All certificates</button>
+    <div class="detail-head">
+      <div>
+        <h1>${esc(c.name)}</h1>
+        <div class="cert-num">${c.certNumber ? 'Certificate #'+esc(c.certNumber) : 'No certificate number on file'}</div>
+      </div>
+      <span class="status-pill status-${s}">${statusLabel(s)}${s !== 'none' ? ' · ' + daysTxt : ''}</span>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <div>
+          <h2>Certificate details</h2>
+          <div class="panel-sub">${certHasExpiration(c) ? `Notification reminder: ${c.notifyDays} day${c.notifyDays===1?'':'s'} before expiration` : 'This document has no expiration date'}</div>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="openEditCertModal('${c.id}')">${ICONS.pencil} Edit</button>
+      </div>
+      <div class="info-grid">
+        <div class="info-item"><div class="label">Category</div><div class="value">${esc(categoryFor(c))}</div></div>
+        <div class="info-item"><div class="label">Name / type</div><div class="value">${esc(c.name)}</div></div>
+        <div class="info-item"><div class="label">Certificate number</div><div class="value">${c.certNumber ? esc(c.certNumber) : '—'}</div></div>
+        <div class="info-item"><div class="label">Issue date</div><div class="value">${formatDate(c.issueDate)}</div></div>
+        <div class="info-item"><div class="label">Expiration date</div><div class="value">${certHasExpiration(c) ? formatDate(c.expirationDate) : 'No expiration'}</div></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <div><h2>Certificate file</h2><div class="panel-sub">Uploaded copy of the current certificate</div></div>
+        <button class="btn btn-brass btn-sm" onclick="openReplaceFileModal('${c.id}')">${ICONS.upload} ${c.currentFile ? 'Replace file' : 'Upload file'}</button>
+      </div>
+      ${c.currentFile ? `
+        <div class="file-row">
+          <div class="file-info">${ICONS.file}<span>${esc(c.currentFile.filename)}</span><span style="color:var(--text-muted);">· uploaded ${formatDate(c.currentFile.uploadedDate)}</span></div>
+          <div class="file-actions">
+            <button class="btn btn-ghost btn-sm" onclick="viewCurrentFile('${c.id}')">View</button>
+            <button class="btn btn-ghost btn-sm" onclick="downloadCurrentFile('${c.id}')">${ICONS.download} Download</button>
+          </div>
+        </div>
+      ` : `<div class="empty-state" style="padding:32px 16px;"><p style="margin:0;">No file uploaded yet.</p></div>`}
+
+      ${c.archive && c.archive.length ? `
+        <div style="margin-top:18px;">
+          <div class="panel-sub" style="margin-bottom:10px;display:flex;align-items:center;gap:6px;">${ICONS.archiveBox} Archived certificates (${c.archive.length})</div>
+          ${c.archive.slice().reverse().map(a => `
+            <div class="archive-item">
+              <div class="meta"><strong>${esc(a.filename)}</strong> — ${a.expirationDate ? `expired ${formatDate(a.expirationDate)}` : 'replaced'}, archived ${formatDate(a.archivedDate)}</div>
+              <div class="file-actions">
+                <button class="btn btn-ghost btn-sm" onclick="viewArchiveFile('${c.id}','${a.id}')">View</button>
+                <button class="btn btn-ghost btn-sm" onclick="downloadArchiveFile('${c.id}','${a.id}')">${ICONS.download} Download</button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <div><h2>Training centers</h2><div class="panel-sub">Contacts to book your renewal with</div></div>
+        <button class="btn btn-ghost btn-sm" onclick="openTrainingCenterModal('${c.id}', null)">${ICONS.plus} Add center</button>
+      </div>
+      ${(c.trainingCenters && c.trainingCenters.length) ? c.trainingCenters.map(tc => renderTrainingCenter(c.id, tc)).join('') : `<div class="empty-state" style="padding:28px 16px;"><p style="margin:0;">No training centers saved yet.</p></div>`}
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><div><h2>Danger zone</h2><div class="panel-sub">Permanently remove this certificate and its files</div></div></div>
+      <button class="btn btn-danger btn-sm" onclick="confirmDeleteCert('${c.id}')">${ICONS.trash} Delete certificate</button>
+    </div>
+  </div>`;
+}
+
+/* =========================================================
+   PROFILE SCREEN
+========================================================= */
+function renderProfile(){
+  const p = {...(state.profile || {}), ...(state.profileDraft || {})};
+  return `
+  <div class="container">
+    <button class="back-link" onclick="backFromProfile()">${ICONS.chevronLeft} Back</button>
+    <div class="detail-head">
+      <div>
+        <h1>Profile</h1>
+        <div class="cert-num">Your personal details</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><div><h2>Photo</h2></div></div>
+      <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap;">
+        <div class="avatar-preview">${p.photo ? `<img src="${p.photo}" alt="Profile photo">` : ICONS.user}</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+          <input type="file" id="profilePhotoInput" accept="image/*" style="display:none;" onchange="handleProfilePhotoChange(this)">
+          <button class="btn btn-ghost btn-sm" onclick="document.getElementById('profilePhotoInput').click()">${ICONS.upload} ${p.photo?'Change photo':'Upload photo'}</button>
+          ${p.photo ? `<button class="btn btn-ghost btn-sm" onclick="removeProfilePhoto()">${ICONS.trash} Remove</button>` : ''}
+        </div>
+      </div>
+      <p style="font-size:12px;color:var(--text-muted);margin:10px 0 0;">Any common photo up to about 25 MB. It's resized automatically, so it never takes up much room.</p>
+      ${state.photoError ? `<div class="error-text" style="margin-top:12px;margin-bottom:0;">${esc(state.photoError)}</div>` : ''}
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><div><h2>Personal details</h2></div></div>
+      <div class="two-col">
+        <div class="field"><label>Name</label><input class="input" id="pf_name" value="${esc(p.name||'')}" placeholder="First name"></div>
+        <div class="field"><label>Surname</label><input class="input" id="pf_surname" value="${esc(p.surname||'')}" placeholder="Last name"></div>
+      </div>
+      <div class="two-col">
+        <div class="field"><label>Contact number</label><input class="input" id="pf_contact" value="${esc(p.contact||'')}" placeholder="Phone number"></div>
+        <div class="field"><label>Email</label><input class="input" type="email" id="pf_email" value="${esc(p.email||'')}" placeholder="Email address"></div>
+      </div>
+      <div class="field">
+        <label>Gender</label>
+        <select class="input" id="pf_gender">
+          <option value="" ${!p.gender?'selected':''}>Prefer not to say</option>
+          <option value="Female" ${p.gender==='Female'?'selected':''}>Female</option>
+          <option value="Male" ${p.gender==='Male'?'selected':''}>Male</option>
+          <option value="Other" ${p.gender==='Other'?'selected':''}>Other</option>
+        </select>
+      </div>
+      ${state.profileError ? `<div class="error-text">${esc(state.profileError)}</div>` : ''}
+      ${state.profileSaved ? `<div style="color:var(--forest);font-size:13px;margin-bottom:12px;">Saved.</div>` : ''}
+      <button class="btn btn-primary" onclick="submitProfile()">Save changes</button>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><div><h2>Backup & restore</h2><div class="panel-sub">Keep a safe copy of everything outside this browser</div></div></div>
+      <p style="font-size:12.5px;color:var(--text-muted);margin:0 0 4px;">Everything in this app is stored locally in this browser, so it won't appear on another computer or browser, and it's lost if this browser's site data is cleared. A backup is a single file with your profile, every certificate's details, training centers and all uploaded PDFs, so you can bring it all back.</p>
+      <div id="backupPanelBody">${renderBackupPanelBody()}</div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><div><h2>Storage</h2><div class="panel-sub">How much room this app has in your browser</div></div></div>
+      <div id="storagePanelBody">${renderStoragePanelBody()}</div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><div><h2>Danger zone</h2><div class="panel-sub">Permanently erase everything stored on this device</div></div></div>
+      <button class="btn btn-danger btn-sm" onclick="openResetConfirm()">${ICONS.trash} Reset registry (erase all data)</button>
+    </div>
+    <p class="app-version">App version ${APP_VERSION}</p>
+  </div>`;
+}
+
+function renderTrainingCenter(certId, tc){
+  return `
+  <div class="center-item">
+    <div class="center-item-top">
+      <h4>${ICONS.building} ${esc(tc.name)}</h4>
+      <div class="row-actions">
+        <button class="icon-only" title="Edit" onclick="openTrainingCenterModal('${certId}','${tc.id}')">${ICONS.pencil}</button>
+        <button class="icon-only danger" title="Delete" onclick="deleteTrainingCenter('${certId}','${tc.id}')">${ICONS.trash}</button>
+      </div>
+    </div>
+    ${tc.contact ? `<div class="center-detail-row">${esc(tc.contact)}</div>` : ''}
+    <div class="center-detail-row">${ICONS.phone} ${tc.phone ? esc(tc.phone) : '<span class="empty-val">No phone saved</span>'}</div>
+    <div class="center-detail-row">${ICONS.mail} ${tc.email ? esc(tc.email) : '<span class="empty-val">No email saved</span>'}</div>
+    <div class="center-detail-row">${ICONS.pin} ${tc.address ? esc(tc.address) : '<span class="empty-val">No address saved</span>'}</div>
+    ${tc.notes ? `<div class="center-notes">${esc(tc.notes)}</div>` : ''}
+  </div>`;
+}
+
+/* =========================================================
+   MODALS
+========================================================= */
+function renderModal(){
+  const m = state.modal;
+  if(!m) return '';
+  if(m.type === 'certForm') return renderCertFormModal();
+  if(m.type === 'fileUpload') return renderFileUploadModal();
+  if(m.type === 'trainingCenterForm') return renderTrainingCenterModal();
+  if(m.type === 'confirm') return renderConfirmModal();
+  if(m.type === 'pdfPreview') return renderPdfPreviewModal();
+  if(m.type === 'shareFile') return renderShareFileModal();
+  if(m.type === 'dropboxSetup') return renderDropboxSetupModal();
+  if(m.type === 'dropboxList') return renderDropboxListModal();
+  return '';
+}
+
+function modalShell(inner, opts){
+  opts = opts || {};
+  return `
+  <div class="modal-overlay" onmousedown="if(event.target===this) closeModal()">
+    <div class="modal ${opts.wide?'modal-wide':''}">
+      <button class="modal-close" onclick="closeModal()">${ICONS.x}</button>
+      ${inner}
+    </div>
+  </div>`;
+}
+
+function renderCertFormModal(){
+  const m = state.modal;
+  const c = m.cert || {name:'',certNumber:'',issueDate:'',expirationDate:'',notifyDays:30,category:CATEGORIES[0],hasExpiration:true};
+  const isEdit = !!m.editingId;
+  const hasExp = c.hasExpiration !== false;
+  const issueParts = c.issueParts || partsFromIso(c.issueDate);
+  const expiryParts = c.expiryParts || partsFromIso(c.expirationDate);
+  const bad = f => (m.errorField === f ? ' error' : '');
+  const notify = (c.notifyDays === undefined || c.notifyDays === null) ? 30 : c.notifyDays;
+  return modalShell(`
+    <h2 class="modal-title">${isEdit ? 'Edit certificate' : 'Add certificate'}</h2>
+    <p class="modal-sub">${isEdit ? 'Update the details on record for this certificate.' : 'Enter the details from your certificate.'} Fields marked <span style="color:var(--rust);">*</span> are required.</p>
+    <div class="field">
+      <label>Category</label>
+      <select class="input" id="cf_category" onchange="markDirty()">
+        ${CATEGORIES.map(cat => `<option value="${esc(cat)}" ${categoryFor(c)===cat?'selected':''}>${esc(cat)}</option>`).join('')}
+      </select>
+    </div>
+    <div class="field">
+      <label>Certificate name / type <span style="color:var(--rust);">*</span></label>
+      <input class="input${bad('cf_name')}" id="cf_name" placeholder="e.g. First Aid Level 2" value="${esc(c.name)}" oninput="markDirty()">
+    </div>
+    <div class="field">
+      <label>Certificate number</label>
+      <input class="input" id="cf_number" placeholder="e.g. FA-2024-00931" value="${esc(c.certNumber)}" oninput="markDirty()">
+    </div>
+    <div class="field">
+      <label>Does this document expire? <span style="color:var(--rust);">*</span></label>
+      <div class="yn-toggle">
+        <button type="button" class="yn-btn ${hasExp?'active':''}" onclick="setCertHasExpiration(true)">Yes</button>
+        <button type="button" class="yn-btn ${!hasExp?'active':''}" onclick="setCertHasExpiration(false)">No</button>
+      </div>
+    </div>
+    ${hasExp ? `
+    <div class="two-col">
+      ${renderDateField('cf_issue', 'Issue date', '', issueParts, bad('cf_issue'))}
+      ${renderDateField('cf_expiry', 'Expiration date', '<span style="color:var(--rust);">*</span>', expiryParts, bad('cf_expiry'))}
+    </div>
+    <div class="field">
+      <label>Notify me before expiration</label>
+      <input class="input" type="number" min="1" max="365" id="cf_notify" value="${esc(notify)}" oninput="markDirty()">
+      <div class="hint">Number of days before the expiration date to flag this certificate as expiring soon.</div>
+    </div>
+    ` : `
+    ${renderDateField('cf_issue', 'Issue date', '', issueParts, bad('cf_issue'), "This document will be marked as never expiring and won't appear in renewal reminders.")}
+    `}
+    <div class="hint" style="margin:-6px 0 12px;">Dates are typed as day / month / year, and the cursor moves on by itself.</div>
+    ${m.error ? `<div class="error-text">${esc(m.error)}</div>` : ''}
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="submitCertForm()">${isEdit ? 'Save changes' : 'Add certificate'}</button>
+    </div>
+  `);
+}
+
+function renderFileUploadModal(){
+  const m = state.modal;
+  return modalShell(`
+    <h2 class="modal-title">${m.hasExisting ? 'Replace certificate file' : 'Upload certificate file'}</h2>
+    <p class="modal-sub">${m.hasExisting ? "The current file will be moved to this certificate's archive folder automatically." : 'Upload a PDF copy of this certificate.'}</p>
+    <div class="field">
+      <label>PDF file <span style="color:var(--rust);">*</span></label>
+      <input class="input" type="file" id="fileInput" accept="application/pdf" onchange="markDirty()">
+      <div class="hint">PDF only, up to about 15 MB.</div>
+    </div>
+    ${m.error ? `<div class="error-text">${esc(m.error)}</div>` : ''}
+    ${m.busy ? `<div class="modal-sub">Uploading…</div>` : ''}
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="submitFileUpload()" ${m.busy?'disabled':''}>Save file</button>
+    </div>
+  `);
+}
+
+function renderTrainingCenterModal(){
+  const m = state.modal;
+  const tc = m.center || {name:'',contact:'',phone:'',email:'',address:'',notes:''};
+  return modalShell(`
+    <h2 class="modal-title">${m.editingId ? 'Edit training center' : 'Add training center'}</h2>
+    <p class="modal-sub">Save contact details so you can book your renewal quickly. Fields marked <span style="color:var(--rust);">*</span> are required.</p>
+    <div class="field">
+      <label>Center name <span style="color:var(--rust);">*</span></label>
+      <input class="input" id="tc_name" placeholder="e.g. Coastal Safety Training" value="${esc(tc.name)}" oninput="markDirty()">
+    </div>
+    <div class="field">
+      <label>Contact person</label>
+      <input class="input" id="tc_contact" placeholder="e.g. Jane Adams" value="${esc(tc.contact)}" oninput="markDirty()">
+    </div>
+    <div class="two-col">
+      <div class="field">
+        <label>Phone</label>
+        <input class="input" id="tc_phone" placeholder="Phone number" value="${esc(tc.phone)}" oninput="markDirty()">
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input class="input" id="tc_email" placeholder="Email address" value="${esc(tc.email)}" oninput="markDirty()">
+      </div>
+    </div>
+    <div class="field">
+      <label>Address</label>
+      <input class="input" id="tc_address" placeholder="Street, city" value="${esc(tc.address)}" oninput="markDirty()">
+    </div>
+    <div class="field">
+      <label>Notes</label>
+      <textarea class="input" id="tc_notes" placeholder="Pricing, availability, booking link, etc." oninput="markDirty()">${esc(tc.notes)}</textarea>
+    </div>
+    ${m.error ? `<div class="error-text">${esc(m.error)}</div>` : ''}
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="submitTrainingCenter()">${m.editingId ? 'Save changes' : 'Add center'}</button>
+    </div>
+  `);
+}
+
+function renderConfirmModal(){
+  const m = state.modal;
+  return modalShell(`
+    <h2 class="modal-title">${esc(m.title)}</h2>
+    <p class="modal-sub">${esc(m.message)}</p>
+    ${m.error ? `<div class="error-text">${esc(m.error)}</div>` : ''}
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn ${m.danger?'btn-danger':'btn-primary'}" onclick="confirmModalYes()">${esc(m.confirmLabel||'Confirm')}</button>
+    </div>
+  `);
+}
+
+function renderPdfPreviewModal(){
+  const m = state.modal;
+  const actions = `
+    <div class="modal-actions" style="${USE_SHARE_SHEET ? 'margin:0 0 14px;' : ''}">
+      <button class="btn btn-ghost" onclick="closeModal()">Close</button>
+      ${USE_SHARE_SHEET ? '' : '<button class="btn btn-ghost" onclick="openPdfPreviewInNewTab()">Open in new tab</button>'}
+      <button class="btn btn-primary" onclick="downloadOpenPdfPreview()">${USE_SHARE_SHEET ? 'Open / Save…' : ICONS.download + ' Download'}</button>
+    </div>`;
+  const preview = `
+    <div style="border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#525659;">
+      <object data="${m.url}" type="application/pdf" style="width:100%;height:${USE_SHARE_SHEET ? '46vh' : '70vh'};display:block;">
+        <div style="padding:48px 20px;text-align:center;color:#fff;font-size:13.5px;">
+          This browser can't preview PDFs inline.<br>${USE_SHARE_SHEET ? 'Use Open / Save above.' : 'Use Open in new tab or Download below.'}
+        </div>
+      </object>
+    </div>`;
+  return modalShell(`
+    <h2 class="modal-title">${esc(m.filename)}</h2>
+    <p class="modal-sub">${USE_SHARE_SHEET ? 'Tap Open / Save to see the whole PDF in Files or another app. The preview below may be blank or show only the first page.' : 'If nothing appears below, use Open in new tab or Download instead.'}</p>
+    ${m.error ? `<div class="error-text">${esc(m.error)}</div>` : ''}
+    ${USE_SHARE_SHEET ? actions + preview : preview + actions}
+  `, {wide:true});
+}
+
+/* =========================================================
+   EVENT WIRING (focus management + keyboard support for modals)
+========================================================= */
+function markDirty(){ modalDirty = true; }
+
+function getFocusableInModal(){
+  const modalEl = document.querySelector('.modal');
+  if(!modalEl) return [];
+  return Array.from(modalEl.querySelectorAll('input, select, textarea, button, a[href]'))
+    .filter(el => !el.disabled && el.offsetParent !== null);
+}
+
+function afterRender(){
+  if(state.modal && state.modal !== lastModalRef){
+    // Modal just opened (or was swapped for a different one) — focus its first field.
+    const focusables = getFocusableInModal();
+    if(focusables.length) focusables[0].focus();
+    if(state.modal.type === 'dropboxSetup'){
+      const keyEl = document.getElementById('dbx_appkey');
+      if(keyEl) keyEl.focus();
+    }
+  }
+  lastModalRef = state.modal;
+}
+
+function handleGlobalKeydown(e){
+  if(!state.modal) return;
+  if(e.key === 'Escape'){
+    e.preventDefault();
+    closeModal();
+    return;
+  }
+  if(e.key === 'Tab'){
+    const focusables = getFocusableInModal();
+    if(!focusables.length) return;
+    const first = focusables[0], last = focusables[focusables.length - 1];
+    if(e.shiftKey && document.activeElement === first){
+      e.preventDefault(); last.focus();
+    } else if(!e.shiftKey && document.activeElement === last){
+      e.preventDefault(); first.focus();
+    }
+    return;
+  }
+  if(e.key === 'Enter'){
+    const tag = (e.target.tagName || '').toLowerCase();
+    if(tag === 'textarea' || tag === 'button' || tag === 'a') return; // let newlines / native activation happen
+    if(!e.target.closest || !e.target.closest('.modal')) return;
+    const t = state.modal.type;
+    if(t === 'certForm' || t === 'trainingCenterForm' || t === 'fileUpload' || t === 'dropboxSetup'){
+      e.preventDefault();
+      if(t === 'certForm') submitCertForm();
+      else if(t === 'trainingCenterForm') submitTrainingCenter();
+      else if(t === 'fileUpload') submitFileUpload();
+      else if(t === 'dropboxSetup') submitDropboxSetup();
+    }
+    // Deliberately NOT wired for 'confirm' modals — an accidental Enter shouldn't
+    // trigger a destructive action like deleting a certificate.
+  }
+}
+document.addEventListener('keydown', handleGlobalKeydown);
+
+function closeModal(){
+  const m = state.modal;
+  if(!m) return;
+  captureModalDraft();   // so "Keep editing" on the discard prompt brings back exactly what was typed
+
+  // A "discard-changes?" confirm (or similar) can define its own Cancel behavior
+  // instead of a blanket close — e.g. returning to the form it interrupted.
+  if(m.type === 'confirm' && m.onCancel){
+    m.onCancel();
+    return;
+  }
+
+  const formTypes = ['certForm', 'trainingCenterForm', 'fileUpload'];
+  if(modalDirty && formTypes.includes(m.type)){
+    const formModal = m;
+    state.modal = {
+      type: 'confirm', title: 'Discard changes?', danger: true, confirmLabel: 'Discard',
+      message: "You've entered information that hasn't been saved yet. If you leave now, it will be lost.",
+      onConfirm: () => { modalDirty = false; state.modal = null; render(); },
+      onCancel: () => { state.modal = formModal; render(); }
+    };
+    render();
+    return;
+  }
+
+  if(m.type === 'pdfPreview' && m.url){
+    URL.revokeObjectURL(m.url);
+  }
+  modalDirty = false;
+  state.modal = null;
+  render();
+}
+
+function openResetConfirm(){
+  state.modal = {
+    type:'confirm', title:'Reset registry?', danger:true, confirmLabel:'Erase everything',
+    message:'This permanently deletes all certificates, files, training center details, and your profile from this device. This cannot be undone — save a backup first if you might want this data again. (Your Dropbox connection is kept.)',
+    onConfirm: async () => {
+      try{
+        await replaceAllData([]); // wipes every certificate record and PDF in one all-or-nothing step
+      }catch(err){
+        console.error('Reset failed', err);
+        showErrorModal("Couldn't reset", "Nothing was erased, because the reset didn't complete. Please try again.");
+        return;
+      }
+      state.certificates = [];
+      state.profile = {};
+      state.profileDraft = null;
+      state.modal = null;
+      state.screen = 'dashboard';
+      render();
+    }
+  };
+  render();
+}
+
+/* =========================================================
+   PROFILE
+========================================================= */
+async function openProfile(){
+  if(state.screen !== 'profile') previousScreen = state.screen;
+  state.screen = 'profile';
+  state.profileSaved = false;
+  state.profileDraft = null;
+  state.photoError = '';
+  state.profileError = '';
+  state.backupMessage = null;
+  state.storageCheck = null;
+  render();
+  await refreshBackupExtras();
+  if(state.screen === 'profile'){ refreshBackupUI(); refreshStoragePanel(); }
+  await maybeShrinkStoredPhoto();
+}
+function backFromProfile(){
+  state.profileDraft = null;
+  state.backupMessage = null;
+  state.screen = previousScreen;
+  render();
+}
+async function handleProfilePhotoChange(input){
+  const file = input.files && input.files[0];
+  input.value = ''; // lets the same photo be chosen again
+  if(!file) return;
+  if(!file.type.startsWith('image/')){
+    state.photoError = 'Please choose an image file.';
+    renderKeepingDraft();
+    return;
+  }
+  if(file.size > PHOTO_UPLOAD_LIMIT){
+    state.photoError = `That photo is very large (${formatBytes(file.size)}). Please choose one under about 25 MB.`;
+    renderKeepingDraft();
+    return;
+  }
+  let dataUrl;
+  try{ dataUrl = await smallPhotoFrom(file); }
+  catch(e){
+    console.error('Photo could not be read', e);
+    state.photoError = "The browser couldn't read that image. Please choose a JPG or PNG photo.";
+    renderKeepingDraft();
+    return;
+  }
+  try{
+    const candidate = {...(state.profile||{}), photo: dataUrl};
+    const ok = await saveProfile(candidate);
+    if(!ok){ throw new Error('save failed'); }
+    state.profile = candidate;
+    state.photoError = '';
+    state.profileSaved = true;
+    renderKeepingDraft();
+  }catch(err){
+    console.error('Profile photo save failed', err);
+    state.photoError = "That photo couldn't be saved. " + await saveFailureReason();
+    renderKeepingDraft();
+  }
+}
+async function removeProfilePhoto(){
+  const candidate = {...state.profile};
+  delete candidate.photo;
+  const ok = await saveProfile(candidate);
+  if(!ok){
+    showErrorModal("Couldn't save", "This didn't save. " + await saveFailureReason());
+    return;
+  }
+  state.profile = candidate;
+  renderKeepingDraft();
+}
+async function submitProfile(){
+  const typed = {
+    name: document.getElementById('pf_name').value.trim(),
+    surname: document.getElementById('pf_surname').value.trim(),
+    contact: document.getElementById('pf_contact').value.trim(),
+    email: document.getElementById('pf_email').value.trim(),
+    gender: document.getElementById('pf_gender').value,
+  };
+  state.profileError = '';
+  let profile = {...state.profile, ...typed};
+  profile = await ensureSmallPhoto(profile);   // an oversized stored photo is shrunk first, so this save stays small
+  const ok = await saveProfile(profile);
+  if(ok){
+    state.profile = profile;
+    state.profileDraft = null;
+    state.profileSaved = true;
+    state.profileError = '';
+    suppressDraftCapture = true;
+    try{ render(); } finally { suppressDraftCapture = false; }
+  } else {
+    // Keep what was typed so it can be retried, and don't pretend it was saved.
+    state.profileDraft = typed;
+    state.profileSaved = false;
+    state.profileError = "Your details weren't saved. " + await saveFailureReason();
+    render();
+  }
+}
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+function goDashboard(){
+  state.screen = 'dashboard';
+  state.activeCertId = null;
+  render();
+}
+function openDetail(id){
+  state.activeCertId = id;
+  state.screen = 'detail';
+  render();
+}
+
+/* =========================================================
+   CERTIFICATE CRUD
+========================================================= */
+function openAddCertModal(){
+  modalDirty = false;
+  state.modal = {type:'certForm', editingId:null, cert:{name:'',certNumber:'',issueDate:'',expirationDate:'',notifyDays:30,category:CATEGORIES[0],hasExpiration:true}, error:''};
+  render();
+}
+function openEditCertModal(id){
+  const c = state.certificates.find(x=>x.id===id);
+  if(!c) return;
+  modalDirty = false;
+  state.modal = {type:'certForm', editingId:id, cert:{name:c.name,certNumber:c.certNumber,issueDate:c.issueDate,expirationDate:c.expirationDate,notifyDays:c.notifyDays,category:categoryFor(c),hasExpiration:certHasExpiration(c)}, error:''};
+  render();
+}
+function setCertHasExpiration(val){
+  if(!state.modal || state.modal.type !== 'certForm') return;
+  captureModalDraft();                                   // keep everything typed so far
+  state.modal.cert = {...state.modal.cert, hasExpiration: val};
+  markDirty();
+  render();
+  const active = document.querySelector('.yn-btn.active');
+  if(active) active.focus();
+}
+async function submitCertForm(){
+  const modal = state.modal;
+  const category = document.getElementById('cf_category').value;
+  const name = document.getElementById('cf_name').value.trim();
+  const certNumber = document.getElementById('cf_number').value.trim();
+  const hasExpiration = modal.cert.hasExpiration !== false;
+  const issue = composeDate(readDateParts('cf_issue'));
+  const expiry = hasExpiration ? composeDate(readDateParts('cf_expiry')) : {status: 'empty', iso: ''};
+  const notifyEl = document.getElementById('cf_notify');
+  const notifyDays = hasExpiration ? (parseInt(notifyEl && notifyEl.value, 10) || 30) : null;
+
+  // Show the problem, keep everything that was typed, and put the cursor where it needs fixing.
+  const fail = (message, field) => { modal.error = message; modal.errorField = field; render(); focusFormField(field); };
+  if(!name) return fail('Certificate name is required.', 'cf_name');
+  if(issue.status === 'incomplete' || issue.status === 'invalid') return fail("The issue date isn't a valid date. Enter it as day, month and year, or leave it empty.", 'cf_issue');
+  if(hasExpiration){
+    if(expiry.status === 'empty') return fail('Expiration date is required, or choose "No" above if this document never expires.', 'cf_expiry');
+    if(expiry.status !== 'ok') return fail("The expiration date isn't a valid date. Enter it as day, month and year.", 'cf_expiry');
+    if(issue.status === 'ok' && expiry.iso < issue.iso) return fail('The expiration date is before the issue date. Please check both dates.', 'cf_expiry');
+  }
+  const issueDate = issue.iso;
+  const expirationDate = hasExpiration ? expiry.iso : '';
+
+  const editingId = modal.editingId;
+  // Build the candidate list first and only replace state.certificates once the
+  // save is confirmed, so a failed save never pretends to have worked.
+  const candidate = state.certificates.slice();
+  if(editingId){
+    const idx = candidate.findIndex(c=>c.id===editingId);
+    candidate[idx] = {
+      ...candidate[idx],
+      category, name, certNumber, issueDate, hasExpiration, expirationDate, notifyDays,
+      updatedAt: new Date().toISOString()
+    };
+  } else {
+    candidate.push({
+      id: uid(), category, name, certNumber, issueDate, hasExpiration, expirationDate, notifyDays,
+      currentFile: null, archive: [], trainingCenters: [],
+      createdAt: new Date().toISOString(), updatedAt: new Date().toISOString()
+    });
+  }
+
+  modal.error = ''; modal.errorField = '';
+  const ok = await saveCertificates(candidate);
+  if(!ok){
+    modal.error = "This didn't save. " + await saveFailureReason() + " Your entries are still in this form; try again.";
+    if(state.modal === modal) render();
+    return;
+  }
+  state.certificates = candidate;
+  modalDirty = false;
+  state.modal = null;
+  if(editingId){ state.screen='detail'; }
+  render();
+}
+
+function confirmDeleteCert(id){
+  const c = state.certificates.find(x=>x.id===id);
+  if(!c) return;
+  state.modal = {
+    type:'confirm', title:'Delete certificate?', danger:true, confirmLabel:'Delete',
+    message:`This permanently deletes "${c.name}", its uploaded file, archived history, and training center details.`,
+    onConfirm: async () => {
+      const candidate = state.certificates.filter(x=>x.id!==id);
+      const ok = await saveCertificates(candidate);
+      if(!ok){
+        showErrorModal("Couldn't delete", "This didn't save. " + await saveFailureReason());
+        return;
+      }
+      await deleteAllPdfKeysForCert(c);
+      state.certificates = candidate;
+      state.modal = null;
+      goDashboard();
+    }
+  };
+  render();
+}
+
+/* =========================================================
+   FILE UPLOAD / ARCHIVE
+========================================================= */
+function openReplaceFileModal(certId){
+  const c = state.certificates.find(x=>x.id===certId);
+  modalDirty = false;
+  state.modal = {type:'fileUpload', certId, hasExisting: !!(c && c.currentFile), error:'', busy:false};
+  render();
+}
+async function submitFileUpload(){
+  const input = document.getElementById('fileInput');
+  const file = input.files && input.files[0];
+  if(!file){ state.modal.error = 'Choose a PDF file first.'; render(); return; }
+  if(file.type !== 'application/pdf'){ state.modal.error = 'Only PDF files are supported.'; render(); return; }
+  if(file.size > 15 * 1024 * 1024){ state.modal.error = 'File is too large. Please keep it under about 15 MB.'; render(); return; }
+
+  const modal = state.modal;
+  modal.busy = true; modal.error = ''; render();
+
+  const certId = modal.certId;
+  const c = state.certificates.find(x => x.id === certId);
+  let archiveId = null, wroteCurrent = false, previousCurrent = null;
+  try{
+    const dataUrl = await fileToDataURL(file);
+    const fileRecord = {filename: file.name, data: dataUrl, uploadedDate: new Date().toISOString().slice(0,10)};
+
+    // 1. Archive the existing file first, and confirm that copy really saved.
+    let archiveEntry = null;
+    if(c.currentFile){
+      previousCurrent = await getCurrentPdf(certId);
+      if(previousCurrent){
+        const newArchiveId = uid();
+        const archived = await setArchivePdf(certId, newArchiveId, previousCurrent);
+        if(!archived) throw new Error('Could not archive the previous file.');
+        archiveId = newArchiveId;
+        archiveEntry = {
+          id: newArchiveId,
+          filename: c.currentFile.filename,
+          archivedDate: new Date().toISOString().slice(0,10),
+          expirationDate: c.expirationDate
+        };
+      }
+    }
+
+    // 2. Save the new file.
+    const saved = await setCurrentPdf(certId, fileRecord);
+    if(!saved) throw new Error('Could not save the new file.');
+    wroteCurrent = true;
+
+    // 3. Save the certificate record. The update is built on a COPY, and what's on screen only
+    //    changes once storage has confirmed it, so the screen can never get ahead of what's saved.
+    const updated = {
+      ...c,
+      archive: archiveEntry ? [...(c.archive || []), archiveEntry] : (c.archive || []),
+      currentFile: {filename: file.name, uploadedDate: fileRecord.uploadedDate},
+      updatedAt: new Date().toISOString()
+    };
+    const candidate = state.certificates.map(x => x.id === certId ? updated : x);
+    const metaSaved = await saveCertificates(candidate);
+    if(!metaSaved) throw new Error('Could not save the certificate record.');
+    state.certificates = candidate;
+    modalDirty = false;
+    state.modal = null;
+    render();
+  }catch(err){
+    console.error('File upload failed', err);
+    // Put storage back exactly as it was, so the stored files still match the certificate record.
+    try{
+      if(wroteCurrent){
+        const restored = previousCurrent ? await setCurrentPdf(certId, previousCurrent) : await deleteKeySafe(`pdf:${certId}:current`);
+        if(restored && archiveId) await deleteKeySafe(`pdf:${certId}:archive:${archiveId}`);
+      } else if(archiveId){
+        await deleteKeySafe(`pdf:${certId}:archive:${archiveId}`);
+      }
+    }catch(undoErr){ console.error('Could not undo a partial upload', undoErr); }
+    const message = 'The file could not be saved, so your certificate was left as it was. ' + await saveFailureReason();
+    if(state.modal === modal){ modal.busy = false; modal.error = message; render(); }
+    else { showErrorModal("Couldn't save the file", message); }
+  }
+}
+function showErrorModal(title, message){
+  state.modal = {type:'confirm', title, confirmLabel:'OK', message, onConfirm: ()=>{ state.modal=null; render(); }};
+  render();
+}
+function showFileError(message){
+  showErrorModal("Couldn't open file", message);
+}
+function openPdfPreview(rec){
+  if(!rec){ showFileError('No file was found for this certificate.'); return; }
+  try{
+    const blob = dataURLToBlob(rec.data, 'application/pdf');
+    if(!blob.size){ throw new Error('empty blob'); }
+    const url = URL.createObjectURL(blob);
+    state.modal = {type:'pdfPreview', url, filename: rec.filename, dataUrl: rec.data};
+    render();
+  }catch(err){
+    console.error('PDF preview failed', err);
+    showFileError('This file could not be opened for preview. Try downloading it instead.');
+  }
+}
+function downloadOpenPdfPreview(){
+  const m = state.modal;
+  if(m && m.dataUrl) downloadDataUrl(m.dataUrl, m.filename);
+}
+function openPdfPreviewInNewTab(){
+  const m = state.modal;
+  if(!m || !m.url) return;
+  const win = window.open(m.url, '_blank');
+  if(!win){
+    state.modal.error = "Your browser blocked the new tab. Try Download instead, or allow pop-ups for this page.";
+    render();
+  }
+}
+async function viewCurrentFile(certId){
+  const rec = await getCurrentPdf(certId);
+  openPdfPreview(rec);
+}
+async function viewArchiveFile(certId, archiveId){
+  const rec = await getArchivePdf(certId, archiveId);
+  openPdfPreview(rec);
+}
+async function downloadCurrentFile(certId){
+  const rec = await getCurrentPdf(certId);
+  if(rec) downloadDataUrl(rec.data, rec.filename);
+  else showFileError('No file was found for this certificate.');
+}
+async function downloadArchiveFile(certId, archiveId){
+  const rec = await getArchivePdf(certId, archiveId);
+  if(rec) downloadDataUrl(rec.data, rec.filename);
+  else showFileError('No file was found in the archive.');
+}
+
+/* =========================================================
+   TRAINING CENTERS
+========================================================= */
+function openTrainingCenterModal(certId, centerId){
+  const c = state.certificates.find(x=>x.id===certId);
+  const center = centerId ? c.trainingCenters.find(t=>t.id===centerId) : null;
+  modalDirty = false;
+  state.modal = {type:'trainingCenterForm', certId, editingId: centerId, center: center ? {...center} : null, error:''};
+  render();
+}
+async function submitTrainingCenter(){
+  const name = document.getElementById('tc_name').value.trim();
+  if(!name){ state.modal.error = 'Center name is required.'; render(); return; }
+  const data = {
+    name,
+    contact: document.getElementById('tc_contact').value.trim(),
+    phone: document.getElementById('tc_phone').value.trim(),
+    email: document.getElementById('tc_email').value.trim(),
+    address: document.getElementById('tc_address').value.trim(),
+    notes: document.getElementById('tc_notes').value.trim(),
+  };
+  const certId = state.modal.certId;
+  const editingId = state.modal.editingId;
+
+  // Work on a deep-enough copy so a failed save doesn't leave state.certificates
+  // holding changes that were never actually persisted.
+  const candidate = state.certificates.map(c => c.id === certId ? {...c, trainingCenters: (c.trainingCenters||[]).slice()} : c);
+  const c = candidate.find(x=>x.id===certId);
+  if(editingId){
+    const idx = c.trainingCenters.findIndex(t=>t.id===editingId);
+    c.trainingCenters[idx] = {...c.trainingCenters[idx], ...data};
+  } else {
+    c.trainingCenters.push({id: uid(), ...data});
+  }
+
+  state.modal.error = '';
+  const ok = await saveCertificates(candidate);
+  if(!ok){
+    state.modal.error = "This didn't save. " + await saveFailureReason();
+    render();
+    return;
+  }
+  state.certificates = candidate;
+  modalDirty = false;
+  state.modal = null;
+  render();
+}
+async function deleteTrainingCenter(certId, centerId){
+  const candidate = state.certificates.map(c => c.id === certId ? {...c, trainingCenters: (c.trainingCenters||[]).filter(t=>t.id!==centerId)} : c);
+  const ok = await saveCertificates(candidate);
+  if(!ok){
+    showErrorModal("Couldn't delete", "This didn't save. " + await saveFailureReason());
+    return;
+  }
+  state.certificates = candidate;
+  render();
+}
+
+/* =========================================================
+   GENERIC CONFIRM
+========================================================= */
+async function confirmModalYes(){
+  const fn = state.modal.onConfirm;
+  if(fn) await fn();
+}
+
+/* =========================================================
+   BACKUP & RESTORE
+   A backup is ONE .json file holding the profile, every certificate's
+   details and every uploaded PDF (current + archived). It can be saved to
+   Dropbox or downloaded, and loaded back from Dropbox or from this Mac.
+========================================================= */
+const BACKUP_FORMAT = 'certificate-registry-backup';
+const BACKUP_VERSION = 2;
+const SAFE_ID = /^[A-Za-z0-9_-]{1,80}$/;
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+const PDF_DATA_PREFIX = 'data:application/pdf;base64,';
+const B64_BODY = /^[A-Za-z0-9+/]*={0,2}$/;
+const IMAGE_DATA_URL = /^data:image\/[a-zA-Z0-9.+-]+;base64,[A-Za-z0-9+/]*={0,2}$/;
+
+function formatBytes(n){
+  if(!(n >= 0)) return '';
+  if(n < 1024) return n + ' B';
+  if(n < 1024 * 1024) return Math.round(n / 1024) + ' KB';
+  return (n / (1024 * 1024)).toFixed(1) + ' MB';
+}
+function formatDateTime(iso){
+  const d = new Date(iso);
+  if(isNaN(d.getTime())) return '';
+  const p = n => String(n).padStart(2, '0');
+  return `${d.getDate()} ${MONTHS_SHORT[d.getMonth()]} ${d.getFullYear()}, ${p(d.getHours())}:${p(d.getMinutes())}`;   // 19 Oct 2026, 14:32
+}
+function plural(n, one, many){ return n + ' ' + (n === 1 ? one : (many || one + 's')); }
+function backupFileName(){
+  const d = new Date();
+  const p = n => String(n).padStart(2, '0');
+  return `Certificate-Registry-Backup_${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}_${p(d.getHours())}${p(d.getMinutes())}.json`;
+}
+function hasProfileData(p){
+  return !!p && ['name', 'surname', 'contact', 'email', 'gender', 'photo'].some(k => p[k]);
+}
+function isRegistryEmpty(){
+  return state.certificates.length === 0 && !hasProfileData(state.profile);
+}
+
+async function buildBackupPayload(){
+  const certificates = state.certificates;
+  const files = {};
+  let included = 0, missing = 0;
+  for(const c of certificates){
+    if(c.currentFile){
+      const rec = await getCurrentPdf(c.id);
+      if(rec && typeof rec.data === 'string'){ files[`pdf:${c.id}:current`] = rec; included++; } else { missing++; }
+    }
+    for(const a of (c.archive || [])){
+      const rec = await getArchivePdf(c.id, a.id);
+      if(rec && typeof rec.data === 'string'){ files[`pdf:${c.id}:archive:${a.id}`] = rec; included++; } else { missing++; }
+    }
+  }
+  const payload = {
+    format: BACKUP_FORMAT,
+    version: BACKUP_VERSION,
+    app: 'Certificate Registry',
+    exportedAt: new Date().toISOString(),
+    counts: {certificates: certificates.length, pdfFiles: included},
+    profile: state.profile || {},
+    certificates,
+    files,
+  };
+  return {payload, included, missing};
+}
+
+/* ---------- Validation: a backup is untrusted input, so rebuild every record
+   from known fields only. (Text limits below are deliberately huge: they exist only to
+   stop absurd input, and must never trim anything a person could really have typed.) IDs end up inside inline onclick handlers, so they
+   must be plain [A-Za-z0-9_-]; PDFs must really be PDF data URLs. ---------- */
+function cleanStr(v, max){ return typeof v === 'string' ? v.slice(0, max) : ''; }
+function cleanDate(v){ return (typeof v === 'string' && ISO_DATE.test(v)) ? v : ''; }
+function cleanIso(v){ return (typeof v === 'string' && v.length <= 40) ? v : ''; }
+function isPlainObject(v){ return !!v && typeof v === 'object' && !Array.isArray(v); }
+function cleanPdfRecord(rec){
+  if(!isPlainObject(rec)) return null;
+  if(typeof rec.data !== 'string' || !rec.data.startsWith(PDF_DATA_PREFIX)) return null;
+  if(!B64_BODY.test(rec.data.slice(PDF_DATA_PREFIX.length))) return null;
+  return {filename: cleanStr(rec.filename, 255) || 'certificate.pdf', data: rec.data, uploadedDate: cleanDate(rec.uploadedDate)};
+}
+function sanitizeCert(c){
+  if(!isPlainObject(c) || typeof c.id !== 'string' || !SAFE_ID.test(c.id)) return null;
+  const expirationDate = cleanDate(c.expirationDate);
+  let hasExp = c.hasExpiration !== false;
+  if(hasExp && !expirationDate) hasExp = false; // an expiring document needs a valid date to be trackable
+  const n = Number(c.notifyDays);
+  return {
+    id: c.id,
+    category: CATEGORIES.includes(c.category) ? c.category : 'Other Yacht Documents',
+    name: cleanStr(c.name, 1000).trim() || 'Untitled certificate',
+    certNumber: cleanStr(c.certNumber, 1000),
+    issueDate: cleanDate(c.issueDate),
+    hasExpiration: hasExp,
+    expirationDate: hasExp ? expirationDate : '',
+    notifyDays: hasExp ? (Number.isFinite(n) ? Math.min(365, Math.max(1, Math.round(n))) : 30) : null,
+    currentFile: null,
+    archive: [],
+    trainingCenters: [],
+    createdAt: cleanIso(c.createdAt),
+    updatedAt: cleanIso(c.updatedAt),
+  };
+}
+function sanitizeProfile(rp){
+  const p = isPlainObject(rp) ? rp : {};
+  const out = {
+    name: cleanStr(p.name, 1000),
+    surname: cleanStr(p.surname, 1000),
+    contact: cleanStr(p.contact, 500),
+    email: cleanStr(p.email, 1000),
+    gender: ['Female', 'Male', 'Other'].includes(p.gender) ? p.gender : '',
+  };
+  if(typeof p.photo === 'string' && p.photo.length < 9 * 1024 * 1024 && IMAGE_DATA_URL.test(p.photo)) out.photo = p.photo;
+  return out;
+}
+function validateBackup(obj){
+  const notBackup = {ok: false, error: "That file isn't a Certificate Registry backup."};
+  if(!isPlainObject(obj)) return notBackup;
+  if(obj.format !== undefined && obj.format !== BACKUP_FORMAT) return notBackup;
+  if(!Array.isArray(obj.certificates)) return {ok: false, error: "That file doesn't contain any certificate data, so it can't be a Certificate Registry backup."};
+  if(typeof obj.version === 'number' && obj.version > BACKUP_VERSION) return {ok: false, error: 'That backup was made by a newer version of this app. Update the app to the latest version first, then try again.'};
+  if(obj.certificates.length > 2000) return {ok: false, error: 'That file has far too many certificates to be a genuine backup.'};
+
+  const files = isPlainObject(obj.files) ? obj.files : {};
+  const seen = new Set();
+  const certificates = [];
+  const pdfRecords = {};
+  let missingPdfs = 0, skipped = 0;
+
+  for(const raw of obj.certificates){
+    const cert = sanitizeCert(raw);
+    if(!cert || seen.has(cert.id)){ skipped++; continue; }
+    seen.add(cert.id);
+
+    if(isPlainObject(raw.currentFile)){
+      const key = `pdf:${cert.id}:current`;
+      const rec = cleanPdfRecord(files[key]);
+      if(rec){
+        pdfRecords[key] = rec;
+        cert.currentFile = {filename: rec.filename, uploadedDate: rec.uploadedDate};
+      } else { missingPdfs++; }
+    }
+    if(Array.isArray(raw.archive)){
+      for(const a of raw.archive){
+        if(!isPlainObject(a) || typeof a.id !== 'string' || !SAFE_ID.test(a.id)) continue;
+        const key = `pdf:${cert.id}:archive:${a.id}`;
+        const rec = cleanPdfRecord(files[key]);
+        if(!rec){ missingPdfs++; continue; }
+        pdfRecords[key] = rec;
+        cert.archive.push({id: a.id, filename: cleanStr(a.filename, 255) || rec.filename, archivedDate: cleanDate(a.archivedDate), expirationDate: cleanDate(a.expirationDate)});
+      }
+    }
+    if(Array.isArray(raw.trainingCenters)){
+      for(const t of raw.trainingCenters){
+        if(!isPlainObject(t) || typeof t.id !== 'string' || !SAFE_ID.test(t.id)) continue;
+        cert.trainingCenters.push({
+          id: t.id,
+          name: cleanStr(t.name, 1000) || 'Training center',
+          contact: cleanStr(t.contact, 1000),
+          phone: cleanStr(t.phone, 500),
+          email: cleanStr(t.email, 1000),
+          address: cleanStr(t.address, 5000),
+          notes: cleanStr(t.notes, 100000),
+        });
+      }
+    }
+    certificates.push(cert);
+  }
+
+  const profile = sanitizeProfile(obj.profile);
+  return {
+    ok: true,
+    data: {certificates, profile, pdfRecords},
+    info: {
+      exportedAt: cleanIso(obj.exportedAt),
+      certCount: certificates.length,
+      pdfCount: Object.keys(pdfRecords).length,
+      missingPdfs, skipped,
+      hasProfile: hasProfileData(profile),
+      legacy: obj.format === undefined,
+    },
+  };
+}
+function parseBackupText(text){
+  let obj;
+  try{ obj = JSON.parse(text); }
+  catch(e){ return {ok: false, error: "That file couldn't be read — it isn't a valid backup file."}; }
+  return validateBackup(obj);
+}
+function buildRestoreEntries(data){
+  const entries = [
+    {key: 'certificates', value: JSON.stringify(data.certificates)},
+    {key: 'profile', value: JSON.stringify(data.profile)},
+  ];
+  for(const [key, rec] of Object.entries(data.pdfRecords)) entries.push({key, value: JSON.stringify(rec)});
+  return entries;
+}
+
+/* ---------- Draft-safe re-rendering for the Profile screen ---------- */
+function captureProfileDraft(){
+  const nameEl = document.getElementById('pf_name');
+  if(!nameEl) return;
+  const val = id => { const el = document.getElementById(id); return el ? el.value : ''; };
+  state.profileDraft = {name: nameEl.value, surname: val('pf_surname'), contact: val('pf_contact'), email: val('pf_email'), gender: val('pf_gender')};
+}
+function renderKeepingDraft(){ captureProfileDraft(); render(); }
+function refreshBackupUI(){
+  const el = document.getElementById('backupPanelBody');
+  if(el && state.screen === 'profile' && !state.modal){ el.innerHTML = renderBackupPanelBody(); }
+  else { renderKeepingDraft(); }
+}
+function setBackupBusy(text){ state.backupBusy = text; refreshBackupUI(); }
+function setBackupMessage(type, text){
+  state.backupMessage = text ? {type, text} : null;
+  state.backupBusy = '';
+  refreshBackupUI();
+}
+async function recordBackup(where, filename, counts){
+  state.lastBackup = {at: new Date().toISOString(), where, filename, certificates: counts.certificates, pdfFiles: counts.pdfFiles};
+  await setJSON('__last_backup', state.lastBackup);
+}
+async function refreshBackupExtras(){
+  state.lastBackup = await getJSON('__last_backup', null);
+  const auth = await getJSON('__dbx_auth', null);
+  const savedKey = await getJSON('__dbx_appkey', '');
+  state.dropbox = {
+    connected: !!(auth && (auth.accessToken || auth.refreshToken)),
+    appKey: (typeof savedKey === 'string' && savedKey) || (auth && auth.appKey) || '',
+  };
+  state.storageInfo = await storageEstimate();
+  state.dbInfo = dbInfo;
+}
+
+/* ---------- Save: download to this Mac ---------- */
+async function exportBackup(){
+  if(state.backupBusy) return;
+  if(isRegistryEmpty()){ setBackupMessage('error', 'There is nothing to back up yet — add a certificate or fill in your profile first.'); return; }
+  state.backupMessage = null;
+  setBackupBusy('Preparing backup…');
+  try{
+    const {payload, included, missing} = await buildBackupPayload();
+    const filename = backupFileName();
+    const text = JSON.stringify(payload);
+    const skipped = missing ? ` ${plural(missing, 'PDF file')} could not be read and ${missing === 1 ? 'is' : 'are'} not included.` : '';
+    if(USE_SHARE_SHEET){
+      state.backupBusy = '';
+      offerFileToShare(new Blob([text], {type: 'application/json'}), filename, {
+        title: 'Your backup is ready',
+        note: `${filename}: ${plural(payload.counts.certificates, 'certificate')} and ${plural(included, 'PDF file')} (${(text.length / 1048576).toFixed(1)} MB). Tap Save to Files, then choose a place such as iCloud Drive or On My ${DEVICE_NAME}.${skipped}`,
+        onDone: async () => {
+          await recordBackup('saved to Files', filename, payload.counts);
+          setBackupMessage('ok', `Backup saved as ${filename} with ${plural(payload.counts.certificates, 'certificate')} and ${plural(included, 'PDF file')}.${skipped}`);
+        }
+      });
+      return;
+    }
+    downloadTextFile(text, filename, 'application/json');
+    await recordBackup('downloaded to this Mac', filename, payload.counts);
+    setBackupMessage('ok',
+      `Backup downloaded as ${filename} with ${plural(payload.counts.certificates, 'certificate')} and ${plural(included, 'PDF file')}. ` +
+      `Chrome saved it to your usual downloads location — drag it into your Dropbox folder if you want a copy there.` + skipped);
+  }catch(err){
+    console.error('Backup failed', err);
+    setBackupMessage('error', "The backup couldn't be created. Please try again.");
+  }
+}
+
+/* ---------- Load: from this Mac ---------- */
+function chooseRestoreFile(){
+  if(state.backupBusy) return;
+  const input = document.getElementById('restoreFileInput');
+  if(input) input.click();
+}
+async function handleRestoreFileChosen(input){
+  const file = input && input.files && input.files[0];
+  if(input) input.value = ''; // lets the same file be chosen again later
+  if(!file) return;
+  if(file.size > 400 * 1024 * 1024){ showErrorModal("Can't load this file", 'That file is far too large to be a backup.'); return; }
+  state.backupMessage = null;
+  setBackupBusy('Reading backup file…');
+  let text;
+  try{ text = await file.text(); }
+  catch(e){
+    state.backupBusy = '';
+    refreshBackupUI();
+    showErrorModal("Can't read this file", 'The file could not be read. Please try again.');
+    return;
+  }
+  state.backupBusy = '';
+  refreshBackupUI();
+  prepareRestore(text, `${IS_IOS ? 'Files' : 'this Mac'} (${file.name})`);
+}
+
+/* ---------- Restore (shared by "from this Mac" and "from Dropbox") ---------- */
+function prepareRestore(text, sourceLabel){
+  const result = parseBackupText(text);
+  if(!result.ok){ showErrorModal("Can't load this backup", result.error); return; }
+  const info = result.info;
+  const when = info.exportedAt ? formatDateTime(info.exportedAt) : 'an unknown date';
+  let msg = `From ${sourceLabel}: a backup saved ${when} with ${plural(info.certCount, 'certificate')}, ${plural(info.pdfCount, 'PDF file')}${info.hasProfile ? ' and a profile' : ''}. ` +
+            `Loading it replaces everything currently in the app (${plural(state.certificates.length, 'certificate')}). `;
+  if(info.legacy) msg += 'This is an older-style backup that has no PDF files in it, so certificates will come back without their PDFs. ';
+  else if(info.missingPdfs) msg += `${plural(info.missingPdfs, 'PDF file')} listed in this backup are missing from it and will not be restored. `;
+  if(info.skipped) msg += `${info.skipped} damaged certificate entr${info.skipped === 1 ? 'y' : 'ies'} will be skipped. `;
+  msg += "This can't be undone — if you're not sure, cancel and save a backup of your current data first.";
+  state.modal = {
+    type: 'confirm', title: 'Replace your data with this backup?', danger: true, confirmLabel: 'Replace my data',
+    message: msg,
+    onConfirm: () => applyRestore(result.data, sourceLabel, info),
+  };
+  render();
+}
+async function applyRestore(data, sourceLabel, info){
+  state.modal = null;
+  state.backupMessage = null;
+  state.backupBusy = 'Restoring your data…';
+  renderKeepingDraft();
+  let restored = false;
+  try{
+    await replaceAllData(buildRestoreEntries(data));
+    state.certificates = data.certificates;
+    state.profile = data.profile;
+    state.profileDraft = null;
+    state.activeCertId = null;
+    previousScreen = 'dashboard';
+    state.search = '';
+    state.categoryFilter = 'all';
+    restored = true;
+    state.backupBusy = '';
+    state.backupMessage = {type: 'ok', text: `Restored ${plural(info.certCount, 'certificate')} and ${plural(info.pdfCount, 'PDF file')} from ${sourceLabel}.`};
+  }catch(err){
+    console.error('Restore failed', err);
+    state.backupBusy = '';
+    state.backupMessage = {type: 'error', text: "The restore didn't complete, and your existing data was left exactly as it was. Please try again."};
+  }
+  suppressDraftCapture = restored;   // after a successful restore the form must show the RESTORED profile
+  try{ render(); } finally { suppressDraftCapture = false; }
+}
+
+
+/* =========================================================
+   DROPBOX — direct connection through Dropbox's own web API.
+   Why not just write into the Dropbox folder on the Mac? Chrome refuses web
+   pages access to anything under ~/Library, which is exactly where current
+   Dropbox versions keep their folder (~/Library/CloudStorage/Dropbox).
+   Uses OAuth with PKCE, so no secret is ever stored; the app only receives
+   access to its own folder in Dropbox (when the Dropbox app is created as
+   an "App folder" app, as the setup steps instruct).
+========================================================= */
+const DBX_AUTH_URL = 'https://www.dropbox.com/oauth2/authorize';
+const DBX_TOKEN_URL = 'https://api.dropboxapi.com/oauth2/token';
+const DBX_RPC = 'https://api.dropboxapi.com/2/';
+const DBX_CONTENT = 'https://content.dropboxapi.com/2/';
+const DBX_FOLDER = '/Certificate Registry Backups';
+const DBX_MAX_UPLOAD = 140 * 1024 * 1024; // Dropbox's single-request upload limit is 150 MB
+const DBX_NETWORK_MSG = "Couldn't reach Dropbox. Check your internet connection and try again.";
+
+class DropboxError extends Error{
+  constructor(kind, message){ super(message); this.kind = kind; }
+}
+
+function base64Url(bytes){
+  let s = '';
+  for(let i = 0; i < bytes.length; i++) s += String.fromCharCode(bytes[i]);
+  return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+function randomToken(byteLen){
+  const a = new Uint8Array(byteLen);
+  crypto.getRandomValues(a);
+  return base64Url(a);
+}
+async function pkceChallenge(verifier){
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(verifier));
+  return base64Url(new Uint8Array(digest));
+}
+function currentRedirectUri(){ return window.location.origin + window.location.pathname; }
+function dropboxHeaderJson(obj){
+  // Dropbox-API-Arg travels in an HTTP header, so non-ASCII characters must be \u-escaped.
+  return JSON.stringify(obj).replace(/[\u007f-\uffff]/g, c => '\\u' + ('0000' + c.charCodeAt(0).toString(16)).slice(-4));
+}
+
+/* ---------- Connecting ---------- */
+async function startDropboxConnect(appKey){
+  const verifier = randomToken(64); // 86 characters, inside PKCE's 43–128 limit
+  const challenge = await pkceChallenge(verifier);
+  const stateToken = randomToken(24);
+  const redirectUri = currentRedirectUri();
+  const saved = await setJSON('__dbx_pending', {verifier, state: stateToken, appKey, redirectUri, startedAt: Date.now()});
+  if(!saved) throw new Error('Could not save the sign-in details.');
+  await setJSON('__dbx_appkey', appKey);
+  const params = new URLSearchParams({
+    client_id: appKey,
+    response_type: 'code',
+    code_challenge: challenge,
+    code_challenge_method: 'S256',
+    redirect_uri: redirectUri,
+    token_access_type: 'offline',
+    state: stateToken,
+  });
+  window.location.href = DBX_AUTH_URL + '?' + params.toString();
+}
+
+// Runs once at startup: if Dropbox just sent the user back with ?code=..., finish the sign-in.
+async function handleDropboxRedirect(){
+  const params = new URLSearchParams(window.location.search || '');
+  if(!params.has('code') && !params.has('error')) return null;
+  const code = params.get('code');
+  const stateParam = params.get('state');
+  const errParam = params.get('error');
+  const errDesc = params.get('error_description');
+  try{ window.history.replaceState(null, '', window.location.pathname); }catch(e){ /* cosmetic only */ }
+
+  const pending = await getJSON('__dbx_pending', null);
+  await deleteKeySafe('__dbx_pending');
+
+  if(errParam){
+    return {ok: false, message: errParam === 'access_denied'
+      ? 'Dropbox access was not approved, so nothing was connected.'
+      : `Dropbox sign-in failed${errDesc ? ': ' + errDesc : '.'}`};
+  }
+  if(!pending || !stateParam || pending.state !== stateParam){
+    return {ok: false, message: 'That Dropbox sign-in could not be verified (it may have timed out). Click Connect Dropbox and try again.'};
+  }
+  try{
+    const res = await fetch(DBX_TOKEN_URL, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: new URLSearchParams({
+        code, grant_type: 'authorization_code', client_id: pending.appKey,
+        redirect_uri: pending.redirectUri, code_verifier: pending.verifier,
+      }).toString(),
+    });
+    const data = await res.json().catch(() => ({}));
+    if(!res.ok || !data.access_token){
+      return {ok: false, message: "Dropbox didn't accept the connection" + (data.error_description ? `: ${data.error_description}` : '.') + ' Check the App key and Redirect URI in your Dropbox app, then try again.'};
+    }
+    const saved = await setJSON('__dbx_auth', {
+      appKey: pending.appKey,
+      accessToken: data.access_token,
+      refreshToken: data.refresh_token || null,
+      expiresAt: Date.now() + (Number(data.expires_in) || 14400) * 1000 - 60000,
+    });
+    if(!saved) return {ok: false, message: "Connected to Dropbox, but the connection couldn't be saved on this computer. Please try again."};
+    return {ok: true};
+  }catch(e){
+    return {ok: false, message: "Couldn't reach Dropbox to finish connecting. Check your internet connection and try again."};
+  }
+}
+
+function openDropboxSetupModal(){
+  captureProfileDraft();
+  state.modal = {type: 'dropboxSetup', appKey: (state.dropbox && state.dropbox.appKey) || '', error: ''};
+  render();
+}
+async function submitDropboxSetup(){
+  const el = document.getElementById('dbx_appkey');
+  const key = el ? el.value.trim() : '';
+  if(!/^[A-Za-z0-9]{8,32}$/.test(key)){
+    state.modal.error = "Paste the App key from your Dropbox app's Settings tab — a short run of letters and numbers.";
+    render();
+    return;
+  }
+  try{ await startDropboxConnect(key); }
+  catch(e){
+    console.error('Dropbox connect failed to start', e);
+    if(state.modal && state.modal.type === 'dropboxSetup'){ state.modal.error = "Couldn't start the Dropbox sign-in. Please try again."; render(); }
+  }
+}
+async function connectDropboxWithSavedKey(){
+  const key = state.dropbox && state.dropbox.appKey;
+  if(!key){ openDropboxSetupModal(); return; }
+  try{ await startDropboxConnect(key); }
+  catch(e){ console.error(e); setBackupMessage('error', "Couldn't start the Dropbox sign-in. Please try again."); }
+}
+function copyRedirectUri(){
+  const uri = currentRedirectUri();
+  const selectIt = () => { const el = document.getElementById('dbx_redirect'); if(el){ el.focus(); el.select(); } };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(uri).then(() => {
+      const b = document.getElementById('dbx_copy_btn');
+      if(b) b.textContent = 'Copied';
+    }, selectIt);
+  } else { selectIt(); }
+}
+async function disconnectDropbox(){
+  if(state.backupBusy) return;
+  const auth = await getJSON('__dbx_auth', null);
+  await deleteKeySafe('__dbx_auth');
+  state.dropbox = {connected: false, appKey: (state.dropbox && state.dropbox.appKey) || ''};
+  if(auth && auth.accessToken){
+    // Best effort: also tell Dropbox to invalidate the token. Failure here doesn't matter.
+    try{ await fetch(DBX_RPC + 'auth/token/revoke', {method: 'POST', headers: {'Authorization': 'Bearer ' + auth.accessToken}}); }catch(e){ /* ignore */ }
+  }
+  setBackupMessage('ok', 'Dropbox disconnected. Your backups already in Dropbox are untouched.');
+}
+
+/* ---------- Tokens & requests ---------- */
+async function dropboxForgetAuth(){
+  await deleteKeySafe('__dbx_auth');
+  state.dropbox = {connected: false, appKey: (state.dropbox && state.dropbox.appKey) || ''};
+}
+async function refreshDropboxToken(){
+  const auth = await getJSON('__dbx_auth', null);
+  if(!auth || !auth.refreshToken){
+    await dropboxForgetAuth();
+    throw new DropboxError('expired', 'Your Dropbox connection has expired. Click Connect Dropbox to sign in again.');
+  }
+  let res;
+  try{
+    res = await fetch(DBX_TOKEN_URL, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: new URLSearchParams({grant_type: 'refresh_token', refresh_token: auth.refreshToken, client_id: auth.appKey}).toString(),
+    });
+  }catch(e){ throw new DropboxError('network', DBX_NETWORK_MSG); }
+  const data = await res.json().catch(() => ({}));
+  if(!res.ok || !data.access_token){
+    if(res.status === 400 || res.status === 401){
+      await dropboxForgetAuth();
+      throw new DropboxError('expired', 'Your Dropbox connection has expired or was removed. Click Connect Dropbox to sign in again.');
+    }
+    throw new DropboxError('api', 'Dropbox could not renew the connection right now. Please try again in a moment.');
+  }
+  auth.accessToken = data.access_token;
+  auth.expiresAt = Date.now() + (Number(data.expires_in) || 14400) * 1000 - 60000;
+  await setJSON('__dbx_auth', auth);
+  return auth.accessToken;
+}
+async function getDropboxAccessToken(){
+  const auth = await getJSON('__dbx_auth', null);
+  if(!auth) throw new DropboxError('not-connected', 'Dropbox is not connected yet.');
+  if(auth.accessToken && Date.now() < auth.expiresAt) return auth.accessToken;
+  return await refreshDropboxToken();
+}
+async function dropboxErrorFrom(res){
+  let text = '', body = null;
+  try{ text = await res.text(); body = JSON.parse(text); }catch(_){ /* not JSON */ }
+  const summary = (body && typeof body.error_summary === 'string') ? body.error_summary : '';
+  const tag = (body && isPlainObject(body.error)) ? body.error['.tag'] : '';
+  if(res.status === 401){
+    if(tag === 'missing_scope' || /missing_scope/.test(summary)){
+      return new DropboxError('missing-scope', "Your Dropbox app doesn't have the right permissions. In the Dropbox App Console, open your app's Permissions tab, tick files.content.write and files.content.read, click Submit, then Disconnect and Connect Dropbox again here.");
+    }
+    return new DropboxError('expired', 'Your Dropbox connection has expired. Click Connect Dropbox to sign in again.');
+  }
+  if(res.status === 429) return new DropboxError('rate-limit', 'Dropbox is asking us to slow down. Wait a minute and try again.');
+  if(res.status === 409){
+    if(/not_found/.test(summary)) return new DropboxError('not-found', 'That file or folder was not found in Dropbox.');
+    if(/insufficient_space/.test(summary)) return new DropboxError('insufficient-space', 'Your Dropbox is full, so the backup could not be saved.');
+    return new DropboxError('api', 'Dropbox could not complete that (' + (summary || 'unknown reason') + ').');
+  }
+  return new DropboxError('api', `Dropbox returned an error (${res.status}).` + (!body && text ? ' ' + text.slice(0, 160) : ''));
+}
+async function dropboxRequest(url, makeInit, allowRetry = true){
+  const token = await getDropboxAccessToken();
+  let res;
+  try{ res = await fetch(url, makeInit(token)); }
+  catch(e){ throw new DropboxError('network', DBX_NETWORK_MSG); }
+  if(res.ok) return res;
+  const err = await dropboxErrorFrom(res);
+  if(err.kind === 'expired'){
+    if(allowRetry){
+      await refreshDropboxToken();             // throws 'expired' itself if it can't renew
+      return dropboxRequest(url, makeInit, false);
+    }
+    await dropboxForgetAuth();
+  }
+  throw err;
+}
+
+/* ---------- Upload / list / download ---------- */
+async function dropboxUpload(filename, blob){
+  if(blob.size > DBX_MAX_UPLOAD) throw new DropboxError('too-large', 'This backup is bigger than Dropbox allows in one upload. Use "Download to this Mac" instead.');
+  const arg = {path: `${DBX_FOLDER}/${filename}`, mode: 'add', autorename: true, mute: true};
+  const res = await dropboxRequest(DBX_CONTENT + 'files/upload', token => ({
+    method: 'POST',
+    headers: {'Authorization': 'Bearer ' + token, 'Content-Type': 'application/octet-stream', 'Dropbox-API-Arg': dropboxHeaderJson(arg)},
+    body: blob,
+  }));
+  return await res.json();
+}
+async function dropboxListBackups(){
+  const rpc = body => token => ({
+    method: 'POST',
+    headers: {'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json'},
+    body: JSON.stringify(body),
+  });
+  let data;
+  try{
+    const res = await dropboxRequest(DBX_RPC + 'files/list_folder', rpc({path: DBX_FOLDER, limit: 500}));
+    data = await res.json();
+  }catch(err){
+    if(err instanceof DropboxError && err.kind === 'not-found') return []; // no backups saved yet
+    throw err;
+  }
+  let entries = data.entries || [];
+  let guard = 0;
+  while(data.has_more && guard++ < 20){
+    const res = await dropboxRequest(DBX_RPC + 'files/list_folder/continue', rpc({cursor: data.cursor}));
+    data = await res.json();
+    entries = entries.concat(data.entries || []);
+  }
+  return entries
+    .filter(e => e['.tag'] === 'file' && /\.json$/i.test(e.name))
+    .sort((a, b) => String(b.server_modified).localeCompare(String(a.server_modified)))
+    .slice(0, 50);
+}
+async function dropboxDownloadText(path){
+  const res = await dropboxRequest(DBX_CONTENT + 'files/download', token => ({
+    method: 'POST',
+    headers: {'Authorization': 'Bearer ' + token, 'Dropbox-API-Arg': dropboxHeaderJson({path})},
+  }));
+  return await res.text();
+}
+
+/* ---------- Actions behind the buttons ---------- */
+function describeDropboxFailure(err){
+  return err instanceof DropboxError ? err.message : "Something went wrong talking to Dropbox. Please try again.";
+}
+async function saveBackupToDropbox(){
+  if(state.backupBusy) return;
+  if(!state.dropbox.connected){ openDropboxSetupModal(); return; }
+  if(isRegistryEmpty()){ setBackupMessage('error', 'There is nothing to back up yet — add a certificate or fill in your profile first.'); return; }
+  state.backupMessage = null;
+  setBackupBusy('Preparing backup…');
+  try{
+    const {payload, included, missing} = await buildBackupPayload();
+    const blob = new Blob([JSON.stringify(payload)], {type: 'application/octet-stream'});
+    setBackupBusy(`Uploading ${formatBytes(blob.size)} to Dropbox…`);
+    const meta = await dropboxUpload(backupFileName(), blob);
+    if(meta && typeof meta.size === 'number' && meta.size !== blob.size){
+      throw new DropboxError('api', 'Dropbox received a different amount of data than was sent, so the backup may be incomplete. Please try again.');
+    }
+    const savedName = (meta && meta.name) || backupFileName();
+    await recordBackup('Dropbox', savedName, payload.counts);
+    setBackupMessage('ok',
+      `Saved to Dropbox as ${savedName} with ${plural(payload.counts.certificates, 'certificate')} and ${plural(included, 'PDF file')} (${formatBytes(blob.size)}).` +
+      (missing ? ` ${plural(missing, 'PDF file')} could not be read and ${missing === 1 ? 'is' : 'are'} not included.` : ''));
+  }catch(err){
+    console.error('Dropbox save failed', err);
+    setBackupMessage('error', describeDropboxFailure(err));
+  }
+}
+async function openDropboxRestoreList(){
+  if(state.backupBusy) return;
+  if(!state.dropbox.connected){ openDropboxSetupModal(); return; }
+  captureProfileDraft();
+  const modal = {type: 'dropboxList', loading: true, items: [], error: '', downloading: false};
+  state.modal = modal;
+  render();
+  try{
+    const items = await dropboxListBackups();
+    if(state.modal !== modal) return; // user closed it meanwhile
+    modal.items = items;
+    modal.loading = false;
+    render();
+  }catch(err){
+    console.error('Dropbox list failed', err);
+    if(state.modal !== modal) return;
+    modal.loading = false;
+    modal.error = describeDropboxFailure(err);
+    render();
+  }
+}
+async function restoreFromDropboxItem(index){
+  const modal = state.modal;
+  if(!modal || modal.type !== 'dropboxList' || modal.downloading) return;
+  const item = modal.items[index];
+  if(!item) return;
+  modal.downloading = true;
+  modal.error = '';
+  render();
+  try{
+    const text = await dropboxDownloadText(item.path_lower || item.path_display);
+    if(state.modal !== modal) return;
+    state.modal = null;
+    prepareRestore(text, `Dropbox (${item.name})`);
+  }catch(err){
+    console.error('Dropbox download failed', err);
+    if(state.modal !== modal) return;
+    modal.downloading = false;
+    modal.error = describeDropboxFailure(err);
+    render();
+  }
+}
+
+
+/* =========================================================
+   BACKUP UI
+========================================================= */
+function renderBackupPanelBody(){
+  if(IS_HOSTED && IS_IOS) return renderBackupPanelBodyIOS();
+  const busy = state.backupBusy;
+  const dis = busy ? 'disabled' : '';
+  const dbx = state.dropbox || {connected: false, appKey: ''};
+  const last = state.lastBackup;
+  const msg = state.backupMessage;
+
+  let connection;
+  if(dbx.connected){
+    connection = `
+      <div class="dbx-status"><span class="dot on"></span>Connected to Dropbox</div>
+      <p class="hint">Backups are saved in your Dropbox app folder, inside “Certificate Registry Backups”.</p>
+      <button class="btn btn-ghost btn-sm" ${dis} onclick="disconnectDropbox()">Disconnect</button>`;
+  } else if(dbx.appKey){
+    connection = `
+      <div class="dbx-status"><span class="dot"></span>Not connected</div>
+      <div class="btn-row">
+        <button class="btn btn-brass btn-sm" ${dis} onclick="connectDropboxWithSavedKey()">${ICONS.cloud} Connect Dropbox</button>
+        <button class="btn-link" ${dis} onclick="openDropboxSetupModal()">Use a different app key</button>
+      </div>`;
+  } else {
+    connection = `
+      <div class="dbx-status"><span class="dot"></span>Not connected</div>
+      <p class="hint">A one-time setup, about three minutes, lets this app save backups straight to your Dropbox and load them back.</p>
+      <button class="btn btn-brass btn-sm" ${dis} onclick="openDropboxSetupModal()">${ICONS.cloud} Set up Dropbox</button>`;
+  }
+
+  return `
+    ${last
+      ? `<p class="backup-last">Last backup: <strong>${esc(formatDateTime(last.at))}</strong>, ${esc(last.where)}.</p>`
+      : `<p class="backup-last">No backup saved yet. It's worth making one now.</p>`}
+    ${busy ? `<div class="backup-busy"><span class="spinner"></span>${esc(busy)}</div>` : ''}
+    ${msg ? `<div class="backup-msg ${msg.type === 'ok' ? 'ok' : 'error'}">${esc(msg.text)}</div>` : ''}
+
+    <div class="backup-group">
+      <h3>Save a backup</h3>
+      <div class="btn-row">
+        <button class="btn btn-brass btn-sm" ${dis} onclick="saveBackupToDropbox()">${ICONS.cloud} Save to Dropbox</button>
+        <button class="btn btn-ghost btn-sm" ${dis} onclick="exportBackup()">${ICONS.download} Download to this Mac</button>
+      </div>
+    </div>
+
+    <div class="backup-group">
+      <h3>Restore a backup</h3>
+      <div class="btn-row">
+        <button class="btn btn-ghost btn-sm" ${dis} onclick="openDropboxRestoreList()">${ICONS.cloud} Load from Dropbox</button>
+        <button class="btn btn-ghost btn-sm" ${dis} onclick="chooseRestoreFile()">${ICONS.upload} Load from this Mac…</button>
+        <input type="file" id="restoreFileInput" accept=".json,application/json" style="display:none;" onchange="handleRestoreFileChosen(this)">
+      </div>
+      <p class="hint">“Load from this Mac” can also pick a backup that sits in your Dropbox folder.</p>
+    </div>
+
+    <div class="backup-group">
+      <h3>Dropbox connection</h3>
+      ${connection}
+    </div>`;
+}
+
+function renderDropboxSetupModal(){
+  const m = state.modal;
+  return modalShell(`
+    <h2 class="modal-title">Connect Dropbox</h2>
+    <p class="modal-sub">A one-time setup, about three minutes. The app only gets access to its own folder in your Dropbox, nothing else.</p>
+    <ol class="setup-steps">
+      <li>Open <a href="https://www.dropbox.com/developers/apps" target="_blank" rel="noopener">dropbox.com/developers/apps</a> and click <strong>Create app</strong>.</li>
+      <li>Choose <strong>Scoped access</strong>, then <strong>App folder</strong>, and give it any name you like.</li>
+      <li>On the <strong>Permissions</strong> tab, tick <code>files.content.write</code> and <code>files.content.read</code>, then click <strong>Submit</strong>.</li>
+      <li>On the <strong>Settings</strong> tab, under <strong>Redirect URIs</strong>, add exactly this address and click <strong>Add</strong>:
+        <div class="copy-row">
+          <input class="input" id="dbx_redirect" readonly value="${esc(currentRedirectUri())}" onfocus="this.select()">
+          <button type="button" class="btn btn-ghost btn-sm" id="dbx_copy_btn" onclick="copyRedirectUri()">Copy</button>
+        </div>
+      </li>
+      <li>Copy the <strong>App key</strong> from that same Settings tab and paste it here:
+        <input class="input" id="dbx_appkey" placeholder="App key" autocomplete="off" spellcheck="false" value="${esc(m.appKey || '')}">
+      </li>
+    </ol>
+    ${m.error ? `<div class="error-text">${esc(m.error)}</div>` : ''}
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="submitDropboxSetup()">Connect Dropbox</button>
+    </div>
+  `, {wide: true});
+}
+
+function renderDropboxListModal(){
+  const m = state.modal;
+  let body;
+  if(m.loading){
+    body = `<div class="backup-busy"><span class="spinner"></span>Loading your backups from Dropbox…</div>`;
+  } else if(m.error){
+    body = `<div class="error-text">${esc(m.error)}</div>`;
+  } else if(!m.items.length){
+    body = `<p class="modal-sub">There are no backups in Dropbox yet. Use “Save to Dropbox” first.</p>`;
+  } else {
+    body = `<div class="dbx-list">${m.items.map((it, i) => `
+      <button class="dbx-item" ${m.downloading ? 'disabled' : ''} onclick="restoreFromDropboxItem(${i})">
+        <span class="dbx-name">${esc(it.name)}${i === 0 ? ' <span class="latest-tag">Latest</span>' : ''}</span>
+        <span class="dbx-meta"><span>${esc(formatDateTime(it.server_modified))}</span><span>${esc(formatBytes(it.size))}</span></span>
+      </button>`).join('')}</div>`;
+  }
+  return modalShell(`
+    <h2 class="modal-title">Load from Dropbox</h2>
+    <p class="modal-sub">Choose the backup you want to restore. You'll be asked to confirm before anything is replaced.</p>
+    ${m.downloading ? `<div class="backup-busy"><span class="spinner"></span>Downloading backup…</div>` : ''}
+    ${body}
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+    </div>
+  `);
+}
+
+
+/* =========================================================
+   STORAGE HEALTH & PHOTO SIZE
+   Saving "personal details" rewrites the WHOLE profile record. If that record
+   carries a full-size photo (several MB), the write can be refused when the
+   browser's storage allowance is tight, while tiny certificate records keep
+   saving. So photos are shrunk to avatar size, and every save failure now
+   says why instead of "something went wrong".
+========================================================= */
+const APP_VERSION = '2026-10-19e · iPhone 2026-11-04a';
+const PHOTO_MAX_SIDE = 512;
+const PHOTO_TARGET_MAX = 250 * 1024;          // a stored photo longer than this many characters gets shrunk
+const PHOTO_UPLOAD_LIMIT = 25 * 1024 * 1024;  // the ORIGINAL may be large; only the shrunk copy is stored
+
+async function storageEstimate(){
+  try{
+    if(navigator.storage && navigator.storage.estimate){
+      const e = await navigator.storage.estimate();
+      if(e && e.quota) return {usage: e.usage || 0, quota: e.quota};
+    }
+  }catch(e){ /* not available in this browser */ }
+  return null;
+}
+async function saveFailureReason(){
+  const err = lastStorageError;
+  const est = await storageEstimate();
+  const space = est ? ` (${formatBytes(est.usage)} used of the ${formatBytes(est.quota)} your browser allows)` : '';
+  const name = (err && err.name) || '';
+  if(name === 'QuotaExceededError'){
+    return `Your browser has run out of storage space for this app${space}. Free up some storage on your ${DEVICE_NAME}, then try again. You can check this any time under Profile, Storage.`;
+  }
+  if(name === 'InvalidStateError' || name === 'TransactionInactiveError'){
+    return "The browser closed this app's storage connection. Reload the page and try again; everything you saved earlier is safe.";
+  }
+  if(name === 'VersionError'){
+    return "This app's storage was set up by a different copy of the app. Reload the page; if this message comes back, tell Claude the version number shown at the bottom of Profile.";
+  }
+  if(name === 'SecurityError' || name === 'NotAllowedError' || name === 'UnknownError'){
+    return IS_HOSTED ? 'The browser is blocking storage for this page. If this is a private browsing window, open the app in a normal Safari tab or from its Home Screen icon.' : 'The browser is blocking storage for this page. Open the app with the launcher (an address starting with http://localhost), not by double-clicking the HTML file.';
+  }
+  if(name) return `The browser reported “${name}”${err.message ? ': ' + String(err.message).replace(/[.\s]+$/, '') : ''}. Reload the page and try again.`;
+  return 'The browser could not write to storage. Reload the page and try again.';
+}
+
+/* ---------- Photos ---------- */
+async function shrinkImageBlob(blob, maxSide, quality){
+  const bmp = await createImageBitmap(blob);        // rejects if the browser can't decode the image
+  try{
+    const scale = Math.min(1, maxSide / Math.max(bmp.width, bmp.height));
+    const w = Math.max(1, Math.round(bmp.width * scale));
+    const h = Math.max(1, Math.round(bmp.height * scale));
+    const canvas = document.createElement('canvas');
+    canvas.width = w; canvas.height = h;
+    const g = canvas.getContext('2d');
+    g.fillStyle = '#ffffff'; g.fillRect(0, 0, w, h); // JPEG has no transparency
+    g.drawImage(bmp, 0, 0, w, h);
+    return canvas.toDataURL('image/jpeg', quality);
+  }finally{
+    if(bmp && bmp.close) bmp.close();
+  }
+}
+async function smallPhotoFrom(blob){
+  let url = await shrinkImageBlob(blob, PHOTO_MAX_SIDE, 0.85);
+  if(url.length > PHOTO_TARGET_MAX) url = await shrinkImageBlob(blob, 320, 0.7);
+  return url;
+}
+async function ensureSmallPhoto(profile){
+  if(!profile || typeof profile.photo !== 'string' || profile.photo.length <= PHOTO_TARGET_MAX) return profile;
+  try{
+    const small = await smallPhotoFrom(dataURLToBlob(profile.photo));
+    return small.length < profile.photo.length ? {...profile, photo: small} : profile;
+  }catch(e){
+    console.error('Could not shrink the stored photo', e);
+    return profile;
+  }
+}
+// A photo saved by an earlier version may be several MB. Shrink it once, quietly, when Profile opens.
+async function maybeShrinkStoredPhoto(){
+  const p = state.profile;
+  if(!p || typeof p.photo !== 'string' || p.photo.length <= PHOTO_TARGET_MAX) return;
+  const small = await ensureSmallPhoto(p);
+  if(small === p) return;
+  if(await saveProfile(small)){
+    state.profile = small;
+    if(state.screen === 'profile' && !state.modal) renderKeepingDraft();
+  }
+}
+
+/* ---------- Storage panel ---------- */
+function renderStoragePanelBody(){
+  const s = state.storageInfo, busy = state.storageBusy, res = state.storageCheck;
+  let usage;
+  if(s && s.quota){
+    const pct = Math.min(100, Math.round(100 * s.usage / s.quota));
+    usage = `<p class="backup-last">Using <strong>${esc(formatBytes(s.usage))}</strong> of the <strong>${esc(formatBytes(s.quota))}</strong> your browser allows this app (${pct}%).</p>
+      <div class="usage-bar ${pct >= 70 ? 'high' : ''}"><span style="width:${Math.max(pct, 1)}%"></span></div>
+      ${pct >= 70 ? '<p class="hint">Space is getting tight. Make a backup, then free up some storage on your ' + DEVICE_NAME + '.</p>' : ''}`;
+  } else {
+    usage = `<p class="backup-last">This browser doesn't report how much storage is available.</p>`;
+  }
+  const results = res ? `
+    <div class="check-list">${res.map(r => `<div class="check-row"><span>${esc(r.label)}</span><span class="${r.ok ? 'pass' : 'fail'}">${r.ok ? 'Passed' : 'Failed' + (r.error ? ' (' + esc(r.error) + ')' : '')}</span></div>`).join('')}</div>
+    ${res.every(r => r.ok) ? '<p class="hint">Saving is working normally right now.</p>' : '<p class="hint">The browser is refusing to save. If it says QuotaExceededError, free up storage on your ' + DEVICE_NAME + ' and run the check again.</p>'}` : '';
+  const where = state.dbInfo ? `<p class="hint">Saved under ${esc(window.location.origin)} (database version ${state.dbInfo.version}).</p>` : '';
+  return `${usage}
+    ${where}
+    ${busy ? '<div class="backup-busy"><span class="spinner"></span>Testing saves…</div>' : ''}
+    ${results}
+    <div class="btn-row" style="margin-top:12px;"><button class="btn btn-ghost btn-sm" ${busy ? 'disabled' : ''} onclick="runStorageCheck()">Run storage check</button></div>`;
+}
+function refreshStoragePanel(){
+  const el = document.getElementById('storagePanelBody');
+  if(el && state.screen === 'profile' && !state.modal){ el.innerHTML = renderStoragePanelBody(); }
+  else { render(); }
+}
+async function runStorageCheck(){
+  if(state.storageBusy) return;
+  state.storageBusy = true; state.storageCheck = null;
+  refreshStoragePanel();
+  const results = [];
+  const probe = async (label, bytes) => {
+    const key = '__storage_probe__';
+    const payload = 'x'.repeat(bytes);
+    const wrote = await setKey(key, payload);
+    const err = wrote ? '' : ((lastStorageError && lastStorageError.name) || 'Error');
+    let readBack = false;
+    if(wrote) readBack = (await getKey(key)) === payload;
+    await deleteKeySafe(key);
+    results.push({label, ok: wrote && readBack, error: wrote && !readBack ? 'read-back mismatch' : err});
+  };
+  await probe('Small save (1 KB)', 1024);
+  await probe('Large save (3 MB)', 3 * 1024 * 1024);
+  state.storageInfo = await storageEstimate();
+  state.storageCheck = results;
+  state.storageBusy = false;
+  refreshStoragePanel();
+}
+
+
+/* ---------- "You're not using the launcher" notice ---------- */
+// Your real certificates live in the browser storage belonging to the launcher address (http://localhost...).
+// Any other address (Claude's preview, 127.0.0.1, a file) has its own separate, empty storage.
+function environmentNotice(){
+  if(state.noticeDismissed) return null;
+  if(IS_HOSTED) return hostedNotice();
+  let framed = false;
+  try{ framed = window.self !== window.top; }catch(e){ framed = true; }
+  const proto = window.location.protocol, host = window.location.hostname;
+  if(proto === 'file:') return "This page was opened as a file. Depending on the browser's settings it may refuse to save anything this way, and whatever it does save is kept separately from your certificates in the launcher. Open the app with the launcher (start-mac.command or start-windows.bat) instead.";
+  if(framed) return "This copy is running inside another page (for example Claude's preview). Saving, backups and Dropbox may not work properly here, and anything you save is kept separately from the certificates you saved through the launcher. For your real data, open the app with the launcher.";
+  if(host !== 'localhost') return `This copy is running at ${host}, not at the launcher's address (localhost). Anything you save here is kept separately from the certificates you saved through the launcher. For your real data, open the app with the launcher.`;
+  return null;
+}
+function renderEnvironmentNotice(){
+  const text = environmentNotice();
+  if(!text) return '';
+  return `<div class="env-notice"><span>${esc(text)}</span><button class="btn-link" onclick="dismissNotice()">Dismiss</button></div>`;
+}
+function dismissNotice(){ state.noticeDismissed = true; render(); }
+
+/* =========================================================
+   DATE ENTRY (day / month / year) + KEEPING WHAT YOU'VE TYPED
+   Dates are typed into three boxes and the cursor moves on by itself. Stored dates stay
+   in the same internal form as before (YYYY-MM-DD), so nothing already saved changes.
+========================================================= */
+const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const DATE_ORDER = ['d', 'm', 'y'];
+
+function partsFromIso(iso){
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso || '');
+  return m ? {d: m[3], m: m[2], y: m[1]} : {d: '', m: '', y: ''};
+}
+// Which strings can still become a real day / month / year as more digits are typed.
+function isValidDatePrefix(part, s){
+  if(part === 'd') return /^([0-3]|0[1-9]|[12]\d|3[01])?$/.test(s);
+  if(part === 'm') return /^([01]|0[1-9]|1[0-2])?$/.test(s);
+  return /^(1(9(\d(\d)?)?)?|2([01](\d(\d)?)?)?)?$/.test(s);   // years 1900 to 2199
+}
+// Clean what is in one box: digits only, and a digit that could never be part of a real date is dropped.
+// A first digit that can only be a single-digit day (4-9) or month (2-9) is completed with a leading zero.
+function sanitizeDatePart(part, raw){
+  const max = part === 'y' ? 4 : 2;
+  let out = '';
+  for(const ch of String(raw || '').replace(/\D/g, '')){
+    if(out.length === 0 && ((part === 'd' && ch >= '4') || (part === 'm' && ch >= '2'))){ out = '0' + ch; break; }
+    if(isValidDatePrefix(part, out + ch)) out += ch;
+    if(out.length >= max) break;
+  }
+  return {value: out, complete: out.length === max};
+}
+function composeDate(parts){
+  const d = String(parts.d || '').trim(), m = String(parts.m || '').trim(), y = String(parts.y || '').trim();
+  if(!d && !m && !y) return {status: 'empty', iso: ''};
+  if(!d || !m || !y) return {status: 'incomplete', iso: ''};
+  if(!/^\d{1,2}$/.test(d) || !/^\d{1,2}$/.test(m) || !/^\d{4}$/.test(y)) return {status: 'invalid', iso: ''};
+  const D = +d, M = +m, Y = +y;
+  // Typing is limited to sensible years (1900-2199, see isValidDatePrefix), but a date that is ALREADY stored must always
+  // stay editable. Older builds allowed any year, and people used far-future placeholders (31/12/9999) for documents that never expire.
+  if(Y < 1000 || M < 1 || M > 12 || D < 1 || D > 31) return {status: 'invalid', iso: ''};
+  const dt = new Date(Date.UTC(Y, M - 1, D));
+  if(dt.getUTCFullYear() !== Y || dt.getUTCMonth() !== M - 1 || dt.getUTCDate() !== D) return {status: 'invalid', iso: ''};   // e.g. 31 February
+  return {status: 'ok', iso: `${y}-${String(M).padStart(2, '0')}-${String(D).padStart(2, '0')}`};
+}
+function parseDateText(text){
+  const t = String(text || '').trim();
+  let m = /^(\d{1,2})\s*[\/\-.\s]\s*(\d{1,2})\s*[\/\-.\s]\s*(\d{4})$/.exec(t);
+  if(m) return {d: m[1].padStart(2, '0'), m: m[2].padStart(2, '0'), y: m[3]};
+  m = /^(\d{4})\s*[\/\-.]\s*(\d{1,2})\s*[\/\-.]\s*(\d{1,2})$/.exec(t);
+  if(m) return {d: m[3].padStart(2, '0'), m: m[2].padStart(2, '0'), y: m[1]};
+  m = /^(\d{2})(\d{2})(\d{4})$/.exec(t);
+  if(m) return {d: m[1], m: m[2], y: m[3]};
+  return null;
+}
+function readDateParts(base){
+  const val = p => { const el = document.getElementById(`${base}_${p}`); return el ? el.value : ''; };
+  return {d: val('d'), m: val('m'), y: val('y')};
+}
+function setDateParts(base, parts){
+  for(const p of DATE_ORDER){ const el = document.getElementById(`${base}_${p}`); if(el) el.value = parts[p] || ''; }
+}
+
+/* ---------- what the three boxes do ---------- */
+function dateBox(el){ return {base: el.getAttribute('data-date'), part: el.getAttribute('data-part')}; }
+function focusDatePart(base, part, caretAtEnd){
+  const el = document.getElementById(`${base}_${part}`);
+  if(!el) return;
+  el.focus();
+  if(caretAtEnd && el.setSelectionRange){ const n = el.value.length; el.setSelectionRange(n, n); }
+}
+function dateInput(el){
+  markDirty();
+  const {base, part} = dateBox(el);
+  const res = sanitizeDatePart(part, el.value);
+  if(el.value !== res.value) el.value = res.value;
+  if(res.complete && part !== 'y') focusDatePart(base, DATE_ORDER[DATE_ORDER.indexOf(part) + 1]);   // day done -> month, month done -> year
+}
+function dateKey(e, el){
+  if(e.ctrlKey || e.metaKey || e.altKey) return;                 // leave copy / paste / shortcuts alone
+  const {base, part} = dateBox(el);
+  const i = DATE_ORDER.indexOf(part), k = e.key;
+  if(k === '/' || k === '-' || k === '.' || k === ',' || k === ' '){   // a separator finishes the box
+    e.preventDefault();
+    if(part !== 'y' && el.value){
+      if(el.value.length === 1 && el.value !== '0') el.value = '0' + el.value;
+      focusDatePart(base, DATE_ORDER[i + 1]);
+    }
+    return;
+  }
+  if(k === 'Backspace' && el.value === '' && i > 0){ e.preventDefault(); focusDatePart(base, DATE_ORDER[i - 1], true); return; }
+  if(k === 'ArrowLeft' && el.selectionStart === 0 && el.selectionEnd === 0 && i > 0){ e.preventDefault(); focusDatePart(base, DATE_ORDER[i - 1], true); return; }
+  if(k === 'ArrowRight' && i < 2 && el.selectionStart === el.value.length && el.selectionEnd === el.value.length){ e.preventDefault(); focusDatePart(base, DATE_ORDER[i + 1]); return; }
+  if(k.length === 1 && /\D/.test(k)){ e.preventDefault(); return; }   // letters and symbols never go into a date
+  if(k.length === 1){                                                  // a digit typed into an already-full box starts that box over
+    const max = part === 'y' ? 4 : 2;
+    if(el.value.length >= max && el.selectionStart === el.selectionEnd) el.value = '';
+  }
+}
+function datePad(el){          // leaving a box with a single digit in it completes it (5 -> 05)
+  const {part} = dateBox(el);
+  if(part !== 'y' && el.value.length === 1 && el.value !== '0') el.value = '0' + el.value;
+}
+function datePaste(e, el){     // pasting a whole date (25/12/2026, 25-12-2026, 2026-12-25, 25122026) fills all three boxes
+  const data = e.clipboardData || window.clipboardData;
+  const parsed = parseDateText(data ? data.getData('text') : '');
+  if(!parsed) return;          // anything else is pasted normally, then cleaned up to digits by dateInput
+  e.preventDefault();
+  const {base} = dateBox(el);
+  setDateParts(base, parsed);
+  markDirty();
+  focusDatePart(base, 'y', true);
+}
+function renderDateField(base, label, mark, parts, errClass, hint){
+  const ph = {d: 'DD', m: 'MM', y: 'YYYY'}, word = {d: 'day', m: 'month', y: 'year'};
+  const boxes = DATE_ORDER.map((p, i) => `${i ? '<span class="date-sep">/</span>' : ''}<input class="input date-part${p === 'y' ? ' year' : ''}" id="${base}_${p}" data-date="${base}" data-part="${p}" inputmode="numeric" autocomplete="off" maxlength="${p === 'y' ? 4 : 2}" placeholder="${ph[p]}" aria-label="${esc(label)} ${word[p]}" value="${esc(parts[p] || '')}" oninput="dateInput(this)" onkeydown="dateKey(event,this)" onpaste="datePaste(event,this)" onfocus="this.select()" onmouseup="event.preventDefault()" onclick="this.select()" onblur="datePad(this)">`).join('');
+  return `<div class="field"><label>${esc(label)} ${mark}</label><div class="date-field${errClass}" role="group" aria-label="${esc(label)}">${boxes}</div>${hint ? `<div class="hint">${hint}</div>` : ''}</div>`;
+}
+function focusFormField(field){
+  const id = (field === 'cf_issue' || field === 'cf_expiry') ? field + '_d' : field;
+  const el = document.getElementById(id);
+  if(el && el.focus) el.focus();
+}
+
+/* ---------- a redraw must never throw away what has been typed ---------- */
+function readCertFormValues(){
+  const get = id => document.getElementById(id), v = {};
+  if(get('cf_category')) v.category = get('cf_category').value;
+  if(get('cf_name')) v.name = get('cf_name').value;
+  if(get('cf_number')) v.certNumber = get('cf_number').value;
+  if(get('cf_issue_d')) v.issueParts = readDateParts('cf_issue');
+  if(get('cf_expiry_d')) v.expiryParts = readDateParts('cf_expiry');   // kept even while "No" hides it, so switching back restores it
+  if(get('cf_notify')) v.notifyDays = get('cf_notify').value;
+  return v;
+}
+function readTrainingCenterValues(){
+  const get = id => document.getElementById(id), v = {};
+  for(const [id, key] of [['tc_name', 'name'], ['tc_contact', 'contact'], ['tc_phone', 'phone'], ['tc_email', 'email'], ['tc_address', 'address'], ['tc_notes', 'notes']]){
+    if(get(id)) v[key] = get(id).value;
+  }
+  return v;
+}
+// Copy what is currently typed in the open form into the dialog's own state, so redrawing it brings it back.
+// Only done when the page is really showing THIS dialog (never copies stale fields into a newly opened one).
+function captureModalDraft(){
+  const m = state.modal;
+  if(!m || m !== lastModalRef) return;
+  if(m.type === 'certForm' && document.getElementById('cf_name')) m.cert = {...(m.cert || {}), ...readCertFormValues()};
+  else if(m.type === 'trainingCenterForm' && document.getElementById('tc_name')) m.center = {...(m.center || {}), ...readTrainingCenterValues()};
+}
+
+
+/* =========================================================
+   INIT
+========================================================= */
+/* =========================================================
+   IPHONE / HOME SCREEN VERSION
+   This block only changes behaviour in the hosted copy of the app (the one that carries
+   <meta name="hosted-app">). The Mac copy never runs any of it.
+========================================================= */
+const IS_HOSTED = !!document.querySelector('meta[name="hosted-app"]');
+const IS_IOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+const IS_STANDALONE = navigator.standalone === true || !!(window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
+const DEVICE_NAME = !IS_IOS ? 'Mac' : (/iPhone|iPod/.test(navigator.userAgent) ? 'iPhone' : 'iPad');
+function canShareFiles(){
+  try{ return !!(navigator.share && navigator.canShare && navigator.canShare({files: [new File(['x'], 'x.json', {type: 'application/json'})]})); }
+  catch(e){ return false; }
+}
+// On iPhone / iPad files are handed to the share sheet (Save to Files, AirDrop, ...). A plain download link
+// can leave a Home Screen app stuck on a file with no way back, which is why it is not used there.
+const USE_SHARE_SHEET = IS_IOS && canShareFiles();
+
+function hostedNotice(){
+  if(IS_IOS && !IS_STANDALONE) return "You're viewing this in Safari. Safari keeps its own separate copy of your data and can erase it after about a week of not visiting. To keep your certificates safe: tap Share, choose Add to Home Screen, leave “Open as Web App” switched on, then open the app from its Home Screen icon and load your backup there.";
+  return null;
+}
+
+/* ---------- "Your file is ready" step: the share sheet must start from a fresh tap ---------- */
+function offerFileToShare(blob, filename, opts){
+  state.modal = {type: 'shareFile', blob, filename, title: opts.title, note: opts.note || '', button: opts.button || 'Save to Files…', onDone: opts.onDone || null, error: ''};
+  render();
+}
+async function shareReadyFile(){
+  const m = state.modal;
+  if(!m || m.type !== 'shareFile') return;
+  try{
+    const file = new File([m.blob], m.filename, {type: m.blob.type || 'application/octet-stream'});
+    await navigator.share({files: [file]});            // started straight from the tap
+    const done = m.onDone;
+    modalDirty = false; state.modal = null; render();
+    if(done) await done();
+  }catch(err){
+    if(err && err.name === 'AbortError') return;       // the sheet was closed without saving: leave the dialog so it can be tried again
+    m.error = `The share sheet couldn't open (${(err && err.name) || 'error'}). Tap the button again, or close this and try once more.`;
+    render();
+  }
+}
+function renderShareFileModal(){
+  const m = state.modal;
+  return modalShell(`
+    <h2 class="modal-title">${esc(m.title)}</h2>
+    <p class="modal-sub">${esc(m.note)}</p>
+    ${m.error ? `<div class="error-text">${esc(m.error)}</div>` : ''}
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="shareReadyFile()">${ICONS.download} ${esc(m.button)}</button>
+    </div>
+  `);
+}
+
+/* ---------- Backup panel for iPhone / iPad: Files instead of downloads, no Dropbox sign-in ---------- */
+function renderBackupPanelBodyIOS(){
+  const busy = state.backupBusy, dis = busy ? 'disabled' : '', last = state.lastBackup, msg = state.backupMessage;
+  return `
+    ${last
+      ? `<p class="backup-last">Last backup: <strong>${esc(formatDateTime(last.at))}</strong>, ${esc(last.where)}.</p>`
+      : `<p class="backup-last">No backup saved yet. It's worth making one now.</p>`}
+    ${busy ? `<div class="backup-busy"><span class="spinner"></span>${esc(busy)}</div>` : ''}
+    ${msg ? `<div class="backup-msg ${msg.type === 'ok' ? 'ok' : 'error'}">${esc(msg.text)}</div>` : ''}
+    <div class="backup-group">
+      <h3>Save a backup</h3>
+      <div class="btn-row"><button class="btn btn-brass btn-sm" ${dis} onclick="exportBackup()">${ICONS.download} Save backup to Files</button></div>
+      <p class="hint">One file with all your certificates, PDFs and profile. Choose iCloud Drive (so it also reaches your Mac), Dropbox or On My ${DEVICE_NAME}.</p>
+    </div>
+    <div class="backup-group">
+      <h3>Restore a backup</h3>
+      <div class="btn-row">
+        <button class="btn btn-ghost btn-sm" ${dis} onclick="chooseRestoreFile()">${ICONS.upload} Load backup from Files…</button>
+        <input type="file" id="restoreFileInput" style="display:none;" onchange="handleRestoreFileChosen(this)">
+      </div>
+      <p class="hint">Pick a backup file from iCloud Drive, Dropbox, your AirDrop downloads or anywhere else in the Files app. Loading it replaces what is in the app now.</p>
+    </div>
+    <div class="backup-group">
+      <h3>Dropbox</h3>
+      <p class="hint">Dropbox sign-in doesn't work reliably inside a Home Screen app, so it is switched off here. To keep a copy in Dropbox, use “Save backup to Files” and choose Dropbox as the place.</p>
+    </div>`;
+}
+
+/* ---------- Offline support, and a request to keep this app's data ---------- */
+if(IS_HOSTED && 'serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')){
+  window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
+}
+if(IS_HOSTED && IS_STANDALONE && navigator.storage && navigator.storage.persist){
+  navigator.storage.persist().catch(() => {});
+}
+
+(async function init(){
+  state.certificates = await loadCertificates();
+  state.profile = await loadProfile();
+  state.screen = 'dashboard';
+  const dropboxReturn = await handleDropboxRedirect(); // only does anything when Dropbox has just sent the user back
+  await refreshBackupExtras();
+  if(dropboxReturn){
+    previousScreen = 'dashboard';
+    state.screen = 'profile';
+    state.backupMessage = dropboxReturn.ok
+      ? {type: 'ok', text: 'Dropbox is connected. You can now save backups to Dropbox and load them back.'}
+      : {type: 'error', text: dropboxReturn.message};
+  }
+  render();
+})();
+</script>
+</body>
+</html>
