@@ -377,6 +377,10 @@
   .icon-btn.has-photo{width:38px;height:38px;padding:0;border-radius:50%;overflow:hidden;border:2px solid var(--brass-light);}
   .icon-btn.has-photo:hover{border-color:#fff;}
   .hdr-avatar{width:100%;height:100%;object-fit:cover;display:block;}
+  .add-file-chosen{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:var(--forest-bg);color:#24402F;border:1px solid #b9d0c0;border-radius:var(--radius);padding:9px 12px;font-size:13px;margin:0 0 14px;}
+  .add-file-chosen.none{background:var(--paper);color:var(--text-muted);border-color:var(--line);}
+  .add-file-chosen svg{flex-shrink:0;}
+  .add-file-chosen span{flex:1;min-width:0;overflow-wrap:anywhere;}
 </style>
 </head>
 <body>
@@ -447,6 +451,10 @@ let suppressDraftCapture = false;
 
 const CATEGORIES = ['Travel Documents','STCW','Safety and Security','Medical','Other Yacht Documents'];
 function categoryFor(cert){ return cert.category || 'Other Yacht Documents'; }
+// What each category is called on screen. The stored names stay as they were, so saved certificates
+// and backup files never need converting.
+const CATEGORY_LABELS = {'Travel Documents': 'Travel', 'Other Yacht Documents': 'Yacht'};
+function catLabel(cat){ return CATEGORY_LABELS[cat] || cat; }
 function certHasExpiration(cert){ return cert.hasExpiration !== false; } // undefined/true = has one (covers certs saved before this feature existed)
 
 /* =========================================================
@@ -770,6 +778,7 @@ function renderHeader(){
   <div class="app-header">
     <div class="brandmark">${ICONS.seal}<span>Certificate Registry</span></div>
     <div class="header-actions">
+      <button class="icon-btn" title="Add certificate" aria-label="Add certificate" onclick="openAddCertModal()">${ICONS.plus}</button>
       <button class="icon-btn" title="Lock" onclick="requestLock()">${ICONS.lock}</button>
       ${renderProfileButton()}
     </div>
@@ -807,7 +816,7 @@ function stepCategory(dir){
 }
 function emptyListHtml(){
   if(state.search.trim()) return `<div class="empty-state"><h3>No matches</h3><p>Nothing in any category matches “${esc(state.search.trim())}”.</p></div>`;
-  return `<div class="empty-state"><h3>Nothing in ${esc(currentCategory())} yet</h3><p>Add a certificate here, or pick another category above.</p><button class="btn btn-brass" onclick="openAddCertModal()">${ICONS.plus} Add to ${esc(currentCategory())}</button></div>`;
+  return `<div class="empty-state"><h3>Nothing in ${esc(catLabel(currentCategory()))} yet</h3><p>Tap <strong>+</strong> at the top to add one here, or pick another category above.</p></div>`;
 }
 function searchHintHtml(){
   return state.search.trim() ? '<div class="search-hint" id="searchHint">Showing matches from every category.</div>' : '<div id="searchHint"></div>';
@@ -863,8 +872,7 @@ function renderDashboard(){
     <div class="empty-state">
       ${ICONS.seal}
       <h3>No certificates yet</h3>
-      <p>Add your first certificate to start tracking its expiration and renewal.</p>
-      <button class="btn btn-brass" onclick="openAddCertModal()">${ICONS.plus} Add certificate</button>
+      <p>Tap <strong>+</strong> at the top to add your first certificate and start tracking its expiration and renewal.</p>
     </div>`;
   } else {
     body = list.length ? `<div class="grid">${list.map(renderCertCard).join('')}</div>` : emptyListHtml();
@@ -878,7 +886,6 @@ function renderDashboard(){
         <h1>Your certificates</h1>
         <div class="sub">${state.certificates.length} on record</div>
       </div>
-      <button class="btn btn-brass" onclick="openAddCertModal()">${ICONS.plus} Add certificate</button>
     </div>
     <div class="category-filters">${renderCategoryPills()}</div>
     <div id="dashList">${body}</div>
@@ -889,7 +896,7 @@ function renderCategoryPills(){
   const all = state.certificates;
   const cur = currentCategory();
   const pill = (value, label, count) => `<button class="cat-pill ${cur===value?'active':''}" onclick="setCategoryFilter('${esc(value)}')">${esc(label)} <span class="count">${count}</span></button>`;
-  const html = CATEGORIES.map(cat => pill(cat, cat, all.filter(c=>categoryFor(c)===cat).length)).join('');
+  const html = CATEGORIES.map(cat => pill(cat, catLabel(cat), all.filter(c=>categoryFor(c)===cat).length)).join('');
   return html;
 }
 function setCategoryFilter(value){
@@ -926,7 +933,7 @@ function renderCertCard(c){
   <div class="cert-card status-${s}" onclick="openDetail('${c.id}')">
     <div class="cert-card-top">
       <div>
-        <div class="category-tag">${esc(categoryFor(c))}</div>
+        <div class="category-tag">${esc(catLabel(categoryFor(c)))}</div>
         <h3>${esc(c.name)}</h3>
       </div>
       <div class="stamp status-${s}">${stampInner}</div>
@@ -977,7 +984,7 @@ function renderDetail(){
         <button class="btn btn-ghost btn-sm" onclick="openEditCertModal('${c.id}')">${ICONS.pencil} Edit</button>
       </div>
       <div class="info-grid">
-        <div class="info-item"><div class="label">Category</div><div class="value">${esc(categoryFor(c))}</div></div>
+        <div class="info-item"><div class="label">Category</div><div class="value">${esc(catLabel(categoryFor(c)))}</div></div>
         <div class="info-item"><div class="label">Name / type</div><div class="value">${esc(c.name)}</div></div>
         <div class="info-item"><div class="label">Certificate number</div><div class="value">${c.certNumber ? esc(c.certNumber) : '—'}</div></div>
         <div class="info-item"><div class="label">Issue date</div><div class="value">${formatDate(c.issueDate)}</div></div>
@@ -1135,6 +1142,7 @@ function renderModal(){
   if(m.type === 'confirm') return renderConfirmModal();
   if(m.type === 'pdfPreview') return renderPdfPreviewModal();
   if(m.type === 'shareFile') return renderShareFileModal();
+  if(m.type === 'addFile') return renderAddFileModal();
   if(m.type === 'changeLogin' || m.type === 'changeRecovery') return renderSecurityModal();
   if(m.type === 'dropboxSetup') return renderDropboxSetupModal();
   if(m.type === 'dropboxList') return renderDropboxListModal();
@@ -1163,11 +1171,12 @@ function renderCertFormModal(){
   const notify = (c.notifyDays === undefined || c.notifyDays === null) ? 30 : c.notifyDays;
   return modalShell(`
     <h2 class="modal-title">${isEdit ? 'Edit certificate' : 'Add certificate'}</h2>
-    <p class="modal-sub">${isEdit ? 'Update the details on record for this certificate.' : 'Enter the details from your certificate.'} Fields marked <span style="color:var(--rust);">*</span> are required.</p>
+    ${isEdit ? '' : `<div class="add-file-chosen ${m.pendingFile ? '' : 'none'}">${ICONS.file} <span>${m.pendingFile ? `<strong>${esc(m.pendingFile.name)}</strong> will be saved with this certificate.` : 'No file attached. You can upload it later from the certificate page.'}</span> <button class="btn-link" onclick="backToFileStep()">${m.pendingFile ? 'Change' : 'Add file'}</button></div>`}
+    <p class="modal-sub">${isEdit ? 'Update the details on record for this certificate.' : '<strong>Step 2 of 2</strong> · Enter the details from your certificate.'} Fields marked <span style="color:var(--rust);">*</span> are required.</p>
     <div class="field">
       <label>Category</label>
       <select class="input" id="cf_category" onchange="markDirty()">
-        ${CATEGORIES.map(cat => `<option value="${esc(cat)}" ${categoryFor(c)===cat?'selected':''}>${esc(cat)}</option>`).join('')}
+        ${CATEGORIES.map(cat => `<option value="${esc(cat)}" ${categoryFor(c)===cat?'selected':''}>${esc(catLabel(cat))}</option>`).join('')}
       </select>
     </div>
     <div class="field">
@@ -1351,6 +1360,7 @@ function handleGlobalKeydown(e){
     if(tag === 'textarea' || tag === 'button' || tag === 'a') return; // let newlines / native activation happen
     if(!e.target.closest || !e.target.closest('.modal')) return;
     const t = state.modal.type;
+    if(t === 'addFile'){ e.preventDefault(); addContinue(!!state.modal.pendingFile); return; }
     if(t === 'changeLogin' || t === 'changeRecovery'){ e.preventDefault(); if(t === 'changeLogin') submitChangeLogin(); else submitChangeRecovery(); return; }
     if(t === 'certForm' || t === 'trainingCenterForm' || t === 'fileUpload' || t === 'dropboxSetup'){
       e.preventDefault();
@@ -1536,11 +1546,58 @@ function openDetail(id){
 /* =========================================================
    CERTIFICATE CRUD
 ========================================================= */
+// Step 1 of 2: choose the certificate's PDF (or skip it for now).
 function openAddCertModal(){
   modalDirty = false;
-  state.modal = {type:'certForm', editingId:null, cert:{name:'',certNumber:'',issueDate:'',expirationDate:'',notifyDays:30,category:currentCategory(),hasExpiration:true}, error:''};
+  state.modal = {type: 'addFile', pendingFile: null, draft: null, error: ''};
   render();
 }
+function addFileChosen(input){
+  const m = state.modal, file = input.files && input.files[0];
+  if(!m || m.type !== 'addFile' || !file) return;
+  if(file.type !== 'application/pdf' && !/\.pdf$/i.test(file.name)){ m.error = 'Only PDF files are supported. Choose a PDF, or tap "Skip" to add the file later.'; render(); return; }
+  if(file.size > 15 * 1024 * 1024){ m.error = `That file is ${formatBytes(file.size)}. Please keep it under about 15 MB.`; render(); return; }
+  m.pendingFile = file; m.error = ''; render();
+  const next = document.querySelector('.modal .btn-primary'); if(next) next.focus();   // Enter now carries on to the details
+}
+function addContinue(withFile){
+  const m = state.modal;
+  if(!m || m.type !== 'addFile') return;
+  if(withFile && !m.pendingFile){ m.error = 'Choose the certificate PDF first, or tap "Skip" to add the file later.'; render(); return; }
+  const cert = m.draft || {name:'',certNumber:'',issueDate:'',expirationDate:'',notifyDays:30,category:currentCategory(),hasExpiration:true};
+  const file = withFile ? m.pendingFile : null;
+  state.modal = {type: 'certForm', editingId: null, cert, pendingFile: file, error: ''};
+  modalDirty = !!file || !!m.draft;
+  render();
+  const first = document.getElementById('cf_name'); if(first) first.focus();
+}
+function backToFileStep(){
+  const m = state.modal;
+  if(!m || m.type !== 'certForm' || m.editingId) return;
+  captureModalDraft();
+  state.modal = {type: 'addFile', pendingFile: m.pendingFile || null, draft: m.cert, error: ''};
+  render();
+}
+function renderAddFileModal(){
+  const m = state.modal, f = m.pendingFile;
+  return modalShell(`
+    <h2 class="modal-title">Add certificate</h2>
+    <p class="modal-sub"><strong>Step 1 of 2</strong> · Upload the certificate. Choose the PDF copy, then fill in its details on the next step.</p>
+    <div class="field">
+      <label for="addFileInput">Certificate file (PDF)</label>
+      <input class="input" type="file" id="addFileInput" accept="application/pdf,.pdf" onchange="addFileChosen(this)">
+      <div class="hint">PDF only, up to about 15 MB.</div>
+    </div>
+    ${f ? `<div class="add-file-chosen">${ICONS.file} <span><strong>${esc(f.name)}</strong> · ${esc(formatBytes(f.size))}</span></div>` : ''}
+    ${m.error ? `<div class="error-text">${esc(m.error)}</div>` : ''}
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-ghost" onclick="addContinue(false)">Skip, no file yet</button>
+      <button class="btn btn-primary" onclick="addContinue(true)">Next: details</button>
+    </div>
+  `);
+}
+function openCertDetailsStep(){ addContinue(false); }
 function openEditCertModal(id){
   const c = state.certificates.find(x=>x.id===id);
   if(!c) return;
@@ -1600,8 +1657,27 @@ async function submitCertForm(){
   }
 
   modal.error = ''; modal.errorField = '';
+  // A new certificate's PDF is saved first; the certificate record is only saved once the file is safely stored.
+  let pdfKey = null;
+  if(!editingId && modal.pendingFile){
+    const fresh = candidate[candidate.length - 1], file = modal.pendingFile;
+    modal.busy = true; render();
+    try{
+      const rec = {filename: file.name, data: await fileToDataURL(file), uploadedDate: new Date().toISOString().slice(0,10)};
+      if(!(await setCurrentPdf(fresh.id, rec))) throw new Error('file not saved');
+      pdfKey = `pdf:${fresh.id}:current`;
+      fresh.currentFile = {filename: file.name, uploadedDate: rec.uploadedDate};
+    }catch(err){
+      modal.busy = false;
+      modal.error = "The file couldn't be saved, so nothing was added. " + await saveFailureReason() + " Your entries are still in this form; try again.";
+      if(state.modal === modal) render();
+      return;
+    }
+    modal.busy = false;
+  }
   const ok = await saveCertificates(candidate);
   if(!ok){
+    if(pdfKey) await deleteKeySafe(pdfKey);
     modal.error = "This didn't save. " + await saveFailureReason() + " Your entries are still in this form; try again.";
     if(state.modal === modal) render();
     return;
@@ -1610,6 +1686,7 @@ async function submitCertForm(){
   modalDirty = false;
   state.modal = null;
   if(editingId){ state.screen='detail'; }
+  else { state.screen = 'dashboard'; state.search = ''; state.categoryFilter = category; }   // show it in its own tab
   render();
 }
 
@@ -2644,7 +2721,7 @@ function renderDropboxListModal(){
    saving. So photos are shrunk to avatar size, and every save failure now
    says why instead of "something went wrong".
 ========================================================= */
-const APP_VERSION = '2026-11-26c (login)';
+const APP_VERSION = '2026-11-26d (login)';
 const PHOTO_MAX_SIDE = 512;
 const PHOTO_TARGET_MAX = 250 * 1024;          // a stored photo longer than this many characters gets shrunk
 const PHOTO_UPLOAD_LIMIT = 25 * 1024 * 1024;  // the ORIGINAL may be large; only the shrunk copy is stored
