@@ -381,6 +381,8 @@
   .add-file-chosen.none{background:var(--paper);color:var(--text-muted);border-color:var(--line);}
   .add-file-chosen svg{flex-shrink:0;}
   .add-file-chosen span{flex:1;min-width:0;overflow-wrap:anywhere;}
+  .opt{font-weight:400;color:var(--text-muted);font-size:12px;}
+  .cert-file-field{border-top:1px solid var(--line);padding-top:14px;margin-top:4px;}
 </style>
 </head>
 <body>
@@ -517,8 +519,60 @@ function dataURLToBlob(dataUrl, forceMime){
   for(let i=0;i<bin.length;i++) arr[i] = bin.charCodeAt(i);
   return new Blob([arr], {type: mime});
 }
+/* ---------- Certificate files: a PDF, or a photo (iPhone / Android camera roll, any common format) ----------
+   Photos are turned into a JPEG of sensible size, so they open on every phone and computer and stay small. */
+const CERT_PDF_MAX = 15 * 1024 * 1024;
+const CERT_PHOTO_ORIGINAL_MAX = 40 * 1024 * 1024;
+const CERT_PHOTO_MAX_SIDE = 2800;      // long side in pixels: sharp enough to read a certificate
+const CERT_FILE_ACCEPT = 'application/pdf,.pdf,image/*,.heic,.heif';
+function fileProblem(msg){ const e = new Error(msg); e.userMessage = msg; return e; }
+function isPdfFile(f){ return f.type === 'application/pdf' || /\.pdf$/i.test(f.name || ''); }
+function isPhotoFile(f){ return /^image\//.test(f.type || '') || /\.(jpe?g|png|heic|heif|webp|gif|bmp|tiff?|avif)$/i.test(f.name || ''); }
+async function photoToJpeg(file, maxSide, quality){
+  let source = null, w = 0, h = 0, done = () => {};
+  try{
+    if(window.createImageBitmap){ source = await createImageBitmap(file); w = source.width; h = source.height; done = () => { try{ source.close(); }catch(e){} }; }
+  }catch(e){ source = null; }
+  if(!source){
+    const url = URL.createObjectURL(file);
+    try{ source = await new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = () => rej(new Error('decode')); im.src = url; }); }
+    catch(e){ URL.revokeObjectURL(url); return null; }
+    w = source.naturalWidth; h = source.naturalHeight; done = () => URL.revokeObjectURL(url);
+  }
+  try{
+    if(!w || !h) return null;
+    const scale = Math.min(1, maxSide / Math.max(w, h));
+    const cw = Math.max(1, Math.round(w * scale)), ch = Math.max(1, Math.round(h * scale));
+    const canvas = document.createElement('canvas'); canvas.width = cw; canvas.height = ch;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, cw, ch);       // see-through parts of a PNG become white, not black
+    ctx.drawImage(source, 0, 0, cw, ch);
+    const out = canvas.toDataURL('image/jpeg', quality);
+    canvas.width = canvas.height = 0;
+    return out && out.startsWith('data:image/jpeg;base64,') ? out : null;
+  }finally{ done(); }
+}
+// Returns {name, type, dataUrl, size, converted} ready to store, or throws a problem with a plain message.
+async function prepareCertFile(file){
+  if(isPdfFile(file)){
+    if(file.size > CERT_PDF_MAX) throw fileProblem(`That PDF is ${formatBytes(file.size)}. Please keep it under about 15 MB.`);
+    const dataUrl = await fileToDataURL(file);
+    const body = String(dataUrl).split(',')[1] || '';
+    return {name: file.name || 'certificate.pdf', type: 'application/pdf', dataUrl: PDF_DATA_PREFIX + body, size: file.size, converted: false};
+  }
+  if(isPhotoFile(file)){
+    if(file.size > CERT_PHOTO_ORIGINAL_MAX) throw fileProblem(`That photo is ${formatBytes(file.size)}. Please choose one under about 40 MB.`);
+    const jpeg = await photoToJpeg(file, CERT_PHOTO_MAX_SIDE, 0.86);
+    if(!jpeg) throw fileProblem("This photo's format can't be opened in this browser. Choose it again from your Photos or Gallery, or save it as a JPEG first.");
+    const base = (file.name || 'certificate').replace(/\.[^.]+$/, '') || 'certificate';
+    return {name: base + '.jpg', type: 'image/jpeg', dataUrl: jpeg, size: Math.round((jpeg.length - 23) * 0.75), converted: true};
+  }
+  throw fileProblem("That type of file isn't supported. Choose a PDF, or a photo (for example JPEG, PNG or an iPhone / Samsung camera photo).");
+}
+const isPhotoData = d => typeof d === 'string' && d.startsWith('data:image/');
+
 function downloadDataUrl(dataUrl, filename){
-  const blob = dataURLToBlob(dataUrl, 'application/pdf');
+  const blob = dataURLToBlob(dataUrl);
   if(USE_SHARE_SHEET){
     offerFileToShare(blob, filename || 'certificate.pdf', {title: 'Open or save this certificate', note: `${filename || 'certificate.pdf'} is ready. Tap the button, then choose Save to Files, or open it in another app.`, button: 'Open / Save…'});
     return;
@@ -1142,7 +1196,6 @@ function renderModal(){
   if(m.type === 'confirm') return renderConfirmModal();
   if(m.type === 'pdfPreview') return renderPdfPreviewModal();
   if(m.type === 'shareFile') return renderShareFileModal();
-  if(m.type === 'addFile') return renderAddFileModal();
   if(m.type === 'changeLogin' || m.type === 'changeRecovery') return renderSecurityModal();
   if(m.type === 'dropboxSetup') return renderDropboxSetupModal();
   if(m.type === 'dropboxList') return renderDropboxListModal();
@@ -1171,8 +1224,7 @@ function renderCertFormModal(){
   const notify = (c.notifyDays === undefined || c.notifyDays === null) ? 30 : c.notifyDays;
   return modalShell(`
     <h2 class="modal-title">${isEdit ? 'Edit certificate' : 'Add certificate'}</h2>
-    ${isEdit ? '' : `<div class="add-file-chosen ${m.pendingFile ? '' : 'none'}">${ICONS.file} <span>${m.pendingFile ? `<strong>${esc(m.pendingFile.name)}</strong> will be saved with this certificate.` : 'No file attached. You can upload it later from the certificate page.'}</span> <button class="btn-link" onclick="backToFileStep()">${m.pendingFile ? 'Change' : 'Add file'}</button></div>`}
-    <p class="modal-sub">${isEdit ? 'Update the details on record for this certificate.' : '<strong>Step 2 of 2</strong> · Enter the details from your certificate.'} Fields marked <span style="color:var(--rust);">*</span> are required.</p>
+    <p class="modal-sub">${isEdit ? 'Update the details on record for this certificate.' : 'Enter the details from your certificate, then add its file at the bottom.'} Fields marked <span style="color:var(--rust);">*</span> are required.</p>
     <div class="field">
       <label>Category</label>
       <select class="input" id="cf_category" onchange="markDirty()">
@@ -1208,10 +1260,11 @@ function renderCertFormModal(){
     ${renderDateField('cf_issue', 'Issue date', '', issueParts, bad('cf_issue'), "This document will be marked as never expiring and won't appear in renewal reminders.")}
     `}
     <div class="hint" style="margin:-6px 0 12px;">Dates are typed as day / month / year, and the cursor moves on by itself.</div>
+    ${isEdit ? '' : certFileFieldHtml(m)}
     ${m.error ? `<div class="error-text">${esc(m.error)}</div>` : ''}
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-primary" onclick="submitCertForm()">${isEdit ? 'Save changes' : 'Add certificate'}</button>
+      <button class="btn btn-primary" onclick="submitCertForm()" ${m.fileBusy || m.busy ? 'disabled' : ''}>${isEdit ? 'Save changes' : 'Add certificate'}</button>
     </div>
   `);
 }
@@ -1220,11 +1273,11 @@ function renderFileUploadModal(){
   const m = state.modal;
   return modalShell(`
     <h2 class="modal-title">${m.hasExisting ? 'Replace certificate file' : 'Upload certificate file'}</h2>
-    <p class="modal-sub">${m.hasExisting ? "The current file will be moved to this certificate's archive folder automatically." : 'Upload a PDF copy of this certificate.'}</p>
+    <p class="modal-sub">${m.hasExisting ? "The current file will be moved to this certificate's archive folder automatically." : 'Upload a PDF, or a photo of the certificate.'}</p>
     <div class="field">
-      <label>PDF file <span style="color:var(--rust);">*</span></label>
-      <input class="input" type="file" id="fileInput" accept="application/pdf" onchange="markDirty()">
-      <div class="hint">PDF only, up to about 15 MB.</div>
+      <label>File (PDF or photo) <span style="color:var(--rust);">*</span></label>
+      <input class="input" type="file" id="fileInput" accept="${CERT_FILE_ACCEPT}" onchange="markDirty()">
+      <div class="hint">A PDF up to about 15 MB, or a photo from your camera roll (iPhone or Android).</div>
     </div>
     ${m.error ? `<div class="error-text">${esc(m.error)}</div>` : ''}
     ${m.busy ? `<div class="modal-sub">Uploading…</div>` : ''}
@@ -1296,7 +1349,10 @@ function renderPdfPreviewModal(){
       ${USE_SHARE_SHEET ? '' : '<button class="btn btn-ghost" onclick="openPdfPreviewInNewTab()">Open in new tab</button>'}
       <button class="btn btn-primary" onclick="downloadOpenPdfPreview()">${USE_SHARE_SHEET ? 'Open / Save…' : ICONS.download + ' Download'}</button>
     </div>`;
-  const preview = `
+  const preview = m.isImage ? `
+    <div style="border:1px solid var(--line);border-radius:var(--radius);overflow:auto;background:#2b2f36;max-height:${USE_SHARE_SHEET ? '58vh' : '72vh'};">
+      <img src="${m.url}" alt="${esc(m.filename)}" style="display:block;max-width:100%;height:auto;margin:0 auto;">
+    </div>` : `
     <div style="border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#525659;">
       <object data="${m.url}" type="application/pdf" style="width:100%;height:${USE_SHARE_SHEET ? '46vh' : '70vh'};display:block;">
         <div style="padding:48px 20px;text-align:center;color:#fff;font-size:13.5px;">
@@ -1306,7 +1362,7 @@ function renderPdfPreviewModal(){
     </div>`;
   return modalShell(`
     <h2 class="modal-title">${esc(m.filename)}</h2>
-    <p class="modal-sub">${USE_SHARE_SHEET ? 'Tap Open / Save to see the whole PDF in Files or another app. The preview below may be blank or show only the first page.' : 'If nothing appears below, use Open in new tab or Download instead.'}</p>
+    <p class="modal-sub">${m.isImage ? (USE_SHARE_SHEET ? 'Tap Open / Save to keep a copy or share it.' : 'Use Download to keep a copy.') : USE_SHARE_SHEET ? 'Tap Open / Save to see the whole PDF in Files or another app. The preview below may be blank or show only the first page.' : 'If nothing appears below, use Open in new tab or Download instead.'}</p>
     ${m.error ? `<div class="error-text">${esc(m.error)}</div>` : ''}
     ${USE_SHARE_SHEET ? actions + preview : preview + actions}
   `, {wide:true});
@@ -1360,7 +1416,6 @@ function handleGlobalKeydown(e){
     if(tag === 'textarea' || tag === 'button' || tag === 'a') return; // let newlines / native activation happen
     if(!e.target.closest || !e.target.closest('.modal')) return;
     const t = state.modal.type;
-    if(t === 'addFile'){ e.preventDefault(); addContinue(!!state.modal.pendingFile); return; }
     if(t === 'changeLogin' || t === 'changeRecovery'){ e.preventDefault(); if(t === 'changeLogin') submitChangeLogin(); else submitChangeRecovery(); return; }
     if(t === 'certForm' || t === 'trainingCenterForm' || t === 'fileUpload' || t === 'dropboxSetup'){
       e.preventDefault();
@@ -1546,58 +1601,42 @@ function openDetail(id){
 /* =========================================================
    CERTIFICATE CRUD
 ========================================================= */
-// Step 1 of 2: choose the certificate's PDF (or skip it for now).
+// Add certificate: everything on one page. The details first, the file (PDF or photo) at the bottom.
 function openAddCertModal(){
   modalDirty = false;
-  state.modal = {type: 'addFile', pendingFile: null, draft: null, error: ''};
-  render();
-}
-function addFileChosen(input){
-  const m = state.modal, file = input.files && input.files[0];
-  if(!m || m.type !== 'addFile' || !file) return;
-  if(file.type !== 'application/pdf' && !/\.pdf$/i.test(file.name)){ m.error = 'Only PDF files are supported. Choose a PDF, or tap "Skip" to add the file later.'; render(); return; }
-  if(file.size > 15 * 1024 * 1024){ m.error = `That file is ${formatBytes(file.size)}. Please keep it under about 15 MB.`; render(); return; }
-  m.pendingFile = file; m.error = ''; render();
-  const next = document.querySelector('.modal .btn-primary'); if(next) next.focus();   // Enter now carries on to the details
-}
-function addContinue(withFile){
-  const m = state.modal;
-  if(!m || m.type !== 'addFile') return;
-  if(withFile && !m.pendingFile){ m.error = 'Choose the certificate PDF first, or tap "Skip" to add the file later.'; render(); return; }
-  const cert = m.draft || {name:'',certNumber:'',issueDate:'',expirationDate:'',notifyDays:30,category:currentCategory(),hasExpiration:true};
-  const file = withFile ? m.pendingFile : null;
-  state.modal = {type: 'certForm', editingId: null, cert, pendingFile: file, error: ''};
-  modalDirty = !!file || !!m.draft;
+  state.modal = {type:'certForm', editingId:null, cert:{name:'',certNumber:'',issueDate:'',expirationDate:'',notifyDays:30,category:currentCategory(),hasExpiration:true}, pendingFile:null, fileBusy:false, fileError:'', error:''};
   render();
   const first = document.getElementById('cf_name'); if(first) first.focus();
 }
-function backToFileStep(){
-  const m = state.modal;
-  if(!m || m.type !== 'certForm' || m.editingId) return;
-  captureModalDraft();
-  state.modal = {type: 'addFile', pendingFile: m.pendingFile || null, draft: m.cert, error: ''};
-  render();
+async function certFileChosen(input){
+  const m = state.modal, file = input.files && input.files[0];
+  if(!m || m.type !== 'certForm' || !file) return;
+  m.fileBusy = true; m.fileError = ''; render();
+  try{
+    const prepared = await prepareCertFile(file);
+    if(state.modal !== m) return;
+    m.pendingFile = prepared; modalDirty = true;
+  }catch(err){
+    if(state.modal !== m) return;
+    m.pendingFile = null; m.fileError = (err && err.userMessage) || "That file couldn't be read. Please try another one.";
+  }
+  m.fileBusy = false; render();
 }
-function renderAddFileModal(){
-  const m = state.modal, f = m.pendingFile;
-  return modalShell(`
-    <h2 class="modal-title">Add certificate</h2>
-    <p class="modal-sub"><strong>Step 1 of 2</strong> · Upload the certificate. Choose the PDF copy, then fill in its details on the next step.</p>
-    <div class="field">
-      <label for="addFileInput">Certificate file (PDF)</label>
-      <input class="input" type="file" id="addFileInput" accept="application/pdf,.pdf" onchange="addFileChosen(this)">
-      <div class="hint">PDF only, up to about 15 MB.</div>
-    </div>
-    ${f ? `<div class="add-file-chosen">${ICONS.file} <span><strong>${esc(f.name)}</strong> · ${esc(formatBytes(f.size))}</span></div>` : ''}
-    ${m.error ? `<div class="error-text">${esc(m.error)}</div>` : ''}
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-ghost" onclick="addContinue(false)">Skip, no file yet</button>
-      <button class="btn btn-primary" onclick="addContinue(true)">Next: details</button>
-    </div>
-  `);
+function removeCertFile(){
+  const m = state.modal; if(!m || m.type !== 'certForm') return;
+  m.pendingFile = null; m.fileError = ''; render();
 }
-function openCertDetailsStep(){ addContinue(false); }
+function certFileFieldHtml(m){
+  const f = m.pendingFile;
+  return `
+    <div class="field cert-file-field">
+      <label for="cf_file">Certificate file <span class="opt">(optional)</span></label>
+      ${f ? `<div class="add-file-chosen">${ICONS.file} <span><strong>${esc(f.name)}</strong> · ${esc(formatBytes(f.size))}${f.converted ? ' · photo' : ''}</span> <button class="btn-link" type="button" onclick="removeCertFile()">Remove</button></div>`
+          : `<input class="input" type="file" id="cf_file" accept="${CERT_FILE_ACCEPT}" onchange="certFileChosen(this)" ${m.fileBusy ? 'disabled' : ''}>`}
+      <div class="hint">${m.fileBusy ? 'Preparing the file…' : 'A PDF, or a photo from your camera roll (iPhone or Android). You can also add it later.'}</div>
+      ${m.fileError ? `<div class="error-text" style="margin:8px 0 0;">${esc(m.fileError)}</div>` : ''}
+    </div>`;
+}
 function openEditCertModal(id){
   const c = state.certificates.find(x=>x.id===id);
   if(!c) return;
@@ -1616,6 +1655,7 @@ function setCertHasExpiration(val){
 }
 async function submitCertForm(){
   const modal = state.modal;
+  if(modal.fileBusy || modal.busy) return;
   const category = document.getElementById('cf_category').value;
   const name = document.getElementById('cf_name').value.trim();
   const certNumber = document.getElementById('cf_number').value.trim();
@@ -1663,7 +1703,7 @@ async function submitCertForm(){
     const fresh = candidate[candidate.length - 1], file = modal.pendingFile;
     modal.busy = true; render();
     try{
-      const rec = {filename: file.name, data: await fileToDataURL(file), uploadedDate: new Date().toISOString().slice(0,10)};
+      const rec = {filename: file.name, data: file.dataUrl, uploadedDate: new Date().toISOString().slice(0,10)};
       if(!(await setCurrentPdf(fresh.id, rec))) throw new Error('file not saved');
       pdfKey = `pdf:${fresh.id}:current`;
       fresh.currentFile = {filename: file.name, uploadedDate: rec.uploadedDate};
@@ -1724,9 +1764,12 @@ function openReplaceFileModal(certId){
 async function submitFileUpload(){
   const input = document.getElementById('fileInput');
   const file = input.files && input.files[0];
-  if(!file){ state.modal.error = 'Choose a PDF file first.'; render(); return; }
-  if(file.type !== 'application/pdf'){ state.modal.error = 'Only PDF files are supported.'; render(); return; }
-  if(file.size > 15 * 1024 * 1024){ state.modal.error = 'File is too large. Please keep it under about 15 MB.'; render(); return; }
+  if(!file){ state.modal.error = 'Choose a PDF or a photo first.'; render(); return; }
+  if(state.modal.busy) return;
+  let prepared;
+  state.modal.busy = true; state.modal.error = ''; render();
+  try{ prepared = await prepareCertFile(file); }
+  catch(err){ state.modal.busy = false; state.modal.error = (err && err.userMessage) || "That file couldn't be read. Please try another one."; render(); return; }
 
   const modal = state.modal;
   modal.busy = true; modal.error = ''; render();
@@ -1735,8 +1778,7 @@ async function submitFileUpload(){
   const c = state.certificates.find(x => x.id === certId);
   let archiveId = null, wroteCurrent = false, previousCurrent = null;
   try{
-    const dataUrl = await fileToDataURL(file);
-    const fileRecord = {filename: file.name, data: dataUrl, uploadedDate: new Date().toISOString().slice(0,10)};
+    const fileRecord = {filename: prepared.name, data: prepared.dataUrl, uploadedDate: new Date().toISOString().slice(0,10)};
 
     // 1. Archive the existing file first, and confirm that copy really saved.
     let archiveEntry = null;
@@ -1766,7 +1808,7 @@ async function submitFileUpload(){
     const updated = {
       ...c,
       archive: archiveEntry ? [...(c.archive || []), archiveEntry] : (c.archive || []),
-      currentFile: {filename: file.name, uploadedDate: fileRecord.uploadedDate},
+      currentFile: {filename: prepared.name, uploadedDate: fileRecord.uploadedDate},
       updatedAt: new Date().toISOString()
     };
     const candidate = state.certificates.map(x => x.id === certId ? updated : x);
@@ -1802,10 +1844,10 @@ function showFileError(message){
 function openPdfPreview(rec){
   if(!rec){ showFileError('No file was found for this certificate.'); return; }
   try{
-    const blob = dataURLToBlob(rec.data, 'application/pdf');
+    const blob = dataURLToBlob(rec.data);
     if(!blob.size){ throw new Error('empty blob'); }
     const url = URL.createObjectURL(blob);
-    state.modal = {type:'pdfPreview', url, filename: rec.filename, dataUrl: rec.data};
+    state.modal = {type:'pdfPreview', url, filename: rec.filename, dataUrl: rec.data, isImage: isPhotoData(rec.data)};
     render();
   }catch(err){
     console.error('PDF preview failed', err);
@@ -1986,8 +2028,9 @@ function cleanIso(v){ return (typeof v === 'string' && v.length <= 40) ? v : '';
 function isPlainObject(v){ return !!v && typeof v === 'object' && !Array.isArray(v); }
 function cleanPdfRecord(rec){
   if(!isPlainObject(rec)) return null;
-  if(typeof rec.data !== 'string' || !rec.data.startsWith(PDF_DATA_PREFIX)) return null;
-  if(!B64_BODY.test(rec.data.slice(PDF_DATA_PREFIX.length))) return null;
+  const prefix = typeof rec.data === 'string' && [PDF_DATA_PREFIX, 'data:image/jpeg;base64,', 'data:image/png;base64,'].find(p => rec.data.startsWith(p));
+  if(!prefix) return null;                                          // a PDF or a photo, nothing else
+  if(!B64_BODY.test(rec.data.slice(prefix.length))) return null;
   return {filename: cleanStr(rec.filename, 255) || 'certificate.pdf', data: rec.data, uploadedDate: cleanDate(rec.uploadedDate)};
 }
 function sanitizeCert(c){
@@ -2152,15 +2195,15 @@ async function exportBackup(){
     const {payload, included, missing} = await buildBackupPayload();
     const filename = backupFileName();
     const text = JSON.stringify(payload);
-    const skipped = missing ? ` ${plural(missing, 'PDF file')} could not be read and ${missing === 1 ? 'is' : 'are'} not included.` : '';
+    const skipped = missing ? ` ${plural(missing, 'file')} could not be read and ${missing === 1 ? 'is' : 'are'} not included.` : '';
     if(USE_SHARE_SHEET){
       state.backupBusy = '';
       offerFileToShare(new Blob([text], {type: 'application/json'}), filename, {
         title: 'Your backup is ready',
-        note: `${filename}: ${plural(payload.counts.certificates, 'certificate')} and ${plural(included, 'PDF file')} (${(text.length / 1048576).toFixed(1)} MB). Tap Save to Files, then choose a place such as iCloud Drive or On My ${DEVICE_NAME}.${skipped}`,
+        note: `${filename}: ${plural(payload.counts.certificates, 'certificate')} and ${plural(included, 'file')} (${(text.length / 1048576).toFixed(1)} MB). Tap Save to Files, then choose a place such as iCloud Drive or On My ${DEVICE_NAME}.${skipped}`,
         onDone: async () => {
           await recordBackup('saved to Files', filename, payload.counts);
-          setBackupMessage('ok', `Backup saved as ${filename} with ${plural(payload.counts.certificates, 'certificate')} and ${plural(included, 'PDF file')}.${skipped}`);
+          setBackupMessage('ok', `Backup saved as ${filename} with ${plural(payload.counts.certificates, 'certificate')} and ${plural(included, 'file')}.${skipped}`);
         }
       });
       return;
@@ -2168,7 +2211,7 @@ async function exportBackup(){
     downloadTextFile(text, filename, 'application/json');
     await recordBackup('downloaded to this Mac', filename, payload.counts);
     setBackupMessage('ok',
-      `Backup downloaded as ${filename} with ${plural(payload.counts.certificates, 'certificate')} and ${plural(included, 'PDF file')}. ` +
+      `Backup downloaded as ${filename} with ${plural(payload.counts.certificates, 'certificate')} and ${plural(included, 'file')}. ` +
       `Chrome saved it to your usual downloads location — drag it into your Dropbox folder if you want a copy there.` + skipped);
   }catch(err){
     console.error('Backup failed', err);
@@ -2208,10 +2251,10 @@ function prepareRestore(text, sourceLabel){
   if(!result.ok){ showErrorModal("Can't load this backup", result.error); return; }
   const info = result.info;
   const when = info.exportedAt ? formatDateTime(info.exportedAt) : 'an unknown date';
-  let msg = `From ${sourceLabel}: a backup saved ${when} with ${plural(info.certCount, 'certificate')}, ${plural(info.pdfCount, 'PDF file')}${info.hasProfile ? ' and a profile' : ''}. ` +
+  let msg = `From ${sourceLabel}: a backup saved ${when} with ${plural(info.certCount, 'certificate')}, ${plural(info.pdfCount, 'file')}${info.hasProfile ? ' and a profile' : ''}. ` +
             `Loading it replaces everything currently in the app (${plural(state.certificates.length, 'certificate')}). `;
   if(info.legacy) msg += 'This is an older-style backup that has no PDF files in it, so certificates will come back without their PDFs. ';
-  else if(info.missingPdfs) msg += `${plural(info.missingPdfs, 'PDF file')} listed in this backup are missing from it and will not be restored. `;
+  else if(info.missingPdfs) msg += `${plural(info.missingPdfs, 'file')} listed in this backup are missing from it and will not be restored. `;
   if(info.skipped) msg += `${info.skipped} damaged certificate entr${info.skipped === 1 ? 'y' : 'ies'} will be skipped. `;
   msg += "This can't be undone — if you're not sure, cancel and save a backup of your current data first.";
   state.modal = {
@@ -2238,7 +2281,7 @@ async function applyRestore(data, sourceLabel, info){
     state.categoryFilter = '';
     restored = true;
     state.backupBusy = '';
-    state.backupMessage = {type: 'ok', text: `Restored ${plural(info.certCount, 'certificate')} and ${plural(info.pdfCount, 'PDF file')} from ${sourceLabel}.`};
+    state.backupMessage = {type: 'ok', text: `Restored ${plural(info.certCount, 'certificate')} and ${plural(info.pdfCount, 'file')} from ${sourceLabel}.`};
   }catch(err){
     console.error('Restore failed', err);
     state.backupBusy = '';
@@ -2545,8 +2588,8 @@ async function saveBackupToDropbox(){
     const savedName = (meta && meta.name) || backupFileName();
     await recordBackup('Dropbox', savedName, payload.counts);
     setBackupMessage('ok',
-      `Saved to Dropbox as ${savedName} with ${plural(payload.counts.certificates, 'certificate')} and ${plural(included, 'PDF file')} (${formatBytes(blob.size)}).` +
-      (missing ? ` ${plural(missing, 'PDF file')} could not be read and ${missing === 1 ? 'is' : 'are'} not included.` : ''));
+      `Saved to Dropbox as ${savedName} with ${plural(payload.counts.certificates, 'certificate')} and ${plural(included, 'file')} (${formatBytes(blob.size)}).` +
+      (missing ? ` ${plural(missing, 'file')} could not be read and ${missing === 1 ? 'is' : 'are'} not included.` : ''));
   }catch(err){
     console.error('Dropbox save failed', err);
     setBackupMessage('error', describeDropboxFailure(err));
@@ -2721,7 +2764,7 @@ function renderDropboxListModal(){
    saving. So photos are shrunk to avatar size, and every save failure now
    says why instead of "something went wrong".
 ========================================================= */
-const APP_VERSION = '2026-11-26d (login)';
+const APP_VERSION = '2026-11-26e (login)';
 const PHOTO_MAX_SIDE = 512;
 const PHOTO_TARGET_MAX = 250 * 1024;          // a stored photo longer than this many characters gets shrunk
 const PHOTO_UPLOAD_LIMIT = 25 * 1024 * 1024;  // the ORIGINAL may be large; only the shrunk copy is stored
@@ -3092,7 +3135,7 @@ function renderBackupPanelBodyIOS(){
     <div class="backup-group">
       <h3>Save a backup</h3>
       <div class="btn-row"><button class="btn btn-brass btn-sm" ${dis} onclick="exportBackup()">${ICONS.download} Save backup to Files</button></div>
-      <p class="hint">One file with all your certificates, PDFs and profile. Choose iCloud Drive (so it also reaches your Mac), Dropbox or On My ${DEVICE_NAME}.</p>
+      <p class="hint">One file with all your certificates, their files and your profile. Choose iCloud Drive (so it also reaches your Mac), Dropbox or On My ${DEVICE_NAME}.</p>
     </div>
     <div class="backup-group">
       <h3>Restore a backup</h3>
