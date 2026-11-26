@@ -373,6 +373,9 @@
   .stamp.status-soon{background:#B45F0C;color:#fff;}
   .stamp.status-expired{background:#B3261E;color:#fff;}
   .stamp.status-none{background:#2C3E5C;color:#fff;}
+  .icon-btn.has-photo{width:38px;height:38px;padding:0;border-radius:50%;overflow:hidden;border:2px solid var(--brass-light);}
+  .icon-btn.has-photo:hover{border-color:#fff;}
+  .hdr-avatar{width:100%;height:100%;object-fit:cover;display:block;}
 </style>
 </head>
 <body>
@@ -755,13 +758,19 @@ function render(){
   afterRender();
 }
 
+// Top-right corner: your profile photo when one is saved, otherwise the person icon.
+function renderProfileButton(){
+  const ph = state.profile && state.profile.photo;
+  const hasPhoto = typeof ph === 'string' && IMAGE_DATA_URL.test(ph);
+  return `<button class="icon-btn${hasPhoto ? ' has-photo' : ''}" title="Profile" aria-label="Profile" onclick="openProfile()">${hasPhoto ? `<img class="hdr-avatar" src="${ph}" alt="">` : ICONS.user}</button>`;
+}
 function renderHeader(){
   return `
   <div class="app-header">
     <div class="brandmark">${ICONS.seal}<span>Certificate Registry</span></div>
     <div class="header-actions">
       <button class="icon-btn" title="Lock" onclick="requestLock()">${ICONS.lock}</button>
-      <button class="icon-btn" title="Profile" onclick="openProfile()">${ICONS.user}</button>
+      ${renderProfileButton()}
     </div>
   </div>`;
 }
@@ -2634,7 +2643,7 @@ function renderDropboxListModal(){
    saving. So photos are shrunk to avatar size, and every save failure now
    says why instead of "something went wrong".
 ========================================================= */
-const APP_VERSION = '2026-11-26b (login) · TEST';
+const APP_VERSION = '2026-11-26c (login) · TEST';
 const PHOTO_MAX_SIDE = 512;
 const PHOTO_TARGET_MAX = 250 * 1024;          // a stored photo longer than this many characters gets shrunk
 const PHOTO_UPLOAD_LIMIT = 25 * 1024 * 1024;  // the ORIGINAL may be large; only the shrunk copy is stored
