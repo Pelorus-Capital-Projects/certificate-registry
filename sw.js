@@ -2,7 +2,7 @@
    The app page is fetched from the network whenever possible (so updates arrive), and the last good copy is used when
    there is no signal or the connection is very slow. Your certificates are NOT kept here: they live in the browser's own
    database on this device, which this file never touches. */
-const VERSION = '2026-11-27a';
+const VERSION = '2026-11-27b';
 const CACHE = 'certificate-registry-' + VERSION;
 const FILES = ['index.html', 'manifest.webmanifest', 'icon-180.png', 'icon-192.png', 'icon-512.png'];
 

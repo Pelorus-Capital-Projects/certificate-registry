@@ -382,9 +382,15 @@
   .add-file-chosen span{flex:1;min-width:0;overflow-wrap:anywhere;}
   .opt{font-weight:400;color:var(--text-muted);font-size:12px;}
   .cert-file-field{border-top:1px solid var(--line);padding-top:14px;margin-top:4px;}
-  /* the "Certificates" box matches the certificate cards below it */
-  .toolbar{background:rgba(196,213,236,0.8);border:1px solid rgba(21,56,90,0.22);border-radius:16px;}
-  .toolbar .sub{color:#2A3547;}
+  /* the "Certificates" box and the category tabs: light gold, see-through, to stand apart from the blue cards */
+  :root{--gold-soft:rgba(235,214,160,0.82);--gold-edge:rgba(147,115,60,0.45);--gold-text:#3A2D10;--gold-deep:#7A5A22;}
+  .toolbar{background:var(--gold-soft);border:1px solid var(--gold-edge);border-radius:16px;}
+  .toolbar .sub{color:var(--gold-text);}
+  .cat-pill{background:var(--gold-soft);border-color:var(--gold-edge);color:var(--gold-text);}
+  .cat-pill .count{opacity:1;}
+  .cat-pill:hover{border-color:var(--gold-deep);}
+  .cat-pill.active{background:var(--gold-deep);border-color:var(--gold-deep);color:#fff;}
+  .cat-pill.active .count{opacity:1;}
 </style>
 </head>
 <body>
@@ -2766,7 +2772,7 @@ function renderDropboxListModal(){
    saving. So photos are shrunk to avatar size, and every save failure now
    says why instead of "something went wrong".
 ========================================================= */
-const APP_VERSION = '2026-11-27a (login) · TEST';
+const APP_VERSION = '2026-11-27b (login) · TEST';
 const PHOTO_MAX_SIDE = 512;
 const PHOTO_TARGET_MAX = 250 * 1024;          // a stored photo longer than this many characters gets shrunk
 const PHOTO_UPLOAD_LIMIT = 25 * 1024 * 1024;  // the ORIGINAL may be large; only the shrunk copy is stored
